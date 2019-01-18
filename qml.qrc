@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>DraggableButton.qml</file>
+        <file>RenameTextfield.qml</file>
+        <file>DraggableSlider.qml</file>
+        <file>EventTextfield.qml</file>
+        <file>EditMenu.qml</file>
+        <file>ControlsMenu.qml</file>
+        <file>DeviceMenu.qml</file>
+        <file>DraggableSerialDisplay.qml</file>
+    </qresource>
+</RCC>
