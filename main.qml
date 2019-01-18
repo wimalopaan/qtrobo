@@ -27,7 +27,8 @@ Window {
                         children[i] instanceof DraggableSlider)
                     children[i].enabled = !isEditMode
             }
-            editMenu.enabled = isEditMode
+
+            controlsMenu.enabled = isEditMode
         }
 
         function createButton(){
@@ -52,6 +53,7 @@ Window {
             onPressed: {
                 if(pressedButtons & Qt.RightButton){
                     contextMenu.popup()
+                    componentPreferences.enabled = root.isEditMode && (root.childAt(mouseX, mouseY) instanceof DraggableButton || root.childAt(mouseX, mouseY) instanceof DraggableSlider)
                     deviceMenu.enabled = !serialConnection.isConnected()
                     disconnect.enabled = serialConnection.isConnected()
                 }
@@ -65,32 +67,41 @@ Window {
             Menu{
                 id: contextMenu
                 MenuItem{
+                    id: controlsMenu
                     text: "New Control >"
-                    onTriggered: controlsMenu.popup()
+                    onTriggered: controlsSubMenu.popup()
 
                     ControlsMenu{
-                        id: controlsMenu
+                        id: controlsSubMenu
                         root: root
                     }
                 }
 
                 MenuItem{
-                    text: "Edit >"
-                    onTriggered: editMenu.popup()
-
-                    EditMenu{
-                        id: editMenu
-                        root: root
-                    }
-                }
-
-                MenuItem{
+                    id: deviceMenu
                     text: "Devices >"
-                    onTriggered: deviceMenu.popup()
+                    onTriggered: deviceSubMenu.popup()
 
                     DeviceMenu{
-                        id: deviceMenu
+                        id: deviceSubMenu
                         serialConnection: serialConnection
+                    }
+                }
+
+                MenuItem{
+                    id: componentPreferences
+                    text: "Component Preferences"
+                    onTriggered: {
+                        var component = root.childAt(windowArea.mouseX, windowArea.mouseY)
+
+                        if(component){
+                            if(component instanceof DraggableButton ||
+                                    component instanceof DraggableSlider){
+                                var editPopupComponent = Qt.createComponent("EditMenuPopup.qml")
+                                var editPopup = editPopupComponent.createObject(component,  {component: component})
+                                editPopup.open()
+                            }
+                        }
                     }
                 }
 
