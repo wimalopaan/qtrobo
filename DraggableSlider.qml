@@ -3,11 +3,9 @@ import QtQuick.Controls 2.4
 
 Item{
     id: root
-    property string text: "New Slider"
+    property alias text: label.text
     property string eventName
     property alias enabled: slider.enabled
-
-    onTextChanged: children[0].text = text
 
     width: 200
     height: 30
@@ -21,8 +19,10 @@ Item{
         enabled: false
 
         Text{
+            id: label
             height: 20
-            text: parent.text
+            text: qsTr("New Slider")
+            font.pointSize: 12
             anchors.bottom: parent.top
             anchors.left: parent.left
         }

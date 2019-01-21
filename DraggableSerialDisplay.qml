@@ -1,8 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
 
 Item{
-    property alias displayText: textArea.text
+
+    property alias text: displayName.text
     property alias enabled: display.enabled
     property string eventName
 
@@ -16,9 +18,20 @@ Item{
         enabled: false
         border.color: "lightgray"
         border.width: 2
+
+        Text{
+            id: displayName
+            font.pointSize: 12
+            text: qsTr("New Display")
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
         TextArea{
             id: textArea
-            anchors.fill: parent
+            anchors.top: displayName.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
             padding: 10
             font.family: "Monospaced"
             font.pointSize: 20

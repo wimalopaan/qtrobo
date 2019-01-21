@@ -13,6 +13,7 @@ Item{
         anchors.fill: parent
         text: "New Button"
         enabled: false
+        font.pointSize: 12
 
         onPressed:{
             serialConnection.writeToSerial(eventName);
