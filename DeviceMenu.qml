@@ -2,11 +2,15 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 
 Menu{
+    title: qsTr("Devices")
     property var root
-    property var serialConnection
+
+    onAboutToShow: {
+        repeater.model = serialConnection.serialInterfaces()
+    }
 
     Repeater{
-        model: serialConnection.serialInterfaces()
+        id: repeater
 
         MenuItem{
             text: modelData

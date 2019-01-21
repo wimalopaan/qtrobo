@@ -21,5 +21,5 @@ Slider{
         anchors.left: parent.left
     }
 
-    onValueChanged: serial.writeToSerial(eventName + ":" + value)
+    onValueChanged: serialConnection.writeToSerial(eventName + ":" + value)
 }

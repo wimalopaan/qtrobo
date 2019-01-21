@@ -2,10 +2,12 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <iostream>
+#include <string.h>
 
 SerialConnection::SerialConnection(QObject *parent) :
     QObject(parent)
 {
+    connect(&mSerialPort, SIGNAL(readyRead()), SLOT(onReadyRead()));
 }
 
 QStringList SerialConnection::serialInterfaces() const{
@@ -28,6 +30,7 @@ void SerialConnection::connectToSerial(const QString &name){
 
     mSerialPort.setPortName(name);
     mSerialPort.setBaudRate(9600);
+    mSerialPort.setStopBits(QSerialPort::TwoStop);
     mSerialPort.open(QIODevice::ReadWrite);
 }
 
@@ -41,23 +44,27 @@ void SerialConnection::writeToSerial(const QString &data){
 
     if(mSerialPort.isOpen()){
         std::cout << "Writing: " << data.toStdString().c_str() << std::endl;
-        mSerialPort.write(data.toStdString().c_str());
+        const char* dataBytes = data.toStdString().c_str();
+
+        mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes) + 1));
     }
 }
 
-QString SerialConnection::readFromSerial(){
+void SerialConnection::onReadyRead(){
     if(mSerialPort.isOpen()){
-        char buffer[128];
+        QByteArray mDataBuffer;
+        mDataBuffer.append(mSerialPort.readAll());
 
-        mSerialPort.readLine(buffer, 128);
-        QString response{buffer};
-        if(response.length() > 0){
-            std::cout << "Reading:" << response.toStdString() << std::endl;
-            return response;
+        mData = QString{mDataBuffer};
+        if(mData.length() > 0){
+            std::cout << "Reading:" << mData.toStdString() << std::endl;
+            emit onDataChanged(mData);
         }
     }
+}
 
-    return QString{};
+const QString& SerialConnection::data() const{
+    return mData;
 }
 
 bool SerialConnection::isConnected(){
