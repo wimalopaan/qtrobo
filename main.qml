@@ -22,8 +22,7 @@ Window {
                 deviceMenu.enabled = !serialConnection.isConnected()
                 disconnect.enabled = serialConnection.isConnected()
             }
-            else if(pressedButtons & Qt.LeftButton && root.isEditMode)
-            {
+            else if(pressedButtons & Qt.LeftButton && root.isEditMode){
                 drag.target = root.childAt(mouseX, mouseY)
                 drag.axis = Drag.XAndYAxis
             }
@@ -38,7 +37,8 @@ Window {
             onIsEditModeChanged: {
                 for(var i = 0; i < children.length; i++){
                     if(children[i] instanceof DraggableButton ||
-                            children[i] instanceof DraggableSlider)
+                            children[i] instanceof DraggableSlider ||
+                            children[i] instanceof DraggableSerialDisplay)
                         children[i].enabled = !isEditMode
                 }
 
@@ -63,7 +63,6 @@ Window {
 
             Menu{
                 id: contextMenu
-
 
                 ControlsMenu{
                     id: controlsMenu

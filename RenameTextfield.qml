@@ -6,7 +6,6 @@ TextInput {
     text: dragcomponent.text
     width: 40
     height: 20
-    objectName: "menutextfield"
     onTextChanged: {
         dragcomponent.text = text
     }
