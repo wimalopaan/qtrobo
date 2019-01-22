@@ -38,11 +38,13 @@ Item{
             font.pointSize: 10
             readOnly: true
 
-
-
             Connections{
+                id: serialListener
                 target: serialConnection
+
                 onDataChanged: textArea.text = Qt.formatTime(new Date(), "hh:mm:ss") + "\t" + data + "\n" + textArea.text
+
+                Component.onDestruction: target = null
             }
         }
     }
@@ -53,6 +55,11 @@ Item{
     }
 
     ScaleKnob{
+        root: root
+        enabled: !display.enabled
+    }
+
+    RightClickEdit{
         root: root
         enabled: !display.enabled
     }

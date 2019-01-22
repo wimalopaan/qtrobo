@@ -17,7 +17,6 @@ Window {
         onPressed: {
             if(pressedButtons & Qt.RightButton){
                 contextMenu.popup()
-                componentPreferences.enabled = root.isEditMode && root.childAt(mouseX, mouseY) !== null && (root.childAt(mouseX, mouseY) instanceof DraggableButton || root.childAt(mouseX, mouseY) instanceof DraggableSlider || root.childAt(mouseX, mouseY) instanceof DraggableSerialDisplay)
 
                 deviceMenu.enabled = !serialConnection.isConnected()
                 disconnect.enabled = serialConnection.isConnected()
@@ -39,7 +38,9 @@ Window {
                     if(children[i] instanceof DraggableButton ||
                             children[i] instanceof DraggableSlider ||
                             children[i] instanceof DraggableSerialDisplay)
+
                         children[i].enabled = !isEditMode
+
                 }
 
                 controlsMenu.enabled = isEditMode
@@ -73,36 +74,57 @@ Window {
                     id: deviceMenu
                 }
 
-
                 MenuItem{
-                    id: componentPreferences
-                    text: qsTr("Component Preferences")
-                    onTriggered: {
-                        var component = root.childAt(windowArea.mouseX, windowArea.mouseY)
-
-                        if(component){
-                            if(component instanceof DraggableButton ||
-                                    component instanceof DraggableSlider ||
-                                    component instanceof DraggableSerialDisplay){
-
-                                var editPopupComponent = Qt.createComponent(qsTr("EditMenuPopup.qml"))
-                                var editPopup = editPopupComponent.createObject(component,  {component: component})
-                                editPopup.open()
-                            }
-                        }
-                    }
+                    id: disconnect
+                    text: qsTr("Disconnect")
+                    onTriggered: serialConnection.disconnectFromSerial()
                 }
 
                 MenuItem{
                     text: qsTr(root.isEditMode ? "Control Mode" : "Edit Mode")
                     onTriggered: root.isEditMode = !root.isEditMode
                 }
+                /*MenuItem{
+                    text: "Save Layout"
+                    onTriggered: {
+                        var objs = []
 
-                MenuItem{
-                    id: disconnect
-                    text: qsTr("Disconnect")
-                    onTriggered: serialConnection.disconnectFromSerial()
-                }
+                        for(var i = 0; i < root.children.length; i++){
+                            var child = root.children[i]
+
+                                var obj = {
+                                    type: (child instanceof DraggableButton ? "DraggableButton" : child instanceof DraggableSlider ? "DraggableSlider" : "DraggableDisplay"),
+                                    x: child.x,
+                                    y: child.y,
+                                    width: child.width,
+                                    height: child.height,
+                                    name: child.text,
+                                    event: child.eventName
+                                }
+
+                                objs.push(obj)
+                            }
+
+                        serialConnection.test(objs)
+
+                    }
+                }*/
+
+                /*MenuItem{
+                    text: "Load Layout"
+                    onTriggered:{
+                        var objs = serialConnection.testRead()
+
+                        console.log(objs)
+                        for(var i = 0; i < objs.length; i++){
+                            var obj = objs[i]
+                            console.log(obj);
+                            if(obj.type === "DraggableButton"){
+                                //var component = Qt.createComponent("DraggableButton.qml")
+                                //component.createObject(root,  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, text: object.text, eventName: obj.eventName})
+                            }
+                        }                  }
+                }*/
             }
         }
     }

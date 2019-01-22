@@ -9,5 +9,6 @@
         <file>EditMenuPopup.qml</file>
         <file>ScaleKnob.qml</file>
         <file>DeleteComponentKnob.qml</file>
+        <file>RightClickEdit.qml</file>
     </qresource>
 </RCC>

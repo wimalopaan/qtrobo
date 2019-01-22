@@ -33,4 +33,9 @@ Item{
         root: root
         enabled: !button.enabled
     }
+
+    RightClickEdit{
+        root: root
+        enabled: !button.enabled
+    }
 }

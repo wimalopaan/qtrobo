@@ -39,4 +39,9 @@ Item{
         root: root
         enabled: !slider.enabled
     }
+
+    RightClickEdit{
+        root: root
+        enabled: !slider.enabled
+    }
 }
