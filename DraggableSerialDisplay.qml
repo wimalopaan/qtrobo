@@ -19,11 +19,12 @@ Item{
         border.color: "lightgray"
         border.width: 2
 
-        Text{
+        Label{
             id: displayName
             font.pointSize: 12
             text: qsTr("New Display")
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
         }
 
         TextArea{
@@ -34,14 +35,21 @@ Item{
             anchors.bottom: parent.bottom
             padding: 10
             font.family: "Monospaced"
-            font.pointSize: 20
-            enabled:  false
+            font.pointSize: 10
+            readOnly: true
+
+
 
             Connections{
                 target: serialConnection
-                onDataChanged: textArea.text = data;
+                onDataChanged: textArea.text = Qt.formatTime(new Date(), "hh:mm:ss") + "\t" + data + "\n" + textArea.text
             }
         }
+    }
+
+    DeleteComponentKnob{
+        root: root
+        enabled: !display.enabled
     }
 
     ScaleKnob{

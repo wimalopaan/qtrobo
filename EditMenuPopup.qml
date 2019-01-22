@@ -3,11 +3,12 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Dialog{
+    id: root
     focus: true
     implicitWidth: 300
     implicitHeight: 200
     closePolicy: Qt.CloseOnPressOutside
-    title: qsTr("Component Preferences")
+    title: qsTr("Control Preferences")
 
     property var component
 
@@ -16,7 +17,7 @@ Dialog{
         rows: 2
 
         Text{
-            text: "Component Name:"
+            text: "Control Name:"
         }
 
         TextField{
@@ -38,17 +39,6 @@ Dialog{
             onTextChanged: component.eventName = text
         }
 
-        Text{
-            text: "Delete Component:"
-        }
-
-        CheckBox{
-            id: deleteToggle
-        }
-    }
-
-    onClosed: {
-        if(deleteToggle.checked)
-            component.destroy()
+        Keys.onReturnPressed: root.accept()
     }
 }

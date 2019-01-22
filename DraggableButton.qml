@@ -24,6 +24,11 @@ Item{
         }
     }
 
+    DeleteComponentKnob{
+        root: root
+        enabled: !button.enabled
+    }
+
     ScaleKnob{
         root: root
         enabled: !button.enabled

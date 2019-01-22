@@ -18,7 +18,7 @@ Item{
         stepSize: 1
         enabled: false
 
-        Text{
+        Label{
             id: label
             height: 20
             text: qsTr("New Slider")
@@ -30,8 +30,13 @@ Item{
         onValueChanged: serialConnection.writeToSerial(eventName + ":" + value)
     }
 
+    DeleteComponentKnob{
+        root: root
+        enabled: !slider.enabled
+    }
+
     ScaleKnob{
         root: root
-        enabled: ! slider.enabled
+        enabled: !slider.enabled
     }
 }

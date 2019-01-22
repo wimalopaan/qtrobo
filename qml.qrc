@@ -2,12 +2,12 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>DraggableButton.qml</file>
-        <file>RenameTextfield.qml</file>
         <file>DraggableSlider.qml</file>
         <file>ControlsMenu.qml</file>
         <file>DeviceMenu.qml</file>
         <file>DraggableSerialDisplay.qml</file>
         <file>EditMenuPopup.qml</file>
         <file>ScaleKnob.qml</file>
+        <file>DeleteComponentKnob.qml</file>
     </qresource>
 </RCC>
