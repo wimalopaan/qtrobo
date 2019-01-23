@@ -10,6 +10,7 @@ Item{
 
     width: 200
     height: 30
+    objectName: "DraggableSlider"
 
     Slider{
         id: slider

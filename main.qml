@@ -76,6 +76,7 @@ ApplicationWindow {
             else if(pressedButtons & Qt.LeftButton && root.isEditMode){
                 var child = root.childAt(mouseX, mouseY)
                 if(child !== null){
+
                     drag.target = child
                     drag.axis = Drag.XAndYAxis
                     drag.minimumX = dragPadding
@@ -94,12 +95,7 @@ ApplicationWindow {
 
             onIsEditModeChanged: {
                 for(var i = 0; i < children.length; i++){
-                    if(children[i] instanceof DraggableButton ||
-                            children[i] instanceof DraggableSlider ||
-                            children[i] instanceof DraggableSerialDisplay)
-
-                        children[i].enabled = !isEditMode
-
+                    children[i].enabled = !isEditMode
                 }
 
                 controlsMenu.enabled = isEditMode
@@ -127,7 +123,7 @@ ApplicationWindow {
                     var child = root.children[i]
 
                     var obj = {
-                        type: (child instanceof DraggableButton ? "DraggableButton" : child instanceof DraggableSlider ? "DraggableSlider" : "DraggableDisplay"),
+                        type: child.objectName,
                         x: child.x,
                         y: child.y,
                         rotation: child.rotation,

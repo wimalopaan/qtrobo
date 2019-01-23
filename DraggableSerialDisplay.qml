@@ -11,6 +11,7 @@ Item{
     id: root
     width: 300
     height: 150
+    objectName: "DraggableSerialDisplay"
 
     Rectangle{
         id: display
