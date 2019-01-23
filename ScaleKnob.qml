@@ -9,7 +9,6 @@ Text{
     height: 15
     anchors.top: parent.bottom
     anchors.left: parent.right
-    enabled: !display.enabled
     visible: enabled
 
     MouseArea{
@@ -19,12 +18,12 @@ Text{
         onPositionChanged: {
             if(drag.active){
                 root.width = root.width + mouseX
-                if(root.width < 50)
-                    root.width = 50
+                if(root.width < 20)
+                    root.width = 20
 
                 root.height= root.height + mouseY
-                if(root.height < 50)
-                    root.height = 50
+                if(root.height < 20)
+                    root.height = 20
             }
         }
     }

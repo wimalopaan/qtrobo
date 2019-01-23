@@ -76,13 +76,15 @@ ApplicationWindow {
             else if(pressedButtons & Qt.LeftButton && root.isEditMode){
                 var child = root.childAt(mouseX, mouseY)
                 if(child !== null){
-
+                    console.log(child)
                     drag.target = child
                     drag.axis = Drag.XAndYAxis
                     drag.minimumX = dragPadding
                     drag.maximumX = root.width - dragPadding - drag.target.width
                     drag.minimumY = dragPadding
                     drag.maximumY = root.height - dragPadding - drag.target.height
+                }else{
+                    drag.target = null
                 }
             }
         }
@@ -113,6 +115,11 @@ ApplicationWindow {
 
             function createDisplay(){
                 var component = Qt.createComponent("DraggableSerialDisplay.qml")
+                component.createObject(root, {x:50, y:50})
+            }
+
+            function createLED(){
+                var component = Qt.createComponent("DraggableLED.qml")
                 component.createObject(root, {x:50, y:50})
             }
 

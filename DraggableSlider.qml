@@ -32,6 +32,15 @@ Item{
         onValueChanged: serialConnection.writeToSerial(eventName + ":" + value)
     }
 
+    Connections{
+        target: serialConnection
+        onDataChanged:{
+            if(data.startsWith(eventName + ":")){
+                slider.value = +data.substring(eventName.length + 1)
+            }
+        }
+    }
+
     DeleteComponentKnob{
         root: root
         enabled: !slider.enabled

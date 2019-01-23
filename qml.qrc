@@ -11,5 +11,6 @@
         <file>DeleteComponentKnob.qml</file>
         <file>RightClickEdit.qml</file>
         <file>RotateKnob.qml</file>
+        <file>DraggableLED.qml</file>
     </qresource>
 </RCC>

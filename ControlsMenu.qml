@@ -20,4 +20,9 @@ Menu{
         text: "Display"
         onTriggered: root.createDisplay()
     }
+
+    MenuItem{
+        text: "LED"
+        onTriggered: root.createLED()
+    }
 }

@@ -10,7 +10,6 @@ Text{
     height: 15
     anchors.top: parent.bottom
     anchors.right: parent.left
-    enabled: !display.enabled
     visible: enabled
 
     MouseArea{
