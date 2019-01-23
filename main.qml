@@ -15,14 +15,16 @@ ApplicationWindow {
             title: qsTr("&File")
 
             MenuItem{
-                text: "Save Layout"
+                text: qsTr("&Save Layout")
                 onTriggered: layoutStoreDialog.open()
 
                 FileDialog{
                     id: layoutStoreDialog
                     title: "Save Layout"
                     selectExisting: false
+
                     favoriteFolders: false
+                    nameFilters: "Layout files (*.json)"
 
                     onAccepted: {
                         layoutPersist.filename = fileUrl
@@ -32,7 +34,7 @@ ApplicationWindow {
             }
 
             MenuItem{
-                text: "Load Layout"
+                text: qsTr("&Load Layout")
                 onTriggered:{
                     if(root.children.length > 0){
                         for(var i = root.children.length; i > 0; i--)
@@ -46,7 +48,7 @@ ApplicationWindow {
                     id: layoutLoadDialog
                     title: "Load Layout"
                     selectExisting: true
-
+                    nameFilters: "Layout files (*.json)"
 
                     onAccepted: {
                         layoutPersist.filename = fileUrl
@@ -72,12 +74,15 @@ ApplicationWindow {
                 disconnect.enabled = serialConnection.isConnected()
             }
             else if(pressedButtons & Qt.LeftButton && root.isEditMode){
-                drag.target = root.childAt(mouseX, mouseY)
-                drag.axis = Drag.XAndYAxis
-                drag.minimumX = dragPadding
-                drag.maximumX = root.width - dragPadding - drag.target.width
-                drag.minimumY = dragPadding
-                drag.maximumY = root.height - dragPadding - drag.target.height
+                var child = root.childAt(mouseX, mouseY)
+                if(child !== null){
+                    drag.target = child
+                    drag.axis = Drag.XAndYAxis
+                    drag.minimumX = dragPadding
+                    drag.maximumX = root.width - dragPadding - drag.target.width
+                    drag.minimumY = dragPadding
+                    drag.maximumY = root.height - dragPadding - drag.target.height
+                }
             }
         }
 
@@ -127,8 +132,8 @@ ApplicationWindow {
                         y: child.y,
                         width: child.width,
                         height: child.height,
-                        text: child.text,
-                        event: child.eventName
+                        label: child.label,
+                        eventName: child.eventName
                     }
 
                     objs.push(obj)
@@ -149,7 +154,7 @@ ApplicationWindow {
                     }else
                         component = Qt.createComponent("DraggableSerialDisplay.qml")
 
-                    component.createObject(root,  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, text: obj.text, eventName: obj.eventName});
+                    component.createObject(root,  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName});
                 }
             }
 

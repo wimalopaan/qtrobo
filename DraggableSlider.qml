@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 
 Item{
     id: root
-    property alias text: label.text
+    property alias label: label.text
     property string eventName
     property alias enabled: slider.enabled
 

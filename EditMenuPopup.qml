@@ -22,9 +22,9 @@ Dialog{
 
         TextField{
             Layout.fillWidth: true
-            text: component.text
+            text: component.label
 
-            onTextChanged: component.text = text
+            onTextChanged: component.label = text
         }
 
         Text{

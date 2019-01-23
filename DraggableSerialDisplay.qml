@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 Item{
 
-    property alias text: displayName.text
+    property alias label: displayName.text
     property alias enabled: display.enabled
     property string eventName
 

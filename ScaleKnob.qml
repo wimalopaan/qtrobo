@@ -15,8 +15,8 @@ Rectangle{
     MouseArea{
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
-        drag{target: parent; axis: Drag.XAxis}
-        onMouseXChanged: {
+        drag{target: parent; axis: Drag.XAndYAxis}
+        onPositionChanged: {
             if(drag.active){
                 root.width = root.width + mouseX
                 if(root.width < 50)

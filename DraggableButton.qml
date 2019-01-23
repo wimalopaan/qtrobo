@@ -6,7 +6,7 @@ Item{
     width: 200
     height: 50
     property string eventName
-    property alias text: button.text
+    property alias label: button.text
     property alias enabled: button.enabled
     Button{
         id: button
