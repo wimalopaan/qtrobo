@@ -10,5 +10,6 @@
         <file>ScaleKnob.qml</file>
         <file>DeleteComponentKnob.qml</file>
         <file>RightClickEdit.qml</file>
+        <file>RotateKnob.qml</file>
     </qresource>
 </RCC>

@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-Rectangle{
+Text{
     property var root
-
-    radius: 45
-    color: "lightblue"
+    text: "⇲"
+    color: "blue"
+    font.bold: true
     width: 15
     height: 15
     anchors.top: parent.bottom

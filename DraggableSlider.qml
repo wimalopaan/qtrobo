@@ -44,4 +44,10 @@ Item{
         root: root
         enabled: !slider.enabled
     }
+
+    RotateKnob{
+        root: root
+        rotate: root
+        enabled: !slider.enabled
+    }
 }

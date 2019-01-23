@@ -130,6 +130,7 @@ ApplicationWindow {
                         type: (child instanceof DraggableButton ? "DraggableButton" : child instanceof DraggableSlider ? "DraggableSlider" : "DraggableDisplay"),
                         x: child.x,
                         y: child.y,
+                        rotation: child.rotation,
                         width: child.width,
                         height: child.height,
                         label: child.label,
@@ -154,7 +155,7 @@ ApplicationWindow {
                     }else
                         component = Qt.createComponent("DraggableSerialDisplay.qml")
 
-                    component.createObject(root,  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName});
+                    component.createObject(root,  {x: obj.x, y: obj.y, rotation: obj.rotation, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName});
                 }
             }
 
