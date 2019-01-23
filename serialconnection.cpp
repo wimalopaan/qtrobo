@@ -3,6 +3,9 @@
 #include <QSerialPortInfo>
 #include <iostream>
 #include <string.h>
+#include <QFile>
+#include <QJsonDocument>
+#include <QDebug>
 
 SerialConnection::SerialConnection(QObject *parent) :
     QObject(parent)
@@ -69,4 +72,19 @@ const QString& SerialConnection::data() const{
 
 bool SerialConnection::isConnected(){
     return mSerialPort.isOpen();
+}
+
+
+QVariantList SerialConnection::jsonData(){
+    QFile file{"myfile.json"};
+    file.open(QIODevice::ReadOnly);
+    QString data = QString::fromUtf8(file.readAll());
+
+    file.close();
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &err);
+
+    qDebug() << QString{doc.toJson()};
+
+    return QVariantList{};
 }

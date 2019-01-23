@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    serialconnection.cpp
+    serialconnection.cpp \
+    layoutpersist.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,6 +31,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    serialconnection.h
+    serialconnection.h \
+    layoutpersist.h
 
 DISTFILES +=

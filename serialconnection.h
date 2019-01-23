@@ -4,6 +4,7 @@
 #include <vector>
 #include <QStringList>
 #include <QSerialPort>
+#include <QVariantList>
 
 class SerialConnection: public QObject
 {
@@ -18,6 +19,7 @@ public:
     Q_INVOKABLE void disconnectFromSerial();
     Q_INVOKABLE void writeToSerial(const QString &data);
     Q_INVOKABLE bool isConnected();
+    Q_INVOKABLE QVariantList jsonData();
 
     const QString& data() const;
 

@@ -3,6 +3,7 @@
 #include <QQuickStyle>
 #include <QQmlContext>
 #include "serialconnection.h"
+#include "layoutpersist.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    //qmlRegisterType<SerialConnection>("org.hskl.serialconnection", 1, 0, "SerialConnection");
+    //qmlRegisterType<SerialConnection>("org.hskl.", 1, 0, "SerialConnection");
     QQuickStyle::setStyle("Universal");
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
         return -1;
 
     SerialConnection serialConnection;
+    LayoutPersist layoutPersist;
+
     engine.rootContext()->setContextProperty("serialConnection", &serialConnection);
+    engine.rootContext()->setContextProperty("layoutPersist", &layoutPersist);
     return app.exec();
 }
