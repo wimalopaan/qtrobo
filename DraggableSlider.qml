@@ -1,5 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
 
 Item{
     id: root
@@ -47,7 +48,7 @@ Item{
 
     RotateKnob{
         root: root
-        rotate: root
+        orientation: slider
         enabled: !slider.enabled
     }
 }

@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Text{
     property var root
-    property var rotate
+    property var orientation
     text: "↻"
     color: "blue"
     font.bold: true
@@ -17,7 +17,12 @@ Text{
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
         onClicked: {
-            root.rotation = root.rotation === 0 ? -90 : 0
+            if(orientation){
+                orientation.orientation = orientation.orientation === Qt.Horizontal ? Qt.Vertical : Qt.Horizontal
+                var rootHeight = root.height
+                root.height = root.width
+                root.width = rootHeight
+            }
         }
     }
 }
