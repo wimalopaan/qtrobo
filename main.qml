@@ -11,6 +11,7 @@ ApplicationWindow {
     title: qsTr("MicroControl")
 
     menuBar: MenuBar{
+        id: menuBar
         Menu{
             title: qsTr("&File")
 
@@ -60,7 +61,7 @@ ApplicationWindow {
     }
 
     MouseArea{
-        id: windowArea
+        id: rootMouseArea
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.LeftButton
 
@@ -101,6 +102,8 @@ ApplicationWindow {
                 }
 
                 controlsMenu.enabled = isEditMode
+                menuBar.visible = isEditMode
+                rootMouseArea.drag.target = null
             }
 
             function createButton(){
