@@ -18,12 +18,12 @@ Text{
         onPositionChanged: {
             if(drag.active){
                 root.width = root.width + mouseX
-                if(root.width < 20)
-                    root.width = 20
+                if(root.width < 30)
+                    root.width = 30
 
                 root.height= root.height + mouseY
-                if(root.height < 20)
-                    root.height = 20
+                if(root.height < 30)
+                    root.height = 30
             }
         }
     }

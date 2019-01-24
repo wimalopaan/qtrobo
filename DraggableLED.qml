@@ -1,15 +1,19 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
+import QtGraphicalEffects 1.12
+import QtQuick.Dialogs 1.3
 
 Item {
-    property string eventName: "led"
+    property string eventName
     property alias label: label.text
     property alias enabled: led.enabled
     property bool enableLED: false
+    property alias color: bulb.color
 
     id: root
-    width: 20
-    height: 20
+    width: 30
+    height: 30
+    objectName: "DraggableLED"
 
     Rectangle{
         id: led
@@ -22,21 +26,22 @@ Item {
 
         Rectangle{
             id: bulb
-            property color red: Qt.rgba(1, 0, 0, 1)
-
             anchors.fill: parent
             anchors.margins: 4
             radius: width * 0.5
-            color: red
+            color: colorPicker.color
         }
 
-        Rectangle{
-            id: dim
-            anchors.fill: parent
-            anchors.margins: 4
-            radius: width * 0.5
+            RadialGradient{
+                id: dim
+                anchors.fill: parent
+                anchors.margins: 3.5
 
-            color: enableLED ? Qt.rgba(1, 1, 1, 0) : Qt.rgba(0.2, 0.2, 0.2, 0.8)
+                source: bulb
+                gradient: Gradient{
+                    GradientStop{position: 0.0; color: (enableLED ? Qt.rgba(1, 1, 1, 0) : Qt.rgba(0.1, 0.1, 0.1, 0.6))}
+                    GradientStop{position: 1; color: led.color}
+                }
         }
 
         Label{
@@ -44,7 +49,7 @@ Item {
             anchors.top: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: "My LED"
+            text: "New LED"
         }
     }
 
@@ -57,6 +62,31 @@ Item {
         }
 
         Component.onDestruction: target = null
+    }
+
+    Text{
+        id: colorKnob
+        text: "▧"
+        color: "blue"
+        font.bold: true
+        width: 15
+        height: 15
+        anchors.top: parent.bottom
+        anchors.right: parent.left
+        visible: enabled
+
+        MouseArea{
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton
+            onClicked: colorPicker.open()
+        }
+
+        ColorDialog{
+            id: colorPicker
+            color: "red"
+            showAlphaChannel: false
+            onAccepted: root.color = color
+        }
     }
 
     DeleteComponentKnob{

@@ -35,7 +35,7 @@ Item{
     Connections{
         target: serialConnection
         onDataChanged:{
-            if(data.startsWith(eventName + ":")){
+            if(data.startsWith(eventName + ":") && eventName.length > 0){
                 slider.value = +data.substring(eventName.length + 1)
             }
         }

@@ -137,7 +137,8 @@ ApplicationWindow {
                         width: child.width,
                         height: child.height,
                         label: child.label,
-                        eventName: child.eventName
+                        eventName: child.eventName,
+                        color: child.color
                     }
 
                     objs.push(obj)
@@ -155,10 +156,14 @@ ApplicationWindow {
                         component = Qt.createComponent("DraggableButton.qml")
                     }else if(obj.type === "DraggableSlider"){
                         component = Qt.createComponent("DraggableSlider.qml")
-                    }else
+                    }else if(obj.type === "DraggableSerialDisplay"){
                         component = Qt.createComponent("DraggableSerialDisplay.qml")
-
-                    component.createObject(root,  {x: obj.x, y: obj.y, rotation: obj.rotation, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName});
+                    }else
+                        component = Qt.createComponent("DraggableLED.qml")
+                    var object = component.createObject(root,  {x: obj.x, y: obj.y, rotation: obj.rotation, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
+                    if(obj.color){
+                        object.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
+                    }
                 }
             }
 
