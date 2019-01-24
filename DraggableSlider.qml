@@ -29,14 +29,14 @@ Item{
             anchors.left: parent.left
         }
 
-        onValueChanged: serialConnection.writeToSerial(eventName + ":" + value)
+        onValueChanged: serialConnection.writeToSerial(eventName, value)
     }
 
     Connections{
         target: serialConnection
         onDataChanged:{
-            if(data.startsWith(eventName + ":") && eventName.length > 0){
-                slider.value = +data.substring(eventName.length + 1)
+            if(eventName === root.eventName && data){
+                slider.value = +data
             }
         }
     }

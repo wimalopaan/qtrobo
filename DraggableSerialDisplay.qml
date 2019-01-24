@@ -39,11 +39,21 @@ Item{
             font.pointSize: 10
             readOnly: true
 
+
             Connections{
                 id: serialListener
                 target: serialConnection
 
-                onDataChanged: textArea.text = Qt.formatTime(new Date(), "hh:mm:ss") + "\t" + data + "\n" + textArea.text
+                onDataChanged: {
+                    textArea.text += Qt.formatTime(new Date(), "hh:mm:ss")
+                    textArea.text += "\t"
+                    if(eventName){
+                        textArea.text += eventName + "->"
+                    }
+
+                    textArea.text += data + "\n"
+
+                }
 
                 Component.onDestruction: target = null
             }

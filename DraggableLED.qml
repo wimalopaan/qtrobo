@@ -29,7 +29,7 @@ Item {
             anchors.fill: parent
             anchors.margins: 4
             radius: width * 0.5
-            color: colorPicker.color
+            color: "red"
         }
 
             RadialGradient{
@@ -56,37 +56,17 @@ Item {
     Connections{
         target: serialConnection
         onDataChanged:{
-            if(data.startsWith(eventName + ":")){
-                 enableLED = !!+data.substring(eventName.length + 1)
+            if(eventName === root.eventName){
+                 enableLED = !!+data
             }
         }
 
         Component.onDestruction: target = null
     }
 
-    Text{
-        id: colorKnob
-        text: "▧"
-        color: "blue"
-        font.bold: true
-        width: 15
-        height: 15
-        anchors.top: parent.bottom
-        anchors.right: parent.left
-        visible: enabled
-
-        MouseArea{
-            anchors.fill: parent
-            acceptedButtons: Qt.LeftButton
-            onClicked: colorPicker.open()
-        }
-
-        ColorDialog{
-            id: colorPicker
-            color: "red"
-            showAlphaChannel: false
-            onAccepted: root.color = color
-        }
+    ColorPickerKnob{
+        root: root
+        enabled: !led.enabled
     }
 
     DeleteComponentKnob{

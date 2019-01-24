@@ -12,5 +12,6 @@
         <file>RightClickEdit.qml</file>
         <file>RotateKnob.qml</file>
         <file>DraggableLED.qml</file>
+        <file>ColorPickerKnob.qml</file>
     </qresource>
 </RCC>

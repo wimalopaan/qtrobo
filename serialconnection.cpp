@@ -1,11 +1,12 @@
 #include "serialconnection.h"
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include <iostream>
 #include <string.h>
 #include <QFile>
 #include <QJsonDocument>
 #include <QDebug>
+
+const char SerialConnection::EVENT_VALUE_DIVIDER;
 
 SerialConnection::SerialConnection(QObject *parent) :
     QObject(parent)
@@ -38,19 +39,27 @@ void SerialConnection::connectToSerial(const QString &name){
 }
 
 void SerialConnection::disconnectFromSerial(){
-    std::cout << "Is Open: " << (mSerialPort.isOpen() ? "True" : "False") << std::endl;
-    mSerialPort.close();
-
+    if(mSerialPort.isOpen())
+        mSerialPort.close();
 }
 
-void SerialConnection::writeToSerial(const QString &data){
+void SerialConnection::writeToSerial(const QString &eventName){
 
     if(mSerialPort.isOpen()){
-        std::cout << "Writing: " << data.toStdString().c_str() << std::endl;
-        const char* dataBytes = data.toStdString().c_str();
+        qDebug() << "Writing: " << eventName;
+        const char* dataBytes = eventName.toStdString().c_str();
 
         mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes) + 1));
     }
+}
+
+void SerialConnection::writeToSerial(const QString &eventName, const QVariant &value){
+    QString request{};
+    request += eventName;
+    request += EVENT_VALUE_DIVIDER;
+    request += value.toString();
+
+    writeToSerial(request);
 }
 
 void SerialConnection::onReadyRead(){
@@ -58,16 +67,26 @@ void SerialConnection::onReadyRead(){
         QByteArray mDataBuffer;
         mDataBuffer.append(mSerialPort.readAll());
 
-        mData = QString{mDataBuffer};
-        if(mData.length() > 0){
-            std::cout << "Reading:" << mData.toStdString() << std::endl;
-            emit onDataChanged(mData);
+        QString response = QString{mDataBuffer};
+
+
+        if(response.length() > 0){
+            QStringList responseToken = response.split(EVENT_VALUE_DIVIDER);
+
+            if(responseToken.length() > 1)
+                emit onDataChanged(responseToken[0], responseToken[1]);
+            else
+                emit onDataChanged(QString{}, responseToken[0]);
         }
     }
 }
 
 const QString& SerialConnection::data() const{
     return mData;
+}
+
+const QString& SerialConnection::eventName() const{
+    return mEventName;
 }
 
 bool SerialConnection::isConnected(){
