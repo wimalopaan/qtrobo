@@ -23,7 +23,7 @@ QJsonArray LayoutPersist::layout(){
 
 void LayoutPersist::layout(const QJsonArray& layout){
     QFile layoutFile{mFilename.toLocalFile()};
-    layoutFile.open(QIODevice::ReadWrite);
+    layoutFile.open(QIODevice::ReadWrite | QIODevice::Truncate);
 
     if(layoutFile.isOpen() && layoutFile.isWritable()){
         QJsonDocument document{layout};
