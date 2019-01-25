@@ -10,8 +10,10 @@ class SerialConnection: public QObject
 {
 
     Q_OBJECT
-    Q_PROPERTY(QString data MEMBER mData READ data NOTIFY onDataChanged)
-    Q_PROPERTY(QString eventName MEMBER mEventName READ eventName NOTIFY onDataChanged)
+    Q_PROPERTY(QString data MEMBER mData READ data NOTIFY dataChanged)
+    Q_PROPERTY(QString eventName MEMBER mEventName READ eventName NOTIFY dataChanged)
+    Q_PROPERTY(QString portName READ portName)
+    Q_PROPERTY(bool isConnected READ isConnected NOTIFY connectionStateChanged)
 
 public:
     SerialConnection(QObject *parent = nullptr);
@@ -26,9 +28,11 @@ public:
 
     const QString& data() const;
     const QString& eventName() const;
+    QString portName() const;
 
 signals:
-    void onDataChanged(const QString &eventName, const QString &data);
+    void dataChanged(const QString &eventName, const QString &data);
+    void connectionStateChanged(bool connectionState);
 
 public slots:
     void onReadyRead();

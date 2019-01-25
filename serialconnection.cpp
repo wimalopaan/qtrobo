@@ -36,11 +36,14 @@ void SerialConnection::connectToSerial(const QString &name){
     mSerialPort.setBaudRate(9600);
     mSerialPort.setStopBits(QSerialPort::TwoStop);
     mSerialPort.open(QIODevice::ReadWrite);
+
+    emit connectionStateChanged(isConnected());
 }
 
 void SerialConnection::disconnectFromSerial(){
     if(mSerialPort.isOpen())
         mSerialPort.close();
+    emit connectionStateChanged(isConnected());
 }
 
 void SerialConnection::writeToSerial(const QString &eventName){
@@ -74,9 +77,9 @@ void SerialConnection::onReadyRead(){
             QStringList responseToken = response.split(EVENT_VALUE_DIVIDER);
 
             if(responseToken.length() > 1)
-                emit onDataChanged(responseToken[0], responseToken[1]);
+                emit dataChanged(responseToken[0], responseToken[1]);
             else
-                emit onDataChanged(QString{}, responseToken[0]);
+                emit dataChanged(QString{}, responseToken[0]);
         }
     }
 }
@@ -87,6 +90,10 @@ const QString& SerialConnection::data() const{
 
 const QString& SerialConnection::eventName() const{
     return mEventName;
+}
+
+QString SerialConnection::portName() const{
+    return mSerialPort.portName();
 }
 
 bool SerialConnection::isConnected(){

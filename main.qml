@@ -40,8 +40,8 @@ ApplicationWindow {
             if(pressedButtons & Qt.RightButton){
                 contextMenu.popup()
 
-                deviceMenu.enabled = !serialConnection.isConnected()
-                disconnect.enabled = serialConnection.isConnected()
+                deviceMenu.enabled = !serialConnection.isConnected
+                disconnect.enabled = serialConnection.isConnected
             }
             else if(pressedButtons & Qt.LeftButton && window.isEditMode){
                 var child = stackView.currentItem.childAt(mouseX, mouseY)
@@ -136,9 +136,16 @@ ApplicationWindow {
             color: "lightgray"
 
             Text{
+                id: connectionStatus
+                text: connectionStatus.text = (serialConnection.isConnected ? "Connected to: " + serialConnection.portName : "Not connected")
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: "Hier könnte Ihre Werbung stehen"
             }
+
+            Connections{
+                target: serialConnection
+                onConnectionStateChanged: connectionStatus.text = (serialConnection.isConnected ? "Connected to: " + serialConnection.portName : "Not connected")
+            }
+
         }
 
 
