@@ -4,7 +4,7 @@ Text{
     property var root
     property var orientation
     text: "↻"
-    color: "blue"
+    color: "#3F51B5"
     font.bold: true
     width: 15
     height: 15

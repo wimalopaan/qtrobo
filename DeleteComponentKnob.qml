@@ -5,7 +5,7 @@ Text{
 
     text: "🗑"
     font.pointSize: 12
-    color: "red"
+    color: "#3F51B5"
     anchors.bottom: root.top
     anchors.left: root.right
     visible: enabled

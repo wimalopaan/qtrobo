@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.3
 
 ApplicationWindow {
     id: window
@@ -10,6 +11,8 @@ ApplicationWindow {
     width: 1024
     height: 768
     title: qsTr("MicroControl")
+    Material.theme: Material.Light
+    Material.accent: Material.Indigo
 
     property bool isEditMode: true
 
@@ -86,9 +89,9 @@ ApplicationWindow {
                 onTriggered:{
 
                     for(var i = 0; i < stackView.count; i++){
-                        var children = stackView.itemAt(i)
+                        var children = stackView.itemAt(i).children
                         for(var j = children.length; j > 0; j--){
-                            stackView.currentItem.children[j-1].destroy()
+                            children[j-1].destroy()
                         }
                     }
                     layoutLoadDialog.open();
@@ -126,6 +129,18 @@ ApplicationWindow {
             text: "Layout 3"
         }
     }
+
+    footer: Rectangle{
+            width: parent.width
+            height: 20
+            color: "lightgray"
+
+            Text{
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Hier könnte Ihre Werbung stehen"
+            }
+        }
+
 
     StackLayout{
         id: stackView

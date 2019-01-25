@@ -6,7 +6,7 @@ Text{
 
     id: colorKnob
     text: "▧"
-    color: "blue"
+    color: "#3F51B5"
     font.bold: true
     width: 15
     height: 15

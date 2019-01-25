@@ -3,7 +3,7 @@ import QtQuick 2.0
 Text{
     property var root
     text: "⇲"
-    color: "blue"
+    color: "#3F51B5"
     font.bold: true
     width: 15
     height: 15

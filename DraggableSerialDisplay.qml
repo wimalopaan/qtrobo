@@ -2,42 +2,47 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
-Item{
-
+Rectangle{
     property alias label: displayName.text
-    property alias enabled: display.enabled
+    property alias enabled: textArea.enabled
     property string eventName
 
     id: root
     width: 300
     height: 150
     objectName: "DraggableSerialDisplay"
+    border.color: "lightgray"
+    border.width: 2
 
-    Rectangle{
-        id: display
-        anchors.fill: parent
-        enabled: false
-        border.color: "lightgray"
-        border.width: 2
+    Label{
+        id: displayName
+        font.pointSize: 12
+        text: qsTr("New Display")
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+    }
 
-        Label{
-            id: displayName
-            font.pointSize: 12
-            text: qsTr("New Display")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
-        }
+    ScrollView{
+        padding: 6
+        width: root.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: root.height - displayName.height
+        anchors.bottom: root.bottom
+
 
         TextArea{
             id: textArea
-            anchors.top: displayName.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.fill: parent
+            enabled: false
             padding: 10
             font.family: "Monospaced"
             font.pointSize: 10
             readOnly: true
+
+            background: Rectangle{
+                anchors.fill: parent
+                color: "lightgray"
+            }
 
 
             Connections{
@@ -45,8 +50,8 @@ Item{
                 target: serialConnection
 
                 onDataChanged: {
-                    textArea.text += Qt.formatTime(new Date(), "hh:mm:ss")
-                    textArea.text += "\t"
+                    textArea.text += "[" + Qt.formatTime(new Date(), "hh:mm:ss")
+                    textArea.text += "]\t"
                     if(eventName){
                         textArea.text += eventName + "->"
                     }
@@ -59,19 +64,21 @@ Item{
             }
         }
     }
-
     DeleteComponentKnob{
         root: root
-        enabled: !display.enabled
+        enabled: !textArea.enabled
     }
 
     ScaleKnob{
         root: root
-        enabled: !display.enabled
+        enabled: !textArea.enabled
     }
 
     RightClickEdit{
         root: root
-        enabled: !display.enabled
+        enabled: !textArea.enabled
     }
 }
+
+
+
