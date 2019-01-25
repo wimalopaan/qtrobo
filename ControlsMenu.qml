@@ -12,6 +12,11 @@ Menu{
     }
 
     MenuItem{
+        text: "Button w. Indicator"
+        onTriggered: root.createButtonWithIndicator()
+    }
+
+    MenuItem{
         text: "Slider"
         onTriggered: root.createSlider()
     }
