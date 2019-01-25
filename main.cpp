@@ -11,8 +11,10 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    //qmlRegisterType<SerialConnection>("org.hskl.", 1, 0, "SerialConnection");
-    QQuickStyle::setStyle("Universal");
+    QQuickStyle::setStyle("Material");
+    QCoreApplication::setOrganizationName("hskl");
+    QCoreApplication::setOrganizationDomain("www.hs-kl.de");
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

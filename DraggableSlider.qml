@@ -7,6 +7,7 @@ Item{
     property alias label: label.text
     property string eventName
     property alias enabled: slider.enabled
+    property alias orientation: slider.orientation
 
     width: 200
     height: 30
