@@ -17,15 +17,12 @@ ApplicationWindow {
     property bool isEditMode: true
 
     onIsEditModeChanged: {
-        for(var i = 0; i < contentPane.count; i++){
+        for(var i = 0; i < contentPane.count; ++i){
             var children = contentPane.itemAt(i).children
-            for(var j = 0; j < children.length; j++){
+            for(var j = 0; j < children.length; ++j){
                 children[j].enabled = !isEditMode
             }
         }
-
-        controlsMenu.enabled = isEditMode
-        menuBar.visible = isEditMode
     }
 
     MouseArea{
@@ -58,6 +55,7 @@ ApplicationWindow {
 
     menuBar: MenuBar{
         id: menuBar
+        visible: isEditMode
 
         Menu{
             title: qsTr("&File")
@@ -89,12 +87,14 @@ ApplicationWindow {
                 text: qsTr("&Load Layout")
                 onTriggered:{
 
-                    for(var i = 0; i < contentPane.count; i++){
-                        var children = contentPane.itemAt(i).children
-                        for(var j = children.length; j > 0; j--){
-                            children[j-1].destroy()
-                        }
+                    while(tabBar.count > 1)
+                        window.destroyTab()
+
+                    var childrenFirstPane = contentPane.itemAt(0).children
+                    for(var j = childrenFirstPane.length; j > 0; --j){
+                        childrenFirstPane[j-1].destroy()
                     }
+
                     layoutLoadDialog.open();
                 }
 
@@ -113,21 +113,33 @@ ApplicationWindow {
         }
     }
 
-    header: TabBar{
-        id: tabBar
+    header: RowLayout{
+        spacing: 2
         width: parent.width
 
+        TabBar{
+            id: tabBar
+            Layout.fillWidth: true
 
-        TabButton{
-            text: qsTr("Layout 1")
+            TabButton{
+                text: qsTr("Layout 1")
+            }
         }
 
-        TabButton{
-            text: qsTr("Layout 2")
+        Button{
+            text: "+"
+            font.pointSize: 14
+            font.bold: true
+            enabled: isEditMode
+            onClicked: window.createTab()
         }
 
-        TabButton{
-            text: qsTr("Layout 3")
+        Button{
+            text: "-"
+            enabled: tabBar.count > 1 && isEditMode
+            font.pointSize: 14
+            font.bold: true
+            onClicked: window.destroyTab()
         }
     }
 
@@ -160,14 +172,6 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-        Item{
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
-        Item{
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
     }
 
     Menu{
@@ -175,6 +179,7 @@ ApplicationWindow {
 
         ControlsMenu{
             id: controlsMenu
+            enabled: isEditMode
             root: window
         }
 
@@ -219,12 +224,30 @@ ApplicationWindow {
         component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
     }
 
+    function createTab(){
+        var newTab = Qt.createQmlObject("import QtQuick.Controls 2.5; TabButton{}", tabBar)
+        newTab.text = "Layout " + tabBar.count
+        var tabPane = Qt.createQmlObject("import QtQuick 2.9; Item{}", contentPane)
+        tabPane.Layout.fillWidth = true
+        tabPane.Layout.fillHeight = true
+    }
+
+    function destroyTab(){
+        if(tabBar.count > 1){
+            var paneChildren = contentPane.itemAt(tabBar.count - 1).children
+            for(var i = paneChildren.length; i > 0; --i)
+                paneChildren[i-1].destroy()
+
+            tabBar.removeItem(tabBar.count - 1)
+        }
+    }
+
     function layoutToArray(){
         var objs = []
 
-        for(var i = 0; i < contentPane.count; i++){
+        for(var i = 0; i < contentPane.count; ++i){
             var children = contentPane.itemAt(i).children
-            for(var j = 0; j < children.length; j++){
+            for(var j = 0; j < children.length; ++j){
                 var child = children[j]
 
                 var obj = {
@@ -248,8 +271,11 @@ ApplicationWindow {
     }
 
     function arrayToLayout(layout){
-        for(var i = 0; i < layout.length; i++){
+        for(var i = 0; i < layout.length; ++i){
             var obj = layout[i]
+
+            while(obj.layoutTab >= tabBar.count)
+                createTab()
 
             var component = null;
             if(obj.type === "DraggableButton"){
