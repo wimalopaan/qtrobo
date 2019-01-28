@@ -49,7 +49,7 @@ Item {
             anchors.top: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text: "New LED"
+            text: qsTr("New LED")
         }
     }
 

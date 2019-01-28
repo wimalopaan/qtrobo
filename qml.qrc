@@ -13,6 +13,6 @@
         <file>RotateKnob.qml</file>
         <file>DraggableLED.qml</file>
         <file>ColorPickerKnob.qml</file>
-        <file>DraggableButtonWithIndicator.qml</file>
+        <file>DraggableIndicatorButton.qml</file>
     </qresource>
 </RCC>

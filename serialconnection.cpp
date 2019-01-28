@@ -1,7 +1,6 @@
 #include "serialconnection.h"
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include <string.h>
 #include <QFile>
 #include <QJsonDocument>
 #include <QDebug>
@@ -16,7 +15,6 @@ SerialConnection::SerialConnection(QObject *parent) :
 
 QStringList SerialConnection::serialInterfaces() const{
     QSerialPortInfo serialPortInfo;
-
     QStringList portNames;
 
     for(auto info : serialPortInfo.availablePorts()){
@@ -48,7 +46,7 @@ void SerialConnection::disconnectFromSerial(){
 
 void SerialConnection::writeToSerial(const QString &eventName){
 
-    if(mSerialPort.isOpen()){
+    if(mSerialPort.isOpen() && !eventName.isEmpty()){
         qDebug() << "Writing: " << eventName;
         const char* dataBytes = eventName.toStdString().c_str();
 
@@ -70,10 +68,10 @@ void SerialConnection::onReadyRead(){
         QByteArray mDataBuffer;
         mDataBuffer.append(mSerialPort.readAll());
 
-        QString response = QString{mDataBuffer};
+        QString response{mDataBuffer};
 
 
-        if(response.length() > 0){
+        if(!response.isEmpty()){
             QStringList responseToken = response.split(EVENT_VALUE_DIVIDER);
 
             if(responseToken.length() > 1)
@@ -98,19 +96,4 @@ QString SerialConnection::portName() const{
 
 bool SerialConnection::isConnected(){
     return mSerialPort.isOpen();
-}
-
-
-QVariantList SerialConnection::jsonData(){
-    QFile file{"myfile.json"};
-    file.open(QIODevice::ReadOnly);
-    QString data = QString::fromUtf8(file.readAll());
-
-    file.close();
-    QJsonParseError err;
-    QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &err);
-
-    qDebug() << QString{doc.toJson()};
-
-    return QVariantList{};
 }

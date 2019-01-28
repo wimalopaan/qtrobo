@@ -10,15 +10,15 @@ ApplicationWindow {
     visible: true
     width: 1024
     height: 768
-    title: qsTr("MicroControl")
+    title: qsTr("QtRobo")
     Material.theme: Material.Light
     Material.accent: Material.Indigo
 
     property bool isEditMode: true
 
     onIsEditModeChanged: {
-        for(var i = 0; i < stackView.count; i++){
-            var children = stackView.itemAt(i).children
+        for(var i = 0; i < contentPane.count; i++){
+            var children = contentPane.itemAt(i).children
             for(var j = 0; j < children.length; j++){
                 children[j].enabled = !isEditMode
             }
@@ -26,14 +26,12 @@ ApplicationWindow {
 
         controlsMenu.enabled = isEditMode
         menuBar.visible = isEditMode
-        rootMouseArea.drag.target = null
     }
 
     MouseArea{
         id: rootMouseArea
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.LeftButton
-
         property int dragPadding: 5
 
         onPressed: {
@@ -44,24 +42,23 @@ ApplicationWindow {
                 disconnect.enabled = serialConnection.isConnected
             }
             else if(pressedButtons & Qt.LeftButton && window.isEditMode){
-                var child = stackView.currentItem.childAt(mouseX, mouseY)
+                var child = contentPane.currentItem.childAt(mouseX, mouseY)
                 if(child !== null){
                     drag.target = child
                     drag.axis = Drag.XAndYAxis
                     drag.minimumX = dragPadding
-                    drag.maximumX = stackView.width - dragPadding - drag.target.width
+                    drag.maximumX = contentPane.width - dragPadding - drag.target.width
                     drag.minimumY = dragPadding
-                    drag.maximumY = stackView.height - dragPadding - drag.target.height
-                }else{
-                    drag.target = null
+                    drag.maximumY = contentPane.height - dragPadding - drag.target.height
                 }
             }
         }
-
+        onReleased: drag.target = null
     }
 
     menuBar: MenuBar{
         id: menuBar
+
         Menu{
             title: qsTr("&File")
 
@@ -72,13 +69,17 @@ ApplicationWindow {
                 FileDialog{
                     id: layoutStoreDialog
                     title: "Save Layout"
+                    sidebarVisible: false
                     selectExisting: false
-
                     favoriteFolders: false
                     nameFilters: "Layout files (*.json)"
 
                     onAccepted: {
-                        layoutPersist.filename = fileUrl
+                        if(!fileUrl.toString().endsWith(".json"))
+                            layoutPersist.filename = fileUrl + ".json"
+                        else
+                            layoutPersist.filename = fileUrl
+
                         layoutPersist.layout = window.layoutToArray()
                     }
                 }
@@ -88,8 +89,8 @@ ApplicationWindow {
                 text: qsTr("&Load Layout")
                 onTriggered:{
 
-                    for(var i = 0; i < stackView.count; i++){
-                        var children = stackView.itemAt(i).children
+                    for(var i = 0; i < contentPane.count; i++){
+                        var children = contentPane.itemAt(i).children
                         for(var j = children.length; j > 0; j--){
                             children[j-1].destroy()
                         }
@@ -99,10 +100,10 @@ ApplicationWindow {
 
                 FileDialog{
                     id: layoutLoadDialog
-                    title: "Load Layout"
+                    title: qsTr("Load Layout")
                     selectExisting: true
+                    sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
-
                     onAccepted: {
                         layoutPersist.filename = fileUrl
                         window.arrayToLayout(layoutPersist.layout)
@@ -118,39 +119,38 @@ ApplicationWindow {
 
 
         TabButton{
-            text: "Layout 1"
+            text: qsTr("Layout 1")
         }
 
         TabButton{
-            text: "Layout 2"
+            text: qsTr("Layout 2")
         }
 
         TabButton{
-            text: "Layout 3"
+            text: qsTr("Layout 3")
         }
     }
 
     footer: Rectangle{
-            width: parent.width
-            height: 20
-            color: "lightgray"
+        width: parent.width
+        height: 20
+        color: "lightgray"
 
-            Text{
-                id: connectionStatus
-                text: connectionStatus.text = (serialConnection.isConnected ? "Connected to: " + serialConnection.portName : "Not connected")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            Connections{
-                target: serialConnection
-                onConnectionStateChanged: connectionStatus.text = (serialConnection.isConnected ? "Connected to: " + serialConnection.portName : "Not connected")
-            }
-
+        Text{
+            id: connectionStatus
+            text: connectionStatus.text = "Status: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
+        Connections{
+            target: serialConnection
+            onConnectionStateChanged: connectionStatus.text = "Status: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+        }
+
+    }
 
     StackLayout{
-        id: stackView
+        id: contentPane
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
 
@@ -196,52 +196,52 @@ ApplicationWindow {
 
     function createButton(){
         var component = Qt.createComponent("DraggableButton.qml")
-        component.createObject(stackView.itemAt(stackView.currentIndex),  {x: 50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: 50, y:50})
     }
 
     function createButtonWithIndicator(){
-        var component = Qt.createComponent("DraggableButtonWithIndicator.qml")
-        component.createObject(stackView.itemAt(stackView.currentIndex),  {x: 50, y:50})
+        var component = Qt.createComponent("DraggableIndicatorButton.qml")
+        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: 50, y:50})
     }
 
     function createSlider(){
         var component = Qt.createComponent("DraggableSlider.qml")
-        component.createObject(stackView.itemAt(stackView.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
     }
 
     function createDisplay(){
         var component = Qt.createComponent("DraggableSerialDisplay.qml")
-        component.createObject(stackView.itemAt(stackView.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
     }
 
     function createLED(){
         var component = Qt.createComponent("DraggableLED.qml")
-        component.createObject(stackView.itemAt(stackView.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
     }
 
     function layoutToArray(){
         var objs = []
 
-        for(var i = 0; i < stackView.count; i++){
-            var children = stackView.itemAt(i).children
-        for(var j = 0; j < children.length; j++){
-            var child = children[j]
+        for(var i = 0; i < contentPane.count; i++){
+            var children = contentPane.itemAt(i).children
+            for(var j = 0; j < children.length; j++){
+                var child = children[j]
 
-            var obj = {
-                layoutTab: i,
-                type: child.objectName,
-                x: child.x,
-                y: child.y,
-                orientation: child.orientation,
-                width: child.width,
-                height: child.height,
-                label: child.label,
-                eventName: child.eventName,
-                color: child.color
+                var obj = {
+                    layoutTab: i,
+                    type: child.objectName,
+                    x: child.x,
+                    y: child.y,
+                    orientation: child.orientation,
+                    width: child.width,
+                    height: child.height,
+                    label: child.label,
+                    eventName: child.eventName,
+                    color: child.color
+                }
+
+                objs.push(obj)
             }
-
-            objs.push(obj)
-        }
         }
 
         return objs;
@@ -258,19 +258,18 @@ ApplicationWindow {
                 component = Qt.createComponent("DraggableSlider.qml")
             }else if(obj.type === "DraggableSerialDisplay"){
                 component = Qt.createComponent("DraggableSerialDisplay.qml")
-            }else if(obj.type === "DraggableButtonWithIndicator")
-                component = Qt.createComponent("DraggableButtonWithIndicator.qml")
-            else
+            }else if(obj.type === "DraggableIndicatorButton")
+                component = Qt.createComponent("DraggableIndicatorButton.qml")
+            else if("DraggableLED.qml")
                 component = Qt.createComponent("DraggableLED.qml")
 
-
-            var object = component.createObject(stackView.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
-            if(obj.color)
-                object.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
-            if(obj.orientation)
-                object.orientation = obj.orientation
+            if(component){
+                var object = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
+                if(obj.color)
+                    object.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
+                if(obj.orientation)
+                    object.orientation = obj.orientation
+            }
         }
     }
 }
-
-

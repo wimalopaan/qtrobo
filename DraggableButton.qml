@@ -12,16 +12,12 @@ Item{
     Button{
         id: button
         anchors.fill: parent
-        text: "New Button"
+        text: qsTr("New Button")
         enabled: false
         font.pointSize: 12
 
         onPressed:{
             serialConnection.writeToSerial(eventName);
-        }
-
-        onReleased: {
-            //serial.writeToSerial(eventName + ":0");
         }
     }
 

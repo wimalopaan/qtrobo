@@ -6,14 +6,14 @@
 
 LayoutPersist::LayoutPersist(QObject *parent) :
     QObject(parent)
-{
-}
+{}
 
 LayoutPersist::~LayoutPersist(){}
 
 QJsonArray LayoutPersist::layout(){
     QFile layoutFile{mFilename.toLocalFile()};
     layoutFile.open(QIODevice::ReadOnly);
+
     if(layoutFile.isOpen() && layoutFile.isReadable()){
         return QJsonDocument::fromJson(layoutFile.readAll()).array();
     }

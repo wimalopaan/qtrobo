@@ -10,8 +10,8 @@ class SerialConnection: public QObject
 {
 
     Q_OBJECT
-    Q_PROPERTY(QString data MEMBER mData READ data NOTIFY dataChanged)
-    Q_PROPERTY(QString eventName MEMBER mEventName READ eventName NOTIFY dataChanged)
+    Q_PROPERTY(QString data READ data NOTIFY dataChanged)
+    Q_PROPERTY(QString eventName READ eventName NOTIFY dataChanged)
     Q_PROPERTY(QString portName READ portName)
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY connectionStateChanged)
 
@@ -24,7 +24,6 @@ public:
     Q_INVOKABLE void writeToSerial(const QString &eventName);
     Q_INVOKABLE void writeToSerial(const QString &eventName, const QVariant &value);
     Q_INVOKABLE bool isConnected();
-    Q_INVOKABLE QVariantList jsonData();
 
     const QString& data() const;
     const QString& eventName() const;

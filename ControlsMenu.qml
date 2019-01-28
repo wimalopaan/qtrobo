@@ -6,28 +6,28 @@ Menu{
     property var root
 
     MenuItem{
-        text: "Button"
+        text: qsTr("Button")
         onTriggered: root.createButton()
 
     }
 
     MenuItem{
-        text: "Button w. Indicator"
+        text: qsTr("Indicator Button")
         onTriggered: root.createButtonWithIndicator()
     }
 
     MenuItem{
-        text: "Slider"
+        text: qsTr("Slider")
         onTriggered: root.createSlider()
     }
 
     MenuItem{
-        text: "Display"
+        text: qsTr("Display")
         onTriggered: root.createDisplay()
     }
 
     MenuItem{
-        text: "LED"
+        text: qsTr("LED")
         onTriggered: root.createLED()
     }
 }

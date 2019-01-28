@@ -6,7 +6,7 @@ Item{
     id: root
     width: 200
     height: 50
-    objectName: "DraggableButtonWithIndicator"
+    objectName: "DraggableIndicatorButton"
     property string eventName
     property alias label: button.text
     property alias enabled: button.enabled
@@ -14,16 +14,14 @@ Item{
     Button{
         id: button
         anchors.fill: parent
-        text: "New Button"
+        text: qsTr("New Button")
         enabled: false
         font.pointSize: 12
 
         property bool isOn: false
 
-        onPressed:{
-            serialConnection.writeToSerial(eventName, +isOn);
-            //isOn = !isOn
-        }
+        onPressed: serialConnection.writeToSerial(eventName, +isOn);
+
 
         RadialGradient{
             width: parent.width/10
@@ -61,6 +59,6 @@ Item{
 
     RightClickEdit{
         root: root
-        enabled: true
+        enabled: !button.enabled
     }
 }
