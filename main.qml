@@ -79,24 +79,15 @@ ApplicationWindow {
                             layoutPersist.filename = fileUrl
 
                         layoutPersist.layout = window.layoutToArray()
+
                     }
                 }
             }
 
             MenuItem{
                 text: qsTr("&Load Layout")
-                onTriggered:{
+                onTriggered: layoutLoadDialog.open()
 
-                    while(tabBar.count > 1)
-                        window.destroyTab()
-
-                    var childrenFirstPane = contentPane.itemAt(0).children
-                    for(var j = childrenFirstPane.length; j > 0; --j){
-                        childrenFirstPane[j-1].destroy()
-                    }
-
-                    layoutLoadDialog.open();
-                }
 
                 FileDialog{
                     id: layoutLoadDialog
@@ -105,6 +96,14 @@ ApplicationWindow {
                     sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
                     onAccepted: {
+                        while(tabBar.count > 1)
+                            window.destroyTab()
+
+                        var childrenFirstPane = contentPane.itemAt(0).children
+                        for(var j = childrenFirstPane.length; j > 0; --j){
+                            childrenFirstPane[j-1].destroy()
+                        }
+
                         layoutPersist.filename = fileUrl
                         window.arrayToLayout(layoutPersist.layout)
                     }
