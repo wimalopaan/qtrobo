@@ -5,7 +5,8 @@ QtRobo:
 * Controlfarbe
 * Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen (DONE)
 * Slider-Wertebereich (Integer)
-* Tab-Name (DONE)
+* Tab-Name (DONE) 
+** WM: nur Großbuchstaben???
 * automatisch speichern
 * Überschreiben-Dialog
 * bei Mausposition Elemente erzeugen (DONE)
