@@ -3,12 +3,12 @@ QtRobo:
 * Raster-Layout
 * Schriftfarbe
 * Controlfarbe
-* Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen
+* Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen (DONE)
 * Slider-Wertebereich (Integer)
 * Tab-Name
 * automatisch speichern
 * Überschreiben-Dialog
-* bei Mausposition Elemente erzeugen
+* bei Mausposition Elemente erzeugen (DONE)
 * Slider-Koppelelement 
 * Anzeige des Sliderwertes (optional): absolut / prozentual
 * Numerisches Eingabefeld (gazzahlig) mit up/down
