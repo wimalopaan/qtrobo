@@ -22,6 +22,11 @@ Menu{
     }
 
     MenuItem{
+        text: qsTr("Balance Slider")
+        onTriggered: root.createBalanceSlider()
+    }
+
+    MenuItem{
         text: qsTr("Display")
         onTriggered: root.createDisplay()
     }

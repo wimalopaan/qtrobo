@@ -223,6 +223,11 @@ ApplicationWindow {
         component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
     }
 
+    function createBalanceSlider(){
+        var component = Qt.createComponent("DraggableBalanceSlider.qml")
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
+    }
+
     function createTab(){
         var newTab = Qt.createQmlObject("import QtQuick.Controls 2.5; TabButton{}", tabBar)
         newTab.text = "Layout " + tabBar.count
@@ -281,6 +286,8 @@ ApplicationWindow {
                 component = Qt.createComponent("DraggableButton.qml")
             }else if(obj.type === "DraggableSlider"){
                 component = Qt.createComponent("DraggableSlider.qml")
+            }else if(obj.type === "DraggableBalanceSlider"){
+                component = Qt.createComponent("DraggableBalanceSlider.qml")
             }else if(obj.type === "DraggableSerialDisplay"){
                 component = Qt.createComponent("DraggableSerialDisplay.qml")
             }else if(obj.type === "DraggableIndicatorButton")

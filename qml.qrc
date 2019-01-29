@@ -14,5 +14,6 @@
         <file>DraggableLED.qml</file>
         <file>ColorPickerKnob.qml</file>
         <file>DraggableIndicatorButton.qml</file>
+        <file>DraggableBalanceSlider.qml</file>
     </qresource>
 </RCC>
