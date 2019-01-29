@@ -23,6 +23,11 @@ ApplicationWindow {
                 children[j].enabled = !isEditMode
             }
         }
+
+        for(var i = 0; i < tabBar.count; ++i){
+            var tab = tabBar.itemAt(i)
+            tab.editEnabled = isEditMode
+        }
     }
 
     MouseArea{
@@ -120,8 +125,8 @@ ApplicationWindow {
             id: tabBar
             Layout.fillWidth: true
 
-            TabButton{
-                text: qsTr("Layout 1")
+            EditableTab{
+                text: ("Layout")
             }
         }
 
@@ -259,8 +264,9 @@ ApplicationWindow {
     }
 
     function createTab(){
-        var newTab = Qt.createQmlObject("import QtQuick.Controls 2.5; TabButton{}", tabBar)
-        newTab.text = "Layout " + tabBar.count
+        var component = Qt.createComponent("EditableTab.qml")
+        var newTab = component.createObject(tabBar)
+        newTab.text = newTab.text + " " + tabBar.count
         var tabPane = Qt.createQmlObject("import QtQuick 2.9; Item{}", contentPane)
         tabPane.Layout.fillWidth = true
         tabPane.Layout.fillHeight = true
