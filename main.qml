@@ -198,34 +198,64 @@ ApplicationWindow {
         }
     }
 
-    function createButton(){
+    function createButton(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableButton.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: 50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
     }
 
-    function createButtonWithIndicator(){
+    function createButtonWithIndicator(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableIndicatorButton.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: 50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
     }
 
-    function createSlider(){
+    function createSlider(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableSlider.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
     }
 
-    function createDisplay(){
+    function createDisplay(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableSerialDisplay.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
     }
 
-    function createLED(){
+    function createLED(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableLED.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
     }
 
-    function createBalanceSlider(){
+    function createBalanceSlider(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
         var component = Qt.createComponent("DraggableBalanceSlider.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:50, y:50})
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
     }
 
     function createTab(){
