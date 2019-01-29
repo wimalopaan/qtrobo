@@ -1,0 +1,26 @@
+QtRobo:
+
+* Raster-Layout
+* Schriftfarbe
+* Controlfarbe
+* Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen
+* Slider-Wertebereich (Integer)
+* Tab-Name
+* automatisch speichern
+* Überschreiben-Dialog
+* bei Mausposition Elemente erzeugen
+* Slider-Koppelelement 
+* Anzeige des Sliderwertes (optional): absolut / prozentual
+* Numerisches Eingabefeld (gazzahlig) mit up/down
+* Bildfeld (.png, jpg, ...) (ohne Funktion)
+(* Drehknopf)
+* Drehspulinstrumentanzeige
+* Füllstandsmesseranzeige
+* Graph-Anzeige (über Anzahl der Werte)
+
+* Baudrate / stop-bits / parity
+* end-of-line änderbar
+* keine '\0' mitsenden
+* separator ':'änderbar
+
+* senden an eine pipe/local-socket: Pfadname
