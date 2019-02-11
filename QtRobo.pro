@@ -34,4 +34,5 @@ HEADERS += \
     serialconnection.h \
     layoutpersist.h
 
-DISTFILES +=
+DISTFILES += \
+    todo.txt

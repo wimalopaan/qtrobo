@@ -5,11 +5,10 @@ QtRobo:
 * Controlfarbe
 * Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen (DONE)
 * Slider-Wertebereich (Integer)
-* Tab-Name (DONE) 
-** WM: nur Großbuchstaben???
+* Drop-Down-Button
+* Prüffeld: bekommt einen String gesendet, prüft ob der einem eingetragenen String entspricht, Ja: wird grün, Nein: wird rot
 * automatisch speichern
 * Überschreiben-Dialog
-* bei Mausposition Elemente erzeugen (DONE)
 * Slider-Koppelelement 
 * Anzeige des Sliderwertes (optional): absolut / prozentual
 * Numerisches Eingabefeld (gazzahlig) mit up/down
@@ -25,3 +24,8 @@ QtRobo:
 * separator ':'änderbar
 
 * senden an eine pipe/local-socket: Pfadname
+
+Erledigt:
+* bei Mausposition Elemente erzeugen (DONE)
+* Tab-Name (DONE) 
+** WM: nur Großbuchstaben???
