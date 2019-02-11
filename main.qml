@@ -24,11 +24,12 @@ ApplicationWindow {
             }
         }
 
-        for(var i = 0; i < tabBar.count; ++i){
+        for(i = 0; i < tabBar.count; ++i){
             var tab = tabBar.itemAt(i)
             tab.editEnabled = isEditMode
         }
     }
+
 
     MouseArea{
         id: rootMouseArea
@@ -66,6 +67,11 @@ ApplicationWindow {
             title: qsTr("&File")
 
             MenuItem{
+                text: qsTr("&New Layout")
+                onTriggered: clearTabBar()
+            }
+
+            MenuItem{
                 text: qsTr("&Save Layout")
                 onTriggered: layoutStoreDialog.open()
 
@@ -101,14 +107,7 @@ ApplicationWindow {
                     sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
                     onAccepted: {
-                        while(tabBar.count > 1)
-                            window.destroyTab()
-
-                        var childrenFirstPane = contentPane.itemAt(0).children
-                        for(var j = childrenFirstPane.length; j > 0; --j){
-                            childrenFirstPane[j-1].destroy()
-                        }
-
+                        clearTabBar()
                         layoutPersist.filename = fileUrl
                         window.arrayToLayout(layoutPersist.layout)
                     }
@@ -279,6 +278,16 @@ ApplicationWindow {
                 paneChildren[i-1].destroy()
 
             tabBar.removeItem(tabBar.count - 1)
+        }
+    }
+
+    function clearTabBar(){
+        while(tabBar.count > 1)
+            window.destroyTab()
+
+        var childrenFirstPane = contentPane.itemAt(0).children
+        for(var j = childrenFirstPane.length; j > 0; --j){
+            childrenFirstPane[j-1].destroy()
         }
     }
 
