@@ -28,4 +28,4 @@ QtRobo:
 Erledigt:
 * bei Mausposition Elemente erzeugen (DONE)
 * Tab-Name (DONE) 
-** WM: nur Großbuchstaben???
+** WM: nur Großbuchstaben (DONE)
