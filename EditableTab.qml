@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 
 TabButton{
     text: qsTr("New Tab")
+    font.capitalization: Font.MixedCase
     property alias editEnabled: editMouseArea.enabled
 
     MouseArea{
