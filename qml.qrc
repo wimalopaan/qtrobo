@@ -16,5 +16,6 @@
         <file>DraggableIndicatorButton.qml</file>
         <file>DraggableBalanceSlider.qml</file>
         <file>EditableTab.qml</file>
+        <file>SerialConnectionConfigDialog.qml</file>
     </qresource>
 </RCC>

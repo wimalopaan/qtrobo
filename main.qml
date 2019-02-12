@@ -114,6 +114,23 @@ ApplicationWindow {
                 }
             }
         }
+
+        Menu{
+            title: qsTr("&Serial Port")
+
+            DeviceMenu{
+                id: deviceMenu
+                root: window
+                enabled: !serialConnection.isConnected
+            }
+
+            MenuItem{
+                id: disconnect
+                text: qsTr("Disconnect")
+                enabled: serialConnection.isConnected
+                onTriggered: serialConnection.disconnectFromSerial()
+            }
+        }
     }
 
     header: RowLayout{
@@ -184,16 +201,6 @@ ApplicationWindow {
             id: controlsMenu
             enabled: isEditMode
             root: window
-        }
-
-        DeviceMenu{
-            id: deviceMenu
-        }
-
-        MenuItem{
-            id: disconnect
-            text: qsTr("Disconnect")
-            onTriggered: serialConnection.disconnectFromSerial()
         }
 
         MenuItem{

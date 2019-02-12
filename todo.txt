@@ -3,7 +3,6 @@ QtRobo:
 * Raster-Layout
 * Schriftfarbe
 * Controlfarbe
-* Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen (DONE)
 * Slider-Wertebereich (Integer)
 * Drop-Down-Button
 * Prüffeld: bekommt einen String gesendet, prüft ob der einem eingetragenen String entspricht, Ja: wird grün, Nein: wird rot
@@ -18,14 +17,15 @@ QtRobo:
 * Füllstandsmesseranzeige
 * Graph-Anzeige (über Anzahl der Werte)
 
-* Baudrate / stop-bits / parity
 * end-of-line änderbar
 * keine '\0' mitsenden
 * separator ':'änderbar
 
 * senden an eine pipe/local-socket: Pfadname
 
-Erledigt:
-* bei Mausposition Elemente erzeugen (DONE)
-* Tab-Name (DONE) 
-** WM: nur Großbuchstaben (DONE)
+Erledigt
+* bei Mausposition Elemente erzeugen
+* Tab-Name
+** WM: nur Großbuchstaben
+* Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen
+* Baudrate / stop-bits / parity

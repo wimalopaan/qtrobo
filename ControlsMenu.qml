@@ -8,7 +8,6 @@ Menu{
     MenuItem{
         text: qsTr("Button")
         onTriggered: root.createButton()
-
     }
 
     MenuItem{
