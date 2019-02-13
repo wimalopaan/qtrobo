@@ -17,5 +17,7 @@
         <file>DraggableBalanceSlider.qml</file>
         <file>EditableTab.qml</file>
         <file>SerialConnectionConfigDialog.qml</file>
+        <file>GlobalDefinitions.qml</file>
+        <file>qmldir</file>
     </qresource>
 </RCC>

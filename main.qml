@@ -57,6 +57,13 @@ ApplicationWindow {
             }
         }
         onReleased: drag.target = null
+
+        onPositionChanged: {
+            if(drag.active && drag.target !== null && GlobalDefinitions.isGridMode){
+                drag.target.x = drag.target.x - (drag.target.x % 20)
+                drag.target.y = drag.target.y - (drag.target.y % 20)
+            }
+        }
     }
 
     menuBar: MenuBar{
@@ -206,6 +213,12 @@ ApplicationWindow {
         MenuItem{
             text: qsTr(window.isEditMode ? "Control Mode" : "Edit Mode")
             onTriggered: window.isEditMode = !window.isEditMode
+        }
+
+        MenuItem{
+            text: qsTr(GlobalDefinitions.isGridMode ? "Floating Positioning" : "Grid Positioning")
+            enabled: window.isEditMode
+            onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
         }
     }
 
