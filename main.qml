@@ -14,22 +14,22 @@ ApplicationWindow {
     Material.theme: Material.Light
     Material.accent: Material.Indigo
 
-    property bool isEditMode: true
+    Connections{
+        target: GlobalDefinitions
+        onIsEditModeChanged:{
+            for(var i = 0; i < contentPane.count; ++i){
+                var children = contentPane.itemAt(i).children
+                for(var j = 0; j < children.length; ++j){
+                    children[j].enabled = !GlobalDefinitions.isEditMode
+                }
+            }
 
-    onIsEditModeChanged: {
-        for(var i = 0; i < contentPane.count; ++i){
-            var children = contentPane.itemAt(i).children
-            for(var j = 0; j < children.length; ++j){
-                children[j].enabled = !isEditMode
+            for(i = 0; i < tabBar.count; ++i){
+                var tab = tabBar.itemAt(i)
+                tab.editEnabled = GlobalDefinitions.isEditMode
             }
         }
-
-        for(i = 0; i < tabBar.count; ++i){
-            var tab = tabBar.itemAt(i)
-            tab.editEnabled = isEditMode
-        }
     }
-
 
     MouseArea{
         id: rootMouseArea
@@ -44,7 +44,7 @@ ApplicationWindow {
                 deviceMenu.enabled = !serialConnection.isConnected
                 disconnect.enabled = serialConnection.isConnected
             }
-            else if(pressedButtons & Qt.LeftButton && window.isEditMode){
+            else if(pressedButtons & Qt.LeftButton && GlobalDefinitions.isEditMode){
                 var child = contentPane.currentItem.childAt(mouseX, mouseY)
                 if(child !== null){
                     drag.target = child
@@ -60,15 +60,15 @@ ApplicationWindow {
 
         onPositionChanged: {
             if(drag.active && drag.target !== null && GlobalDefinitions.isGridMode){
-                drag.target.x = drag.target.x - (drag.target.x % 20)
-                drag.target.y = drag.target.y - (drag.target.y % 20)
+                drag.target.x = drag.target.x - (drag.target.x % GlobalDefinitions.gridModeStepSize)
+                drag.target.y = drag.target.y - (drag.target.y % GlobalDefinitions.gridModeStepSize)
             }
         }
     }
 
     menuBar: MenuBar{
         id: menuBar
-        visible: isEditMode
+        visible: GlobalDefinitions.isEditMode
 
         Menu{
             title: qsTr("&File")
@@ -157,13 +157,13 @@ ApplicationWindow {
             text: "+"
             font.pointSize: 14
             font.bold: true
-            enabled: isEditMode
+            enabled: GlobalDefinitions.isEditMode
             onClicked: window.createTab()
         }
 
         Button{
             text: "-"
-            enabled: tabBar.count > 1 && isEditMode
+            enabled: tabBar.count > 1 && GlobalDefinitions.isEditMode
             font.pointSize: 14
             font.bold: true
             onClicked: window.destroyTab()
@@ -206,18 +206,18 @@ ApplicationWindow {
 
         ControlsMenu{
             id: controlsMenu
-            enabled: isEditMode
+            enabled: GlobalDefinitions.isEditMode
             root: window
         }
 
         MenuItem{
-            text: qsTr(window.isEditMode ? "Control Mode" : "Edit Mode")
-            onTriggered: window.isEditMode = !window.isEditMode
+            text: qsTr(GlobalDefinitions.isEditMode ? "Control Mode" : "Edit Mode")
+            onTriggered: GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
         }
 
         MenuItem{
             text: qsTr(GlobalDefinitions.isGridMode ? "Floating Positioning" : "Grid Positioning")
-            enabled: window.isEditMode
+            enabled: GlobalDefinitions.isEditMode
             onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
         }
     }

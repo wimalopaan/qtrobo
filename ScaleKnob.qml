@@ -19,7 +19,7 @@ Text{
             if(drag.active){
 
                 if(GlobalDefinitions.isGridMode)
-                    root.width = root.width + mouseX - ((root.width + mouseX) % 20)
+                    root.width = root.width + mouseX - ((root.width + mouseX) % GlobalDefinitions.gridModeStepSize)
                 else
                     root.width = root.width + mouseX
 
@@ -27,7 +27,7 @@ Text{
                     root.width = 30
 
                 if(GlobalDefinitions.isGridMode)
-                    root.height = root.height + mouseY - ((root.height + mouseY) % 20)
+                    root.height = root.height + mouseY - ((root.height + mouseY) % GlobalDefinitions.gridModeStepSize)
                 else
                     root.height= root.height + mouseY
 
