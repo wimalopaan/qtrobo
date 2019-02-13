@@ -2,7 +2,6 @@ QtRobo:
 
 Prio 1:
 
-* Raster-Layout
 * Schriftfarbe
 * Controlfarbe
 * Slider-Wertebereich (Integer)
@@ -34,3 +33,4 @@ Erledigt:
 ** WM: nur Großbuchstaben
 * Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen
 * Baudrate / stop-bits / parity
+* Raster-Layout
