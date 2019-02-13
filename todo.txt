@@ -1,5 +1,7 @@
 QtRobo:
 
+Prio 1:
+
 * Raster-Layout
 * Schriftfarbe
 * Controlfarbe
@@ -8,22 +10,25 @@ QtRobo:
 * Prüffeld: bekommt einen String gesendet, prüft ob der einem eingetragenen String entspricht, Ja: wird grün, Nein: wird rot
 * automatisch speichern
 * Überschreiben-Dialog
-* Slider-Koppelelement 
 * Anzeige des Sliderwertes (optional): absolut / prozentual
 * Numerisches Eingabefeld (gazzahlig) mit up/down
-* Bildfeld (.png, jpg, ...) (ohne Funktion)
-(* Drehknopf)
-* Drehspulinstrumentanzeige
-* Füllstandsmesseranzeige
-* Graph-Anzeige (über Anzahl der Werte)
-
 * end-of-line änderbar
 * keine '\0' mitsenden
 * separator ':'änderbar
+* half-duplex möglich (receive-after-send?)
 
+Prio 2:
+
+* Füllstandsmesseranzeige
+* Drehspulinstrumentanzeige
+* Slider-Koppelelement 
+* Bildfeld (.png, jpg, ...) (ohne Funktion)
+* Graph-Anzeige (über Anzahl der Werte)
+(* Drehknopf)
 * senden an eine pipe/local-socket: Pfadname
 
-Erledigt
+Erledigt:
+
 * bei Mausposition Elemente erzeugen
 * Tab-Name
 ** WM: nur Großbuchstaben
