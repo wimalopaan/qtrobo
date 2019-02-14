@@ -72,6 +72,7 @@ void SerialConnection::onReadyRead(){
 
 
         if(!response.isEmpty()){
+            qDebug() << "Reading: " << response;
             QStringList responseToken = response.split(EVENT_VALUE_DIVIDER);
 
             if(responseToken.length() > 1)
