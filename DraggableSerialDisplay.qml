@@ -50,14 +50,20 @@ Rectangle{
                 target: serialConnection
 
                 onDataChanged: {
-                    textArea.text += "[" + Qt.formatTime(new Date(), "hh:mm:ss")
-                    textArea.text += "]\t"
+                    var newTextLine = "[" + Qt.formatTime(new Date(), "hh:mm:ss")
+                    newTextLine += "]\t"
                     if(eventName){
-                        textArea.text += eventName + "->"
+                        newTextLine += eventName + "->"
                     }
 
-                    textArea.text += data + "\n"
+                    newTextLine += data + "\n"
 
+                    if(root.eventName){
+                        if(root.eventName === eventName)
+                            textArea.append(newTextLine)
+                    }else{
+                        textArea.append(newTextLine)
+                    }
                 }
 
                 Component.onDestruction: target = null
