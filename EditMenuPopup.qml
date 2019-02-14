@@ -32,7 +32,6 @@ Dialog{
         }
 
         TextField{
-            enabled: !(component instanceof DraggableSerialDisplay)
             Layout.fillWidth: true
             text: component.eventName
 
