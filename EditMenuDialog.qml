@@ -5,37 +5,106 @@ import QtQuick.Layouts 1.3
 Dialog{
     id: root
     focus: true
-    implicitWidth: 300
-    implicitHeight: 200
+    implicitWidth: 350
     closePolicy: Qt.CloseOnPressOutside
     title: qsTr("Control Preferences")
 
     property var component
 
-    contentItem:  GridLayout{
-        columns: 2
-        rows: 2
+    contentItem:  ColumnLayout{
+        id: layout
 
-        Text{
-            text: "Control Name:"
+        //------ General
+        RowLayout{
+
+            Text{
+                text: "Control Name:"
+                Layout.minimumWidth: layout.width / 2
+            }
+
+            TextField{
+                Layout.fillWidth: true
+                text: component.label
+
+                onTextChanged: component.label = text
+            }
         }
 
-        TextField{
-            Layout.fillWidth: true
-            text: component.label
+        RowLayout{
+            Text{
+                text: "Event Name:"
+                Layout.minimumWidth: layout.width / 2
+            }
 
-            onTextChanged: component.label = text
+            TextField{
+                Layout.fillWidth: true
+                text: component.eventName
+
+                onTextChanged: component.eventName = text
+            }
+
         }
 
-        Text{
-            text: "Event Name:"
+        //----- Slider
+
+        IntValidator{
+            id: rangeValidator
         }
 
-        TextField{
-            Layout.fillWidth: true
-            text: component.eventName
+        RowLayout{
+            visible: (component instanceof DraggableSlider)
+            Text{
+                Layout.minimumWidth: layout.width / 2
+                text: qsTr("Min Value:")
+            }
 
-            onTextChanged: component.eventName = text
+            SpinBox{
+                id: sliderMinValue
+                Layout.fillWidth: true
+                from: rangeValidator.bottom
+                to: rangeValidator.top
+                value: component.minimumValue
+                editable: true
+                onValueChanged:{
+                    value = value > sliderMaxValue.value ? sliderMaxValue.value : value
+                    component.minimumValue = value
+                }
+
+            }
+        }
+
+        RowLayout{
+            visible: (component instanceof DraggableSlider)
+            Text{
+                Layout.minimumWidth: layout.width / 2
+                text: qsTr("Max Value:")
+            }
+
+            SpinBox{
+                id: sliderMaxValue
+                Layout.fillWidth: true
+                from: rangeValidator.bottom
+                to: rangeValidator.top
+                value: component.maximumValue
+                editable: true
+                onValueChanged: {
+                    value = value < sliderMinValue.value ? sliderMinValue.value : value
+                    component.maximumValue = value
+                }
+            }
+        }
+
+        RowLayout{
+            visible: (component instanceof DraggableSlider)
+            Text{
+                Layout.minimumWidth: layout.width / 2
+                text: "Show Value:"
+            }
+
+            CheckBox{
+                checked:  component.showValue
+                onCheckedChanged: component.showValue = checked
+            }
         }
 
         Keys.onReturnPressed: root.accept()
