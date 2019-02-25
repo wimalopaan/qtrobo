@@ -23,7 +23,7 @@ Dialog{
         rows: 3
 
         Text{
-            text: "Event Start:"
+            text: qsTr("Event Start:")
         }
 
         TextField{
@@ -34,7 +34,7 @@ Dialog{
         }
 
         Text{
-            text: "Event Value Separator:"
+            text: qsTr("Event Value Separator:")
         }
 
         TextField{
@@ -45,7 +45,7 @@ Dialog{
         }
 
         Text{
-            text: "Event End:"
+            text: qsTr("Event End:")
         }
 
         ComboBox{
@@ -77,13 +77,13 @@ Dialog{
 
     footer: RowLayout{
         Button{
-            text: "OK"
+            text: qsTr("OK")
             Layout.alignment: Qt.AlignCenter
             onClicked:  root.accept()
         }
 
         Button{
-            text: "Cancel"
+            text: qsTr("Cancel")
             Layout.alignment: Qt.AlignCenter
             onClicked: root.reject()
         }
