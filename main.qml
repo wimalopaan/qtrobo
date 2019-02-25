@@ -138,6 +138,19 @@ ApplicationWindow {
                 onTriggered: serialConnection.disconnectFromSerial()
             }
         }
+
+        Menu{
+            title: qsTr("S&ettings")
+
+            MenuItem{
+                text: qsTr("Events")
+                onTriggered: eventSettingsDialog.open()
+
+                EventSettingsDialog{
+                    id: eventSettingsDialog
+                }
+            }
+        }
     }
 
     header: RowLayout{

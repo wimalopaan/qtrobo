@@ -15,7 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     serialconnection.cpp \
-    layoutpersist.cpp
+    layoutpersist.cpp \
+    messageparser.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,7 +33,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     serialconnection.h \
-    layoutpersist.h
+    layoutpersist.h \
+    messageparser.h
 
 DISTFILES += \
     todo.txt

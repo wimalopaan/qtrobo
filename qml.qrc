@@ -19,5 +19,6 @@
         <file>SerialConnectionConfigDialog.qml</file>
         <file>GlobalDefinitions.qml</file>
         <file>qmldir</file>
+        <file>EventSettingsDialog.qml</file>
     </qresource>
 </RCC>

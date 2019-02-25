@@ -4,16 +4,25 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QDebug>
+#include <iostream>
 
-const char SerialConnection::EVENT_VALUE_DIVIDER;
+const char SerialConnection::DEFAULT_EVENT_START;
+const char SerialConnection::DEFAULT_EVENT_VALUE_DIVIDER;
+const char SerialConnection::DEFAULT_EVENT_END;
 
 SerialConnection::SerialConnection(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    mParser(this)
 {
     connect(&mSerialPort, SIGNAL(readyRead()), SLOT(onReadyRead()));
+    connect(&mParser, &MessageParser::messageParsed, this, &SerialConnection::onParsedValueReady);
 
     mSerialPort.setBaudRate(9600);
     mSerialPort.setStopBits(QSerialPort::TwoStop);
+
+    mParser.eventStart(DEFAULT_EVENT_START);
+    mParser.eventValueDivider(DEFAULT_EVENT_VALUE_DIVIDER);
+    mParser.eventEnd(DEFAULT_EVENT_END);
 }
 
 QStringList SerialConnection::serialInterfaces() const{
@@ -55,9 +64,9 @@ void SerialConnection::writeToSerial(const QString &eventName){
 }
 
 void SerialConnection::writeToSerial(const QString &eventName, const QVariant &value){
-    QString request{};
+    QString request;
     request += eventName;
-    request += EVENT_VALUE_DIVIDER;
+    request += mParser.eventValueDivider();
     request += value.toString();
 
     writeToSerial(request);
@@ -65,29 +74,25 @@ void SerialConnection::writeToSerial(const QString &eventName, const QVariant &v
 
 void SerialConnection::onReadyRead(){
     if(mSerialPort.isOpen()){
-        QByteArray mDataBuffer;
-        mDataBuffer.append(mSerialPort.readAll());
 
-        QString response{mDataBuffer};
+        QByteArray dataBuffer = mSerialPort.readAll();
 
+        mParser.parseData(dataBuffer);
 
-        if(!response.isEmpty()){
-            QStringList responseToken = response.split(EVENT_VALUE_DIVIDER);
-
-            if(responseToken.length() > 1)
-                emit dataChanged(responseToken[0], responseToken[1]);
-            else
-                emit dataChanged(QString{}, responseToken[0]);
-        }
     }
 }
 
+void SerialConnection::onParsedValueReady(MessageParser::Event event){
+    std::cout << event << std::endl;
+    emit dataChanged(event.eventName, event.value);
+}
+
 const QString& SerialConnection::data() const{
-    return mData;
+    return mEvent.eventName;
 }
 
 const QString& SerialConnection::eventName() const{
-    return mEventName;
+    return mEvent.value;
 }
 
 QString SerialConnection::portName() const{
@@ -120,4 +125,28 @@ QSerialPort::Parity SerialConnection::paritybit() const{
 
 void SerialConnection::paritybit(QSerialPort::Parity paritybit){
     mSerialPort.setParity(paritybit);
+}
+
+char SerialConnection::eventValueDivider() const{
+    return mParser.eventValueDivider();
+}
+
+void SerialConnection::eventValueDivider(char eventValueDivider){
+    mParser.eventValueDivider(eventValueDivider);
+}
+
+char SerialConnection::eventEnd() const{
+    return mParser.eventEnd();
+}
+
+void SerialConnection::eventEnd(char eventEnd){
+    mParser.eventEnd(eventEnd);
+}
+
+char SerialConnection::eventStart() const{
+    return mParser.eventStart();
+}
+
+void SerialConnection::eventStart(char eventStart){
+    mParser.eventStart(eventStart);
 }
