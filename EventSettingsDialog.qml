@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 
 Dialog{
     id: root
-    width: 200
+    width: 300
     title: qsTr("Event Settings")
 
     function getIndexFromValue(listModel, value){
@@ -34,29 +34,29 @@ Dialog{
         }
 
         Text{
-            text: "Separator:"
+            text: "Event Value Separator:"
         }
 
         TextField{
-            id: separator
+            id: eventValueDivider
             Layout.fillWidth: true
             text: String.fromCharCode(serialConnection.eventValueDivider)
             onTextChanged: text.length > 1 ? text = text.charAt(text.length - 1) : text
         }
 
         Text{
-            text: "EOL"
+            text: "Event End:"
         }
 
         ComboBox{
-            id: eol
+            id: eventEnd
             Layout.fillWidth: true
             textRole: "description"
-            currentIndex: getIndexFromValue(eolModel, serialConnection.eventEOL)
-            property var currentItem: eolModel.get(currentIndex)
+            currentIndex: getIndexFromValue(eventEndModel, serialConnection.eventEnd)
+            property var currentItem: eventEndModel.get(currentIndex)
 
             model: ListModel{
-                id: eolModel
+                id: eventEndModel
                 ListElement{
                     description: "\\n"
                     value: "\n"
@@ -93,9 +93,9 @@ Dialog{
         if(eventStart.text)
             serialConnection.eventStart = eventStart.text.charCodeAt(0)
 
-        if(separator.text)
-            serialConnection.eventValueDivider = separator.text.charCodeAt(0)
+        if(eventValueDivider.text)
+            serialConnection.eventValueDivider = eventValueDivider.text.charCodeAt(0)
 
-        serialConnection.eventEOL = eol.currentItem.value.charCodeAt(0)
+        serialConnection.eventEnd = eventEnd.currentItem.value.charCodeAt(0)
     }
 }

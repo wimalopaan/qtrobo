@@ -20,7 +20,7 @@ class SerialConnection: public QObject
     Q_PROPERTY(QSerialPort::StopBits stopbit READ stopbit WRITE stopbit NOTIFY stopbitChanged)
     Q_PROPERTY(QSerialPort::Parity paritybit READ paritybit WRITE paritybit NOTIFY paritybitChanged)
     Q_PROPERTY(char eventValueDivider READ eventValueDivider WRITE eventValueDivider NOTIFY eventValueDividerChanged)
-    Q_PROPERTY(char eventEOL READ eventEnd WRITE eventEnd NOTIFY eventEOLChanged)
+    Q_PROPERTY(char eventEnd READ eventEnd WRITE eventEnd NOTIFY eventEndChanged)
     Q_PROPERTY(char eventStart READ eventStart WRITE eventStart NOTIFY eventStartChanged)
 
 public:
@@ -64,7 +64,7 @@ signals:
     void stopbitChanged(QSerialPort::StopBits stopbit);
     void paritybitChanged(QSerialPort::Parity parity);
     void eventValueDividerChanged(char eventValueDivider);
-    void eventEOLChanged(char eventEOL);
+    void eventEndChanged(char eventEnd);
     void eventStartChanged(char eventStart);
 
 public slots:
