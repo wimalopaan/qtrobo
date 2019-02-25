@@ -342,7 +342,10 @@ ApplicationWindow {
                     height: child.height,
                     label: child.label,
                     eventName: child.eventName,
-                    color: child.color
+                    color: child.color,
+                    minimumValue: child.minimumValue,
+                    maximumValue: child.maximumValue,
+                    showValue: child.showValue
                 }
 
                 objs.push(obj)
@@ -379,6 +382,12 @@ ApplicationWindow {
                     object.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
                 if(obj.orientation)
                     object.orientation = obj.orientation
+                if(obj.minimumValue)
+                    object.minimumValue = obj.minimumValue
+                if(obj.maximumValue)
+                    object.maximumValue = obj.maximumValue
+                if(obj.showValue !== undefined)
+                    object.showValue = obj.showValue
             }
         }
     }
