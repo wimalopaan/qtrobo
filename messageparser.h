@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include <QByteArray>
+#include <QDebug>
 #include <iostream>
 
 class MessageParser: public QObject
@@ -35,6 +36,7 @@ public:
     void parseData(const QByteArray& data);
 
     friend std::ostream& operator<<(std::ostream& out, const Event& event);
+    friend QDebug operator<<(QDebug debug, const Event& event);
 
 signals:
     void messageParsed(Event event);

@@ -66,3 +66,9 @@ void MessageParser::parseData(const QByteArray& data){
 std::ostream& operator<<(std::ostream& out, const MessageParser::Event& event){
     return out << "Event[event:" << event.eventName.toStdString() << ",value:" << event.value.toStdString() << "]";
 }
+
+QDebug operator<<(QDebug debug, const MessageParser::Event& event){
+    QDebugStateSaver saver{debug};
+    debug.nospace() << "Event[event:" << event.eventName << ",value:" << event.value << "]";
+    return debug;
+}

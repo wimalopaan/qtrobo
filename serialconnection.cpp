@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QDebug>
-#include <iostream>
 
 const char SerialConnection::DEFAULT_EVENT_START;
 const char SerialConnection::DEFAULT_EVENT_VALUE_DIVIDER;
@@ -83,7 +82,7 @@ void SerialConnection::onReadyRead(){
 }
 
 void SerialConnection::onParsedValueReady(MessageParser::Event event){
-    std::cout << event << std::endl;
+    qDebug() << event;
     emit dataChanged(event.eventName, event.value);
 }
 
