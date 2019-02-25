@@ -11,10 +11,6 @@ Prio 1:
 * Überschreiben-Dialog
 * Anzeige des Sliderwertes (optional): absolut / prozentual
 * Numerisches Eingabefeld (gazzahlig) mit up/down
-* end-of-line änderbar
-* keine '\0' mitsenden
-* separator ':'änderbar
-* half-duplex möglich (receive-after-send?)
 
 Prio 2:
 
@@ -25,6 +21,7 @@ Prio 2:
 * Graph-Anzeige (über Anzahl der Werte)
 (* Drehknopf)
 * senden an eine pipe/local-socket: Pfadname
+* Localization
 
 Erledigt:
 
@@ -34,3 +31,9 @@ Erledigt:
 * Slider mit Mittelstellungrastung bzw. Rückstellung beim Loslassen
 * Baudrate / stop-bits / parity
 * Raster-Layout
+* end-of-line änderbar
+* keine '\0' mitsenden
+* separator ':'änderbar
+
+Verworfen:
+* half-duplex möglich (receive-after-send?)
