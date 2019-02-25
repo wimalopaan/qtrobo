@@ -61,7 +61,7 @@ Item {
             }
         }
 
-        Component.onDestruction: target = null
+        Component.onDestruction: target = undefined
     }
 
     ColorPickerKnob{

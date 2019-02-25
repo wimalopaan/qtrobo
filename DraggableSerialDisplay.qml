@@ -66,7 +66,7 @@ Rectangle{
                     }
                 }
 
-                Component.onDestruction: target = null
+                Component.onDestruction: target = undefined
             }
         }
     }

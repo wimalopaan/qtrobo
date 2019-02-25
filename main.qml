@@ -46,7 +46,7 @@ ApplicationWindow {
             }
             else if(pressedButtons & Qt.LeftButton && GlobalDefinitions.isEditMode){
                 var child = contentPane.currentItem.childAt(mouseX, mouseY)
-                if(child !== null){
+                if(child){
                     drag.target = child
                     drag.axis = Drag.XAndYAxis
                     drag.minimumX = dragPadding
@@ -56,10 +56,10 @@ ApplicationWindow {
                 }
             }
         }
-        onReleased: drag.target = null
+        onReleased: drag.target = undefined
 
         onPositionChanged: {
-            if(drag.active && drag.target !== null && GlobalDefinitions.isGridMode){
+            if(drag.active && !drag.target && GlobalDefinitions.isGridMode){
                 drag.target.x = drag.target.x - (drag.target.x % GlobalDefinitions.gridModeStepSize)
                 drag.target.y = drag.target.y - (drag.target.y % GlobalDefinitions.gridModeStepSize)
             }
@@ -362,7 +362,7 @@ ApplicationWindow {
             while(obj.layoutTab >= tabBar.count)
                 createTab()
 
-            var component = null;
+            var component = undefined;
             if(obj.type === "DraggableButton"){
                 component = Qt.createComponent("DraggableButton.qml")
             }else if(obj.type === "DraggableSlider"){

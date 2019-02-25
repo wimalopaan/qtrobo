@@ -63,7 +63,7 @@ Dialog{
                 Layout.fillWidth: true
                 from: rangeValidator.bottom
                 to: rangeValidator.top
-                value: component.minimumValue
+                value: component.minimumValue !== undefined ? component.minimumValue : 0
                 editable: true
                 onValueChanged:{
                     value = value > sliderMaxValue.value ? sliderMaxValue.value : value
@@ -85,7 +85,7 @@ Dialog{
                 Layout.fillWidth: true
                 from: rangeValidator.bottom
                 to: rangeValidator.top
-                value: component.maximumValue
+                value: component.maximumValue !== undefined ? component.maximumValue : 0
                 editable: true
                 onValueChanged: {
                     value = value < sliderMinValue.value ? sliderMinValue.value : value
@@ -102,7 +102,7 @@ Dialog{
             }
 
             CheckBox{
-                checked:  component.showValue
+                checked:  component.showValue !== undefined ? component.showValue : false
                 onCheckedChanged: component.showValue = checked
             }
         }
