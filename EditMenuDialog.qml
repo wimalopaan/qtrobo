@@ -95,7 +95,7 @@ Dialog{
         }
 
         RowLayout{
-            visible: (component instanceof DraggableSlider)
+            visible: (component instanceof DraggableSlider || component instanceof DraggableBalanceSlider)
             Text{
                 Layout.minimumWidth: layout.width / 2
                 text: "Show Value:"

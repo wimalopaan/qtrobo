@@ -9,6 +9,7 @@ Item{
     property string eventName
     property alias enabled: slider.enabled
     property alias orientation: slider.orientation
+    property alias showValue: currentValue.visible
 
     width: 200
     height: 30
@@ -62,6 +63,14 @@ Item{
             font.pointSize: 12
             anchors.bottom: parent.top
             anchors.left: parent.left
+        }
+
+        Label{
+            id: currentValue
+            text: parent.value.toFixed(0) + " / " + Math.abs(parent.value).toFixed(2) + "%"
+            anchors.top: parent.bottom
+            anchors.topMargin: 10
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         onValueChanged: serialConnection.writeToSerial(eventName, value)
