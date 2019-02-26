@@ -40,6 +40,17 @@ ApplicationWindow {
                 tab.editEnabled = GlobalDefinitions.isEditMode
             }
         }
+
+        onHasLayoutBeenEditedChanged:{
+            layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && layoutPersist.isFilenameValid
+        }
+    }
+
+    Component.onCompleted: GlobalDefinitions.layoutPersisted()
+
+    Shortcut{
+        sequence: StandardKey.Save
+        onActivated: saveCurrentChanges()
     }
 
     MouseArea{
@@ -86,7 +97,7 @@ ApplicationWindow {
             title: qsTr("&File")
 
             MenuItem{
-                text: qsTr("&New Layout")
+                text: qsTr("&New")
                 onTriggered: {
                     clearTabBar()
                     layoutPersist.filename = ""
@@ -94,7 +105,14 @@ ApplicationWindow {
             }
 
             MenuItem{
-                text: qsTr("&Save Layout")
+                id: layoutSaveMenu
+                text: qsTr("&Save")
+                enabled: layoutPersist.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
+                onTriggered: saveCurrentChanges()
+            }
+
+            MenuItem{
+                text: qsTr("&Save As")
                 onTriggered: layoutStoreDialog.open()
 
                 FileDialog{
@@ -127,7 +145,7 @@ ApplicationWindow {
             }
 
             MenuItem{
-                text: qsTr("&Load Layout")
+                text: qsTr("&Load")
                 onTriggered: layoutLoadDialog.open()
 
 
@@ -436,6 +454,13 @@ ApplicationWindow {
                 if(obj.showValue !== undefined)
                     object.showValue = obj.showValue
             }
+        }
+    }
+
+    function saveCurrentChanges(){
+        if(layoutPersist.isFilenameValid){
+            layoutPersist.layout = window.layoutToArray()
+            GlobalDefinitions.layoutPersisted()
         }
     }
 }
