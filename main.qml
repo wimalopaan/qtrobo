@@ -82,7 +82,7 @@ ApplicationWindow {
         onReleased: drag.target = undefined
 
         onPositionChanged: {
-            if(drag.active && !drag.target && GlobalDefinitions.isGridMode){
+            if(drag.active && drag.target && GlobalDefinitions.isGridMode){
                 drag.target.x = drag.target.x - (drag.target.x % GlobalDefinitions.gridModeStepSize)
                 drag.target.y = drag.target.y - (drag.target.y % GlobalDefinitions.gridModeStepSize)
             }
