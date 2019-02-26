@@ -399,6 +399,7 @@ ApplicationWindow {
 
                 var obj = {
                     layoutTab: i,
+                    layoutTabName: tabBar.itemAt(i).text,
                     type: child.objectName,
                     x: child.x,
                     y: child.y,
@@ -426,6 +427,9 @@ ApplicationWindow {
 
             while(obj.layoutTab >= tabBar.count)
                 createTab()
+
+            if(tabBar.itemAt(obj.layoutTab))
+               tabBar.itemAt(obj.layoutTab).text = obj.layoutTabName
 
             var component = undefined;
             if(obj.type === "DraggableButton"){
