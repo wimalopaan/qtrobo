@@ -98,7 +98,7 @@ QString SerialConnection::portName() const{
     return mSerialPort.portName();
 }
 
-bool SerialConnection::isConnected(){
+bool SerialConnection::isConnected() const{
     return mSerialPort.isOpen();
 }
 

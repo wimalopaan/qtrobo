@@ -31,7 +31,7 @@ public:
     Q_INVOKABLE void disconnectFromSerial();
     Q_INVOKABLE void writeToSerial(const QString &eventName);
     Q_INVOKABLE void writeToSerial(const QString &eventName, const QVariant &value);
-    Q_INVOKABLE bool isConnected();
+    Q_INVOKABLE bool isConnected() const;
 
     const QString& data() const;
 
