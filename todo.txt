@@ -4,22 +4,20 @@ Prio 1:
 
 * Schriftfarbe
 * Controlfarbe
-* Slider-Wertebereich (Integer)
 * Drop-Down-Button
 * Prüffeld: bekommt einen String gesendet, prüft ob der einem eingetragenen String entspricht, Ja: wird grün, Nein: wird rot
 * automatisch speichern
 * Überschreiben-Dialog
-* Anzeige des Sliderwertes (optional): absolut / prozentual
 * Numerisches Eingabefeld (gazzahlig) mit up/down
+* Bildfeld (.png, jpg, ...) (ohne Funktion)
 
 Prio 2:
 
 * Füllstandsmesseranzeige
 * Drehspulinstrumentanzeige
 * Slider-Koppelelement 
-* Bildfeld (.png, jpg, ...) (ohne Funktion)
 * Graph-Anzeige (über Anzahl der Werte)
-(* Drehknopf)
+(* Drehknopf / Poti)
 * senden an eine pipe/local-socket: Pfadname
 * Localization
 
@@ -34,6 +32,8 @@ Erledigt:
 * end-of-line änderbar
 * keine '\0' mitsenden
 * separator ':'änderbar
+* Slider-Wertebereich (Integer)
+* Anzeige des Sliderwertes (optional): absolut / prozentual
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
