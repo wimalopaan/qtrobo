@@ -36,9 +36,6 @@ void LayoutPersist::layout(const QJsonArray& layout){
 bool LayoutPersist::isFilenameValid() const{
     QFileInfo layoutFileInfo{mFilename.toLocalFile()};
     bool isValid = layoutFileInfo.exists() && layoutFileInfo.isFile() && layoutFileInfo.isWritable() && 0 == layoutFileInfo.suffix().compare("json", Qt::CaseInsensitive);
-
-    qDebug() << "Is Valid: " << isValid;
-
     return isValid;
 }
 

@@ -97,7 +97,7 @@ ApplicationWindow {
             title: qsTr("&File")
 
             MenuItem{
-                text: qsTr("&New")
+                text: qsTr("&New File")
                 onTriggered: {
                     clearTabBar()
                     layoutPersist.filename = ""
@@ -106,18 +106,18 @@ ApplicationWindow {
 
             MenuItem{
                 id: layoutSaveMenu
-                text: qsTr("&Save")
+                text: qsTr("&Save File")
                 enabled: layoutPersist.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
                 onTriggered: saveCurrentChanges()
             }
 
             MenuItem{
-                text: qsTr("&Save As")
+                text: qsTr("&Save As File")
                 onTriggered: layoutStoreDialog.open()
 
                 FileDialog{
                     id: layoutStoreDialog
-                    title: qsTr("Save Layout")
+                    title: qsTr("Save Layout File")
                     sidebarVisible: false
                     selectExisting: false
                     favoriteFolders: false
@@ -145,13 +145,13 @@ ApplicationWindow {
             }
 
             MenuItem{
-                text: qsTr("&Load")
+                text: qsTr("&Open File")
                 onTriggered: layoutLoadDialog.open()
 
 
                 FileDialog{
                     id: layoutLoadDialog
-                    title: qsTr("Load Layout")
+                    title: qsTr("Open Layout File")
                     selectExisting: true
                     sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
