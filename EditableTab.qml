@@ -6,6 +6,8 @@ TabButton{
     font.capitalization: Font.MixedCase
     property alias editEnabled: editMouseArea.enabled
 
+    onTextChanged: GlobalDefinitions.layoutEdited()
+
     MouseArea{
         id: editMouseArea
         anchors.fill: parent

@@ -21,6 +21,8 @@ Text{
                 var rootHeight = root.height
                 root.height = root.width
                 root.width = rootHeight
+
+                GlobalDefinitions.layoutEdited()
             }
         }
     }

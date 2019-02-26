@@ -9,12 +9,15 @@ Item{
     property string eventName
     property alias label: button.text
     property alias enabled: button.enabled
+
     Button{
         id: button
         anchors.fill: parent
         text: qsTr("New Button")
         enabled: false
         font.pointSize: 12
+
+        onTextChanged: GlobalDefinitions.layoutEdited()
 
         onPressed:{
             serialConnection.writeToSerial(eventName);

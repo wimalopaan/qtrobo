@@ -14,6 +14,17 @@ ApplicationWindow {
     Material.theme: Material.Light
     Material.accent: Material.Indigo
 
+    property bool closingWindow: false
+
+    onClosing: {
+        if(GlobalDefinitions.hasLayoutBeenEdited && !closingWindow){
+            close.accepted = false
+            closingWindow = true
+
+            layoutStoreDialog.open()
+        }
+    }
+
     Connections{
         target: GlobalDefinitions
         onIsEditModeChanged:{
@@ -53,6 +64,7 @@ ApplicationWindow {
                     drag.maximumX = contentPane.width - dragPadding - drag.target.width
                     drag.minimumY = dragPadding
                     drag.maximumY = contentPane.height - dragPadding - drag.target.height
+                    GlobalDefinitions.layoutEdited()
                 }
             }
         }
@@ -75,7 +87,10 @@ ApplicationWindow {
 
             MenuItem{
                 text: qsTr("&New Layout")
-                onTriggered: clearTabBar()
+                onTriggered: {
+                    clearTabBar()
+                    layoutPersist.filename = ""
+                }
             }
 
             MenuItem{
@@ -84,11 +99,16 @@ ApplicationWindow {
 
                 FileDialog{
                     id: layoutStoreDialog
-                    title: "Save Layout"
+                    title: qsTr("Save Layout")
                     sidebarVisible: false
                     selectExisting: false
                     favoriteFolders: false
                     nameFilters: "Layout files (*.json)"
+
+                    onRejected: {
+                        if(closingWindow)
+                            window.close()
+                    }
 
                     onAccepted: {
                         if(!fileUrl.toString().endsWith(".json"))
@@ -98,6 +118,10 @@ ApplicationWindow {
 
                         layoutPersist.layout = window.layoutToArray()
 
+                        GlobalDefinitions.layoutPersisted()
+
+                        if(closingWindow)
+                            window.close()
                     }
                 }
             }
@@ -117,6 +141,7 @@ ApplicationWindow {
                         clearTabBar()
                         layoutPersist.filename = fileUrl
                         window.arrayToLayout(layoutPersist.layout)
+                        GlobalDefinitions.layoutPersisted()
                     }
                 }
             }
@@ -188,17 +213,25 @@ ApplicationWindow {
         height: 20
         color: "lightgray"
 
+        RowLayout{
+            anchors.fill: parent
+            Text{
+                id: connectionStatus
+                Layout.alignment: Layout.Center
+                text: connectionStatus.text = "Serial Port: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+            }
+
+            Connections{
+                target: serialConnection
+                onConnectionStateChanged: connectionStatus.text = "Serial Port: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+            }
+
+
         Text{
-            id: connectionStatus
-            text: connectionStatus.text = "Status: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
-            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Status: " + (GlobalDefinitions.hasLayoutBeenEdited ? "Unsaved changes" : "Saved")
+            Layout.alignment: Layout.Center
         }
-
-        Connections{
-            target: serialConnection
-            onConnectionStateChanged: connectionStatus.text = "Status: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
-        }
-
+    }
     }
 
     StackLayout{
@@ -243,6 +276,8 @@ ApplicationWindow {
 
         var component = Qt.createComponent("DraggableButton.qml")
         component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function createButtonWithIndicator(x, y){
@@ -253,6 +288,8 @@ ApplicationWindow {
 
         var component = Qt.createComponent("DraggableIndicatorButton.qml")
         component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function createSlider(x, y){
@@ -263,6 +300,8 @@ ApplicationWindow {
 
         var component = Qt.createComponent("DraggableSlider.qml")
         component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function createDisplay(x, y){
@@ -273,6 +312,8 @@ ApplicationWindow {
 
         var component = Qt.createComponent("DraggableSerialDisplay.qml")
         component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function createLED(x, y){
@@ -293,6 +334,8 @@ ApplicationWindow {
 
         var component = Qt.createComponent("DraggableBalanceSlider.qml")
         component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function createTab(){
@@ -302,6 +345,8 @@ ApplicationWindow {
         var tabPane = Qt.createQmlObject("import QtQuick 2.9; Item{}", contentPane)
         tabPane.Layout.fillWidth = true
         tabPane.Layout.fillHeight = true
+
+        GlobalDefinitions.layoutEdited()
     }
 
     function destroyTab(){
@@ -311,6 +356,8 @@ ApplicationWindow {
                 paneChildren[i-1].destroy()
 
             tabBar.removeItem(tabBar.count - 1)
+
+            GlobalDefinitions.layoutEdited()
         }
     }
 

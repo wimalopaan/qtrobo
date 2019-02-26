@@ -13,6 +13,9 @@ Text{
     MouseArea{
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
-        onClicked: root.destroy()
+        onClicked: {
+            root.destroy()
+            GlobalDefinitions.layoutEdited()
+        }
     }
 }

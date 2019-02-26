@@ -108,5 +108,8 @@ Dialog{
         }
 
         Keys.onReturnPressed: root.accept()
+
     }
+
+    onAccepted: GlobalDefinitions.layoutEdited()
 }
