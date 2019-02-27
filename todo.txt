@@ -1,5 +1,8 @@
 QtRobo:
 
+Bugs:
+* Slider mit Rückstellung kann nicht gedreht werden
+
 Prio 1:
 
 * Schriftfarbe
