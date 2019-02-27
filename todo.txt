@@ -6,8 +6,6 @@ Prio 1:
 * Controlfarbe
 * Drop-Down-Button
 * Prüffeld: bekommt einen String gesendet, prüft ob der einem eingetragenen String entspricht, Ja: wird grün, Nein: wird rot
-* automatisch speichern
-* Überschreiben-Dialog
 * Numerisches Eingabefeld (gazzahlig) mit up/down
 * Bildfeld (.png, jpg, ...) (ohne Funktion)
 
@@ -34,6 +32,8 @@ Erledigt:
 * separator ':'änderbar
 * Slider-Wertebereich (Integer)
 * Anzeige des Sliderwertes (optional): absolut / prozentual
+* Überschreiben-Dialog
+* automatisch speichern (Generelle Speicherfunktion ähnlich bsp. Word, Save - Ctrl+S, Save As, Open)
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
