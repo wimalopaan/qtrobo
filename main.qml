@@ -122,6 +122,7 @@ ApplicationWindow {
                     selectExisting: false
                     favoriteFolders: false
                     nameFilters: "Layout files (*.json)"
+                    folder: shortcuts.home
 
                     onRejected: {
                         if(closingWindow)
@@ -155,6 +156,7 @@ ApplicationWindow {
                     selectExisting: true
                     sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
+                    folder: shortcuts.home
                     onAccepted: {
                         clearTabBar()
                         layoutPersist.filename = fileUrl
