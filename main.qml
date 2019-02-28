@@ -470,21 +470,21 @@ ApplicationWindow {
                 component = Qt.createComponent("DraggableDropdown.qml")
 
             if(component){
-                var object = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
+                var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
                 if(obj.color)
-                    object.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
+                    componentObject.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
                 if(obj.orientation)
-                    object.orientation = obj.orientation
+                    componentObject.orientation = obj.orientation
                 if(obj.minimumValue)
-                    object.minimumValue = obj.minimumValue
+                    componentObject.minimumValue = obj.minimumValue
                 if(obj.maximumValue)
-                    object.maximumValue = obj.maximumValue
+                    componentObject.maximumValue = obj.maximumValue
                 if(obj.showValue)
                     object.showValue = obj.showValue
                 if(obj.modelEntries){
-                    object.model.clear()
+                    componentObject.model.clear()
                     for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
-                        object.model.append(obj.modelEntries[modelIndex])
+                        componentObject.model.append(obj.modelEntries[modelIndex])
                 }
             }
         }
