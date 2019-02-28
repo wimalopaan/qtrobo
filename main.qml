@@ -411,6 +411,13 @@ ApplicationWindow {
             for(var j = 0; j < children.length; ++j){
                 var child = children[j]
 
+                var modelEntries = [];
+
+                if(child.model){
+                    for(var modelIndex = 0; modelIndex < child.model.count; ++modelIndex)
+                        modelEntries.push(child.model.get(modelIndex))
+                }
+
                 var obj = {
                     layoutTab: i,
                     layoutTabName: tabBar.itemAt(i).text,
@@ -425,7 +432,8 @@ ApplicationWindow {
                     color: child.color,
                     minimumValue: child.minimumValue,
                     maximumValue: child.maximumValue,
-                    showValue: child.showValue
+                    showValue: child.showValue,
+                    modelEntries: modelEntries.length > 0 ? modelEntries : undefined
                 }
 
                 objs.push(obj)
@@ -456,8 +464,10 @@ ApplicationWindow {
                 component = Qt.createComponent("DraggableSerialDisplay.qml")
             }else if(obj.type === "DraggableIndicatorButton")
                 component = Qt.createComponent("DraggableIndicatorButton.qml")
-            else if("DraggableLED.qml")
+            else if(obj.type === "DraggableLED.qml")
                 component = Qt.createComponent("DraggableLED.qml")
+            else if(obj.type === "DraggableDropdown")
+                component = Qt.createComponent("DraggableDropdown.qml")
 
             if(component){
                 var object = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
@@ -469,8 +479,13 @@ ApplicationWindow {
                     object.minimumValue = obj.minimumValue
                 if(obj.maximumValue)
                     object.maximumValue = obj.maximumValue
-                if(obj.showValue !== undefined)
+                if(obj.showValue)
                     object.showValue = obj.showValue
+                if(obj.modelEntries){
+                    object.model.clear()
+                    for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
+                        object.model.append(obj.modelEntries[modelIndex])
+                }
             }
         }
     }

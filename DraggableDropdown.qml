@@ -14,6 +14,8 @@ Rectangle {
     property string eventName
     property alias label: label.text
     property alias enabled: comboBox.enabled
+    property alias comboBox: comboBox
+    property alias model: comboBox.model
 
     ColumnLayout{
         anchors.fill: parent
@@ -29,16 +31,31 @@ Rectangle {
         ComboBox{
             id: comboBox
             enabled: false
-            textRole: "text"
+            textRole: "entry"
             Layout.fillWidth: true
             model: ListModel{
-
+                ListElement{
+                    entry: "Entry 1"
+                }
             }
-            onCurrentIndexChanged: console.log(model.get(currentIndex).text)
+            onCurrentIndexChanged: {
+                if(eventName)
+                    serialConnection.writeToSerial(eventName, comboBox.currentIndex)
+            }
         }
     }
 
     RightClickEdit{
+        root: root
+        enabled: !root.enabled
+    }
+
+    ScaleKnob{
+        root: root
+        enabled: !root.enabled
+    }
+
+    DeleteComponentKnob{
         root: root
         enabled: !root.enabled
     }
