@@ -12,6 +12,7 @@ Dialog{
     property var component
 
     contentItem: ColumnLayout{
+        spacing: 50
         TabBar{
             id: tabBar
             Layout.fillWidth: true
