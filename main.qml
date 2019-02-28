@@ -358,6 +358,18 @@ ApplicationWindow {
         GlobalDefinitions.layoutEdited()
     }
 
+    function createDropdown(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
+        var component = Qt.createComponent("DraggableDropdown.qml")
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
+
+        GlobalDefinitions.layoutEdited()
+    }
+
     function createTab(){
         var component = Qt.createComponent("EditableTab.qml")
         var newTab = component.createObject(tabBar)

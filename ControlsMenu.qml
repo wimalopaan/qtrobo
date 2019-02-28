@@ -34,4 +34,9 @@ Menu{
         text: qsTr("LED")
         onTriggered: root.createLED()
     }
+
+    MenuItem{
+        text: qsTr("Dropdown")
+        onTriggered: root.createDropdown()
+    }
 }

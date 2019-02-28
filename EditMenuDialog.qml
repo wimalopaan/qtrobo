@@ -11,104 +11,75 @@ Dialog{
 
     property var component
 
-    contentItem:  ColumnLayout{
-        id: layout
-
-        //------ General
-        RowLayout{
-
-            Text{
-                text: "Control Name:"
-                Layout.minimumWidth: layout.width / 2
+    contentItem: ColumnLayout{
+        TabBar{
+            id: tabBar
+            Layout.fillWidth: true
+            TabButton{
+                text: "General"
+                font.capitalization: Font.MixedCase
             }
-
-            TextField{
-                Layout.fillWidth: true
-                text: component.label
-
-                onTextChanged: component.label = text
+            TabButton{
+                text: component.displayedName
+                font.capitalization: Font.MixedCase
+                enabled: loadComponentMenu(component) !== ""
             }
         }
 
-        RowLayout{
-            Text{
-                text: "Event Name:"
-                Layout.minimumWidth: layout.width / 2
-            }
+        StackLayout{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            TextField{
+            currentIndex: tabBar.currentIndex
+
+            GridLayout{
+                columns: 2
                 Layout.fillWidth: true
-                text: component.eventName
+                Text{
+                    Layout.fillWidth: true
+                    text: "Control Name:"
+                }
 
-                onTextChanged: component.eventName = text
-            }
+                TextField{
+                    Layout.fillWidth: true
+                    text: component.label
 
-        }
+                    onTextChanged: component.label = text
+                }
 
-        //----- Slider
+                Text{
+                    Layout.fillWidth: true
+                    text: "Event Name:"
+                }
 
-        IntValidator{
-            id: rangeValidator
-        }
+                TextField{
+                    Layout.fillWidth: true
+                    text: component.eventName
 
-        RowLayout{
-            visible: (component instanceof DraggableSlider)
-            Text{
-                Layout.minimumWidth: layout.width / 2
-                text: qsTr("Min Value:")
-            }
-
-            SpinBox{
-                id: sliderMinValue
-                Layout.fillWidth: true
-                from: rangeValidator.bottom
-                to: rangeValidator.top
-                value: component.minimumValue !== undefined ? component.minimumValue : 0
-                editable: true
-                onValueChanged:{
-                    value = value > sliderMaxValue.value ? sliderMaxValue.value : value
-                    component.minimumValue = value
+                    onTextChanged: component.eventName = text
                 }
 
             }
-        }
 
-        RowLayout{
-            visible: (component instanceof DraggableSlider)
-            Text{
-                Layout.minimumWidth: layout.width / 2
-                text: qsTr("Max Value:")
-            }
-
-            SpinBox{
-                id: sliderMaxValue
+            Loader{
+                source:loadComponentMenu(component)
+                onLoaded: item.component = component
                 Layout.fillWidth: true
-                from: rangeValidator.bottom
-                to: rangeValidator.top
-                value: component.maximumValue !== undefined ? component.maximumValue : 0
-                editable: true
-                onValueChanged: {
-                    value = value < sliderMinValue.value ? sliderMinValue.value : value
-                    component.maximumValue = value
-                }
             }
         }
-
-        RowLayout{
-            visible: (component instanceof DraggableSlider || component instanceof DraggableBalanceSlider)
-            Text{
-                Layout.minimumWidth: layout.width / 2
-                text: "Show Value:"
-            }
-
-            CheckBox{
-                checked:  component.showValue !== undefined ? component.showValue : false
-                onCheckedChanged: component.showValue = checked
-            }
-        }
-
         Keys.onReturnPressed: root.accept()
+    }
 
+
+    function loadComponentMenu(component){
+        if(component instanceof DraggableDropdown)
+            return "DraggableDropdownMenu.qml"
+        else if(component instanceof DraggableSlider)
+            return "DraggableSliderMenu.qml"
+        else if(component instanceof DraggableBalanceSlider)
+            return "DraggableBalanceSliderMenu.qml"
+        else
+            return ""
     }
 
     onAccepted: GlobalDefinitions.layoutEdited()

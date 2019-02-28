@@ -3,16 +3,17 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
 Rectangle{
-    property alias label: displayName.text
-    property alias enabled: textArea.enabled
-    property string eventName
-
     id: root
     width: 300
     height: 150
     objectName: "DraggableSerialDisplay"
     border.color: "lightgray"
     border.width: 2
+
+    property string displayedName: qsTr("Serial Display")
+    property alias label: displayName.text
+    property alias enabled: textArea.enabled
+    property string eventName
 
     Label{
         id: displayName

@@ -5,6 +5,8 @@ import QtQuick.Controls.Material 2.3
 
 Item{
     id: root
+
+    property string displayedName: qsTr("Balance Slider")
     property alias label: label.text
     property string eventName
     property alias enabled: slider.enabled

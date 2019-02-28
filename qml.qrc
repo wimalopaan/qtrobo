@@ -20,5 +20,9 @@
         <file>GlobalDefinitions.qml</file>
         <file>qmldir</file>
         <file>EventSettingsDialog.qml</file>
+        <file>DraggableDropdown.qml</file>
+        <file>DraggableDropdownMenu.qml</file>
+        <file>DraggableSliderMenu.qml</file>
+        <file>DraggableBalanceSliderMenu.qml</file>
     </qresource>
 </RCC>

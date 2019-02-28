@@ -4,6 +4,8 @@ import QtQuick.Controls.Styles 1.4
 
 Item{
     id: root
+
+    property string displayedName: qsTr("Slider")
     property alias label: label.text
     property string eventName
     property alias enabled: slider.enabled

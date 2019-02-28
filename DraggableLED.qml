@@ -4,6 +4,8 @@ import QtGraphicalEffects 1.12
 import QtQuick.Dialogs 1.3
 
 Item {
+
+    property string displayedName: qsTr("LED")
     property string eventName
     property alias label: label.text
     property alias enabled: led.enabled

@@ -6,6 +6,7 @@ Item{
     width: 200
     height: 50
     objectName: "DraggableButton"
+    property string displayedName: qsTr("Button")
     property string eventName
     property alias label: button.text
     property alias enabled: button.enabled
