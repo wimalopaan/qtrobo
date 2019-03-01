@@ -9,8 +9,8 @@ Item{
     property string displayedName: qsTr("Balance Slider")
     property alias label: label.text
     property string eventName
-    property alias enabled: slider.enabled
     property alias orientation: slider.orientation
+    property alias enabled: slider.enabled
     property alias showValue: currentValue.visible
 
     width: 200
@@ -26,19 +26,20 @@ Item{
         enabled: false
         value: 0
         background: Rectangle {
-            x: slider.leftPadding
-            y: slider.topPadding + slider.availableHeight / 2 - height / 2
-            implicitWidth: root.width
-            implicitHeight: 1
-            width: slider.availableWidth
-            height: implicitHeight
+            x: slider.orientation === Qt.Horizontal ? slider.leftPadding : slider.leftPadding + slider.width / 2 - slider.handle.width / 2
+            y: slider.orientation === Qt.Horizontal ? slider.topPadding + slider.height / 2 - slider.handle.height / 2 : slider.topPadding
+
+            width: slider.orientation === Qt.Horizontal ? slider.width - slider.handle.width : 1
+            height: slider.orientation === Qt.Horizontal ? 1 : slider.height - slider.handle.height
+
             color: "black"
 
             Rectangle {
-                property int middle: slider.x + slider.width * 0.5
-                width: slider.visualPosition > 0.5 ? slider.handle.x - middle : middle - slider.handle.x - slider.x
-                x: slider.visualPosition > 0.5 ? middle : slider.handle.x
-                height: 3
+                property int middle: slider.orientation === Qt.Horizontal ? slider.x + slider.width * 0.5 : slider.y + slider.height * 0.5
+                width: slider.orientation === Qt.Horizontal ? (slider.visualPosition > 0.5 ? slider.handle.x - middle : middle - slider.handle.x - slider.x) : 3
+                x: slider.orientation === Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.x : 0
+                y: slider.orientation !== Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.y : 0
+                height: slider.orientation === Qt.Horizontal ? 3 : (slider.visualPosition > 0.5 ? slider.handle.y - middle : middle - slider.handle.y)
                 color:  Material.color(Material.Indigo)
                 radius: 2
             }
@@ -99,6 +100,12 @@ Item{
 
     RightClickEdit{
         root: root
+        enabled: !slider.enabled
+    }
+
+    RotateKnob{
+        root: root
+        orientation: slider
         enabled: !slider.enabled
     }
 }

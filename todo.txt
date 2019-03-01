@@ -1,7 +1,6 @@
 QtRobo:
 
 Bugs:
-* Slider mit Rückstellung kann nicht gedreht werden
 
 Prio 1:
 
@@ -37,6 +36,7 @@ Erledigt:
 * Überschreiben-Dialog
 * automatisch speichern (Generelle Speicherfunktion ähnlich bsp. Word, Save - Ctrl+S, Save As, Open)
 * Drop-Down-Button
+* Slider mit Rückstellung kann nicht gedreht werden
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)

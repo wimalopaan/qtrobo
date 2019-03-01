@@ -480,7 +480,7 @@ ApplicationWindow {
                 if(obj.maximumValue)
                     componentObject.maximumValue = obj.maximumValue
                 if(obj.showValue)
-                    object.showValue = obj.showValue
+                    componentObject.showValue = obj.showValue
                 if(obj.modelEntries){
                     componentObject.model.clear()
                     for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
