@@ -39,7 +39,7 @@ Rectangle {
                 }
             }
             onCurrentIndexChanged: {
-                if(eventName)
+                if(eventName && eventName.length > 0)
                     serialConnection.writeToSerial(eventName, comboBox.currentIndex)
             }
         }
