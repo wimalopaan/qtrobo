@@ -370,6 +370,18 @@ ApplicationWindow {
         GlobalDefinitions.layoutEdited()
     }
 
+    function createSpinbox(x, y){
+        if(x === undefined)
+            x = rootMouseArea.mouseX
+        if(y === undefined)
+            y = rootMouseArea.mouseY
+
+        var component = Qt.createComponent("DraggableSpinbox.qml")
+        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
+
+        GlobalDefinitions.layoutEdited()
+    }
+
     function createTab(){
         var component = Qt.createComponent("EditableTab.qml")
         var newTab = component.createObject(tabBar)
@@ -468,6 +480,8 @@ ApplicationWindow {
                 component = Qt.createComponent("DraggableLED.qml")
             else if(obj.type === "DraggableDropdown")
                 component = Qt.createComponent("DraggableDropdown.qml")
+            else if(obj.type === "DraggableSpinbox")
+                component = Qt.createComponent("DraggableSpinbox.qml")
 
             if(component){
                 var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})

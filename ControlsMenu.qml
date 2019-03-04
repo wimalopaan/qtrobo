@@ -39,4 +39,9 @@ Menu{
         text: qsTr("Dropdown")
         onTriggered: root.createDropdown()
     }
+
+    MenuItem{
+        text: qsTr("Spinbox")
+        onTriggered: root.createSpinbox()
+    }
 }

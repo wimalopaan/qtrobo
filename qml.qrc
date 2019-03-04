@@ -24,5 +24,6 @@
         <file>DraggableDropdownMenu.qml</file>
         <file>DraggableSliderMenu.qml</file>
         <file>DraggableBalanceSliderMenu.qml</file>
+        <file>DraggableSpinbox.qml</file>
     </qresource>
 </RCC>
