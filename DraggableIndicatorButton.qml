@@ -41,12 +41,14 @@ Item{
     }
 
     Connections{
+        id: serialConnector
         target: serialConnection
         onDataChanged:{
             if(eventName === root.eventName && data){
                 button.isOn = !!+data
             }
         }
+        Component.onDestruction: serialConnector.target = null
     }
 
     DeleteComponentKnob{
