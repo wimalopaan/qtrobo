@@ -12,7 +12,7 @@ TabButton{
         id: editMouseArea
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
-        onClicked: textEdit.visible = true
+        onClicked: textEdit.visible = textEdit.focus = true
     }
     TextField{
         property string textCache
@@ -20,6 +20,11 @@ TabButton{
         anchors.centerIn: parent
         visible: false
         text: parent.text
+
+        onFocusChanged: {
+            if(!focus)
+                visible = false
+        }
 
         onVisibleChanged: {
             if(visible){
