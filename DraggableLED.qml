@@ -4,6 +4,9 @@ import QtGraphicalEffects 1.12
 import QtQuick.Dialogs 1.3
 
 Item {
+    id: root
+    width: 30
+    height: 30
 
     property string displayedName: qsTr("LED")
     property string eventName
@@ -11,11 +14,7 @@ Item {
     property alias enabled: led.enabled
     property bool enableLED: false
     property alias color: bulb.color
-
-    id: root
-    width: 30
-    height: 30
-    objectName: "DraggableLED"
+    property var componentType: GlobalDefinitions.ComponentType.LED
 
     Rectangle{
         id: led

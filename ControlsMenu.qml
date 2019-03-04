@@ -7,41 +7,41 @@ Menu{
 
     MenuItem{
         text: qsTr("Button")
-        onTriggered: root.createButton()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Button)
     }
 
     MenuItem{
         text: qsTr("Indicator Button")
-        onTriggered: root.createButtonWithIndicator()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.IndicatorButton)
     }
 
     MenuItem{
         text: qsTr("Slider")
-        onTriggered: root.createSlider()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Slider)
     }
 
     MenuItem{
         text: qsTr("Balance Slider")
-        onTriggered: root.createBalanceSlider()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.BalanceSlider)
     }
 
     MenuItem{
         text: qsTr("Display")
-        onTriggered: root.createDisplay()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.SerialDisplay)
     }
 
     MenuItem{
         text: qsTr("LED")
-        onTriggered: root.createLED()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.LED)
     }
 
     MenuItem{
         text: qsTr("Dropdown")
-        onTriggered: root.createDropdown()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Dropdown)
     }
 
     MenuItem{
         text: qsTr("Spinbox")
-        onTriggered: root.createSpinbox()
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Spinbox)
     }
 }

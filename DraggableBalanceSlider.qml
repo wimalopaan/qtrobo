@@ -5,6 +5,8 @@ import QtQuick.Controls.Material 2.3
 
 Item{
     id: root
+    width: 200
+    height: 30
 
     property string displayedName: qsTr("Balance Slider")
     property alias label: label.text
@@ -12,10 +14,7 @@ Item{
     property alias orientation: slider.orientation
     property alias enabled: slider.enabled
     property alias showValue: currentValue.visible
-
-    width: 200
-    height: 30
-    objectName: "DraggableBalanceSlider"
+    property var componentType: GlobalDefinitions.ComponentType.BalanceSlider
 
     Slider{
         id: slider

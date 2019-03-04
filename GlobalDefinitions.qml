@@ -1,5 +1,5 @@
 pragma Singleton
-import QtQuick 2.0
+import QtQuick 2.9
 
 QtObject{
     property bool isGridMode: false
@@ -14,4 +14,26 @@ QtObject{
     function layoutPersisted(){
         hasLayoutBeenEdited = false
     }
+
+    enum ComponentType{
+        Button,
+        IndicatorButton,
+        Slider,
+        BalanceSlider,
+        Dropdown,
+        LED,
+        SerialDisplay,
+        Spinbox
+    }
+
+    property var componentName: [
+        "DraggableButton",
+        "DraggableIndicatorButton",
+        "DraggableSlider",
+        "DraggableBalanceSlider",
+        "DraggableDropdown",
+        "DraggableLED",
+        "DraggableSerialDisplay",
+        "DraggableSpinbox"
+    ]
 }

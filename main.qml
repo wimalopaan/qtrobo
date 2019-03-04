@@ -288,98 +288,21 @@ ApplicationWindow {
         }
     }
 
-    function createButton(x, y){
+    function createComponent(componentType, x, y){
         if(x === undefined)
             x = rootMouseArea.mouseX
         if(y === undefined)
             y = rootMouseArea.mouseY
 
-        var component = Qt.createComponent("DraggableButton.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
+        var componentFile = GlobalDefinitions.componentName[componentType]
 
-        GlobalDefinitions.layoutEdited()
-    }
+        if(componentFile){
+            componentFile = componentFile.concat(".qml")
+            var component = Qt.createComponent(componentFile)
+            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
 
-    function createButtonWithIndicator(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableIndicatorButton.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
-
-        GlobalDefinitions.layoutEdited()
-    }
-
-    function createSlider(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableSlider.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-
-        GlobalDefinitions.layoutEdited()
-    }
-
-    function createDisplay(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableSerialDisplay.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-
-        GlobalDefinitions.layoutEdited()
-    }
-
-    function createLED(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableLED.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-    }
-
-    function createBalanceSlider(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableBalanceSlider.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-
-        GlobalDefinitions.layoutEdited()
-    }
-
-    function createDropdown(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableDropdown.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-
-        GlobalDefinitions.layoutEdited()
-    }
-
-    function createSpinbox(x, y){
-        if(x === undefined)
-            x = rootMouseArea.mouseX
-        if(y === undefined)
-            y = rootMouseArea.mouseY
-
-        var component = Qt.createComponent("DraggableSpinbox.qml")
-        component.createObject(contentPane.itemAt(contentPane.currentIndex), {x:x, y:y})
-
-        GlobalDefinitions.layoutEdited()
+            GlobalDefinitions.layoutEdited()
+        }
     }
 
     function createTab(){
@@ -433,7 +356,7 @@ ApplicationWindow {
                 var obj = {
                     layoutTab: i,
                     layoutTabName: tabBar.itemAt(i).text,
-                    type: child.objectName,
+                    type: child.componentType,
                     x: child.x,
                     y: child.y,
                     orientation: child.orientation,
@@ -463,42 +386,32 @@ ApplicationWindow {
                 createTab()
 
             if(tabBar.itemAt(obj.layoutTab))
-               tabBar.itemAt(obj.layoutTab).text = obj.layoutTabName
+                tabBar.itemAt(obj.layoutTab).text = obj.layoutTabName
 
-            var component = undefined;
-            if(obj.type === "DraggableButton"){
-                component = Qt.createComponent("DraggableButton.qml")
-            }else if(obj.type === "DraggableSlider"){
-                component = Qt.createComponent("DraggableSlider.qml")
-            }else if(obj.type === "DraggableBalanceSlider"){
-                component = Qt.createComponent("DraggableBalanceSlider.qml")
-            }else if(obj.type === "DraggableSerialDisplay"){
-                component = Qt.createComponent("DraggableSerialDisplay.qml")
-            }else if(obj.type === "DraggableIndicatorButton")
-                component = Qt.createComponent("DraggableIndicatorButton.qml")
-            else if(obj.type === "DraggableLED.qml")
-                component = Qt.createComponent("DraggableLED.qml")
-            else if(obj.type === "DraggableDropdown")
-                component = Qt.createComponent("DraggableDropdown.qml")
-            else if(obj.type === "DraggableSpinbox")
-                component = Qt.createComponent("DraggableSpinbox.qml")
+            var componentFile = GlobalDefinitions.componentName[obj.type]
 
-            if(component){
-                var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
-                if(obj.color)
-                    componentObject.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
-                if(obj.orientation)
-                    componentObject.orientation = obj.orientation
-                if(obj.minimumValue)
-                    componentObject.minimumValue = obj.minimumValue
-                if(obj.maximumValue)
-                    componentObject.maximumValue = obj.maximumValue
-                if(obj.showValue)
-                    componentObject.showValue = obj.showValue
-                if(obj.modelEntries){
-                    componentObject.model.clear()
-                    for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
-                        componentObject.model.append(obj.modelEntries[modelIndex])
+            if(componentFile){
+                componentFile = componentFile.concat(".qml")
+
+                var component = Qt.createComponent(componentFile)
+
+                if(component){
+                    var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
+                    if(obj.color)
+                        componentObject.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
+                    if(obj.orientation)
+                        componentObject.orientation = obj.orientation
+                    if(obj.minimumValue)
+                        componentObject.minimumValue = obj.minimumValue
+                    if(obj.maximumValue)
+                        componentObject.maximumValue = obj.maximumValue
+                    if(obj.showValue)
+                        componentObject.showValue = obj.showValue
+                    if(obj.modelEntries){
+                        componentObject.model.clear()
+                        for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
+                            componentObject.model.append(obj.modelEntries[modelIndex])
+                    }
                 }
             }
         }

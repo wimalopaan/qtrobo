@@ -3,7 +3,9 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 
 Item{
-    id: root
+    id: root    
+    width: 200
+    height: 30
 
     property string displayedName: qsTr("Slider")
     property alias label: label.text
@@ -13,10 +15,7 @@ Item{
     property alias minimumValue: slider.from
     property alias maximumValue: slider.to
     property alias showValue: currentValue.visible
-
-    width: 200
-    height: 30
-    objectName: "DraggableSlider"
+    property var componentType: GlobalDefinitions.ComponentType.Slider
 
     Slider{
         id: slider

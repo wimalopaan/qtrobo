@@ -5,11 +5,12 @@ Item{
     id: root
     width: 200
     height: 50
-    objectName: "DraggableButton"
+
     property string displayedName: qsTr("Button")
     property string eventName
     property alias label: button.text
     property alias enabled: button.enabled
+    property var componentType: GlobalDefinitions.ComponentType.Button
 
     Button{
         id: button

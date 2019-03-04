@@ -6,13 +6,14 @@ Rectangle{
     id: root
     width: 200
     height: 100
-    objectName: "DraggableSpinbox"
     border.width: 2
     border.color: "lightgray"
+
     property string displayedName: qsTr("Spinbox")
     property string eventName
     property alias label: label.text
     property alias enabled: spinbox.enabled
+    property var componentType: GlobalDefinitions.ComponentType.Spinbox
 
     IntValidator{
         id: rangeValidator

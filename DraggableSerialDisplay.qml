@@ -6,7 +6,6 @@ Rectangle{
     id: root
     width: 300
     height: 150
-    objectName: "DraggableSerialDisplay"
     border.color: "lightgray"
     border.width: 2
 
@@ -14,6 +13,7 @@ Rectangle{
     property alias label: displayName.text
     property alias enabled: textArea.enabled
     property string eventName
+    property var componentType: GlobalDefinitions.ComponentType.SerialDisplay
 
     Label{
         id: displayName
@@ -67,7 +67,7 @@ Rectangle{
                     }
                 }
 
-                Component.onDestruction: target = undefined
+                Component.onDestruction: serialListener.target = null
             }
         }
     }

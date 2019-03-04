@@ -8,7 +8,6 @@ Rectangle {
     height: 100
     border.width: 2
     border.color: "lightgrey"
-    objectName: "DraggableDropdown"
 
     property string displayedName: qsTr("Dropdown")
     property string eventName
@@ -16,6 +15,7 @@ Rectangle {
     property alias enabled: comboBox.enabled
     property alias comboBox: comboBox
     property alias model: comboBox.model
+    property var componentType: GlobalDefinitions.ComponentType.Dropdown
 
     ColumnLayout{
         anchors.fill: parent
