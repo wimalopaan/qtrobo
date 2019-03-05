@@ -1,6 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2 as SpecialDialogs
 
 Dialog{
     id: root
@@ -60,6 +61,47 @@ Dialog{
                     onTextChanged: component.eventName = text
                 }
 
+                Text{
+                    Layout.fillWidth: true
+                    text: "Font Color:"
+                }
+
+                TextField{
+                    Layout.fillWidth: true
+                    text: fontColorPicker.color
+
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: fontColorPicker.open()
+                    }
+
+                    SpecialDialogs.ColorDialog{
+                        id: fontColorPicker
+                        color: "black"
+                    }
+                }
+
+                Text{
+                    Layout.fillWidth: true
+                    text: "Component Color:"
+                }
+
+                TextField{
+                    Layout.fillWidth: true
+                    text: componentColorPicker.color
+
+
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: componentColorPicker.open()
+                    }
+
+                    SpecialDialogs.ColorDialog{
+                        id: componentColorPicker
+                        color: "lightgray"
+                    }
+                }
             }
 
             Loader{
