@@ -13,7 +13,7 @@ Item {
     property alias label: label.text
     property alias enabled: led.enabled
     property bool enableLED: false
-    property alias color: bulb.color
+    property alias componentColor: bulb.color
     property var componentType: GlobalDefinitions.ComponentType.LED
 
     Rectangle{
@@ -63,11 +63,6 @@ Item {
         }
 
         Component.onDestruction: target = undefined
-    }
-
-    ColorPickerKnob{
-        root: root
-        enabled: !led.enabled
     }
 
     DeleteComponentKnob{

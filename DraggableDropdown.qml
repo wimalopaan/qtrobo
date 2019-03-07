@@ -7,7 +7,7 @@ Rectangle {
     width: 200
     height: 100
     border.width: 2
-    border.color: "lightgrey"
+    border.color: componentColor
 
     property string displayedName: qsTr("Dropdown")
     property string eventName
@@ -16,6 +16,7 @@ Rectangle {
     property alias comboBox: comboBox
     property alias model: comboBox.model
     property var componentType: GlobalDefinitions.ComponentType.Dropdown
+    property color componentColor: "lightgray"
 
     ColumnLayout{
         anchors.fill: parent
@@ -33,6 +34,14 @@ Rectangle {
             enabled: false
             textRole: "entry"
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: 15
+            background: Rectangle{
+                id: comboBoxBackground
+                color: componentColor
+                anchors.fill: parent
+            }
+
             model: ListModel{
                 ListElement{
                     entry: "Entry 1"

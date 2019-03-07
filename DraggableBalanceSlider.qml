@@ -15,6 +15,15 @@ Item{
     property alias enabled: slider.enabled
     property alias showValue: currentValue.visible
     property var componentType: GlobalDefinitions.ComponentType.BalanceSlider
+    property color componentColor: Material.color(Material.Indigo)
+    onComponentColorChanged: setColor()
+
+    Component.onCompleted: setColor()
+
+    function setColor(){
+        markedBackground.color = componentColor
+        slider.handle.color = componentColor
+    }
 
     Slider{
         id: slider
@@ -24,22 +33,31 @@ Item{
         stepSize: 1
         enabled: false
         value: 0
+
+        handle:Rectangle{
+            x: slider.orientation === Qt.Horizontal ? parent.visualPosition * (parent.width - width) : (parent.width - width) / 2
+            y: slider.orientation === Qt.Horizontal ? (parent.height - height) / 2 : parent.visualPosition * (parent.height - height)
+            width: 20
+            height: 20
+            radius: 25
+        }
+
         background: Rectangle {
-            x: slider.orientation === Qt.Horizontal ? slider.leftPadding : slider.leftPadding + slider.width / 2 - slider.handle.width / 2
-            y: slider.orientation === Qt.Horizontal ? slider.topPadding + slider.height / 2 - slider.handle.height / 2 : slider.topPadding
+            x: slider.orientation === Qt.Horizontal ? slider.leftPadding : (parent.width - width) / 2
+            y: slider.orientation === Qt.Horizontal ? (parent.height - height) / 2 : slider.topPadding
 
-            width: slider.orientation === Qt.Horizontal ? slider.width - slider.handle.width : 1
-            height: slider.orientation === Qt.Horizontal ? 1 : slider.height - slider.handle.height
-
-            color: "black"
+            width: slider.orientation === Qt.Horizontal ? slider.width - slider.handle.width : 4
+            height: slider.orientation === Qt.Horizontal ? 4 : slider.height - slider.handle.height
+            radius: 2
+            color: "lightgray"
 
             Rectangle {
+                id: markedBackground
                 property int middle: slider.orientation === Qt.Horizontal ? slider.x + slider.width * 0.5 : slider.y + slider.height * 0.5
-                width: slider.orientation === Qt.Horizontal ? (slider.visualPosition > 0.5 ? slider.handle.x - middle : middle - slider.handle.x - slider.x) : 3
+                width: slider.orientation === Qt.Horizontal ? (slider.visualPosition > 0.5 ? slider.handle.x - middle : middle - slider.handle.x - slider.x) : 4
                 x: slider.orientation === Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.x : 0
                 y: slider.orientation !== Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.y : 0
-                height: slider.orientation === Qt.Horizontal ? 3 : (slider.visualPosition > 0.5 ? slider.handle.y - middle : middle - slider.handle.y)
-                color:  Material.color(Material.Indigo)
+                height: slider.orientation === Qt.Horizontal ? 4 : (slider.visualPosition > 0.5 ? slider.handle.y - middle : middle - slider.handle.y)
                 radius: 2
             }
         }

@@ -99,7 +99,11 @@ Dialog{
 
                     SpecialDialogs.ColorDialog{
                         id: componentColorPicker
-                        color: "lightgray"
+                        color: component.componentColor ? component.componentColor : "lightgray"
+                        onAccepted: {
+                            if(component.componentColor)
+                                component.componentColor = color
+                        }
                     }
                 }
             }

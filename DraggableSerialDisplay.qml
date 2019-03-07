@@ -6,7 +6,7 @@ Rectangle{
     id: root
     width: 300
     height: 150
-    border.color: "lightgray"
+    border.color: componentColor
     border.width: 2
 
     property string displayedName: qsTr("Serial Display")
@@ -14,6 +14,7 @@ Rectangle{
     property alias enabled: textArea.enabled
     property string eventName
     property var componentType: GlobalDefinitions.ComponentType.SerialDisplay
+    property color componentColor: "lightgray"
 
     Label{
         id: displayName
@@ -42,7 +43,7 @@ Rectangle{
 
             background: Rectangle{
                 anchors.fill: parent
-                color: "lightgray"
+                color: componentColor
             }
 
 

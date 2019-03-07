@@ -12,6 +12,7 @@ Item{
     property alias label: button.text
     property alias enabled: button.enabled
     property var componentType: GlobalDefinitions.ComponentType.IndicatorButton
+    property color componentColor: "lightgray"
 
     Button{
         id: button
@@ -23,6 +24,11 @@ Item{
         property bool isOn: false
 
         onPressed: serialConnection.writeToSerial(eventName, +isOn);
+
+        background: Rectangle{
+            anchors.fill: parent
+            color: componentColor
+        }
 
 
         RadialGradient{

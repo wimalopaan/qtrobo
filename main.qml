@@ -364,7 +364,8 @@ ApplicationWindow {
                     height: child.height,
                     label: child.label,
                     eventName: child.eventName,
-                    color: child.color,
+                    fontColor: child.fontColor,
+                    componentColor: child.componentColor,
                     minimumValue: child.minimumValue,
                     maximumValue: child.maximumValue,
                     showValue: child.showValue,
@@ -397,8 +398,10 @@ ApplicationWindow {
 
                 if(component){
                     var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
-                    if(obj.color)
-                        componentObject.color = Qt.rgba(obj.color.r, obj.color.g, obj.color.b, obj.color.a)
+                    if(obj.fontColor)
+                        componentObject.fontColor = Qt.rgba(obj.fontColor.r, obj.fontColor.g, obj.fontColor.b, obj.fontColor.a)
+                    if(obj.componentColor)
+                        componentObject.componentColor = Qt.rgba(obj.componentColor.r, obj.componentColor.g, obj.componentColor.b, obj.componentColor.a)
                     if(obj.orientation)
                         componentObject.orientation = obj.orientation
                     if(obj.minimumValue)

@@ -1,9 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls.Material 2.3
 
 Item{
-    id: root    
+    id: root
     width: 200
     height: 30
 
@@ -16,6 +17,15 @@ Item{
     property alias maximumValue: slider.to
     property alias showValue: currentValue.visible
     property var componentType: GlobalDefinitions.ComponentType.Slider
+    property color componentColor: Material.color(Material.Indigo)
+
+    onComponentColorChanged: setColor()
+    Component.onCompleted: setColor()
+
+    function setColor(){
+        markedBackground.color = componentColor
+        slider.handle.color = componentColor
+    }
 
     Slider{
         id: slider
@@ -24,6 +34,31 @@ Item{
         from: 0
         stepSize: 1
         enabled: false
+
+        handle:Rectangle{
+            x: slider.orientation === Qt.Horizontal ? parent.visualPosition * (parent.width - width) : (parent.width - width) / 2
+            y: slider.orientation === Qt.Horizontal ? (parent.height - height) / 2 : parent.visualPosition * (parent.height - height)
+            width: 20
+            height: 20
+            radius: 25
+        }
+
+        background: Rectangle {
+            x: slider.orientation === Qt.Horizontal ? 0 : (parent.width - width) / 2
+            y: slider.orientation === Qt.Horizontal ? (parent.height - height) / 2 : 0
+            width: slider.orientation === Qt.Horizontal ? slider.width - slider.handle.width : 4
+            height: slider.orientation === Qt.Horizontal ? 4 : slider.height - slider.handle.height
+            radius: 2
+            color: "lightgray"
+
+            Rectangle {
+                id: markedBackground
+                width: slider.orientation === Qt.Horizontal ? slider.visualPosition * parent.width : parent.width
+                height: slider.orientation === Qt.Horizontal ? parent.height : parent.height - (parent.height * slider.visualPosition)
+                y: slider.orientation === Qt.Horizontal ? 0 : (parent.y + parent.height) * slider.visualPosition
+                radius: 2
+            }
+        }
 
         Label{
             id: label

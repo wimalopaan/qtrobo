@@ -11,6 +11,7 @@ Item{
     property alias label: button.text
     property alias enabled: button.enabled
     property var componentType: GlobalDefinitions.ComponentType.Button
+    property alias componentColor: buttonBackground.color
 
     Button{
         id: button
@@ -18,6 +19,12 @@ Item{
         text: qsTr("New Button")
         enabled: false
         font.pointSize: 12
+        background: Rectangle{
+            id: buttonBackground
+            anchors.fill: parent
+            color: "lightgray"
+            radius: 2
+        }
 
         onTextChanged: GlobalDefinitions.layoutEdited()
 
