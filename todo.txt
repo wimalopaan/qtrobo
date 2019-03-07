@@ -10,6 +10,7 @@ Prio 1:
   Event und erwartet eine einstellbare Antwort. 
   Kommt diese, wird es grün, kommt diese nicht, wird es rot und deativiert (konfigurierbar) die gesamten Controls
 * Bildfeld (.png, jpg, ...) (ohne Funktion)
+* Textfeld: generiert auch einen Event: <startsybol><text><endesymbol>
 
 Prio 2:
 
