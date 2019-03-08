@@ -15,6 +15,7 @@ Rectangle{
     property string eventName
     property var componentType: GlobalDefinitions.ComponentType.SerialDisplay
     property color componentColor: "lightgray"
+    property color fontColor: "black"
 
     Label{
         id: displayName
@@ -22,6 +23,7 @@ Rectangle{
         text: qsTr("New Display")
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
+        color: fontColor
     }
 
     ScrollView{
@@ -39,6 +41,7 @@ Rectangle{
             padding: 10
             font.family: "Monospaced"
             font.pointSize: 10
+            color: fontColor
             readOnly: true
 
             background: Rectangle{

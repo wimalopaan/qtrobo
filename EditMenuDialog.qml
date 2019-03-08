@@ -69,6 +69,7 @@ Dialog{
                 TextField{
                     Layout.fillWidth: true
                     text: fontColorPicker.color
+                    enabled: component.fontColor !== undefined
 
 
                     MouseArea{
@@ -78,7 +79,11 @@ Dialog{
 
                     SpecialDialogs.ColorDialog{
                         id: fontColorPicker
-                        color: "black"
+                        color: component.fontColor ? component.fontColor : "black"
+                        onAccepted: {
+                            if(component.fontColor)
+                                component.fontColor = color
+                        }
                     }
                 }
 
@@ -90,6 +95,7 @@ Dialog{
                 TextField{
                     Layout.fillWidth: true
                     text: componentColorPicker.color
+                    enabled: component.componentColor !== undefined
 
 
                     MouseArea{
@@ -99,7 +105,7 @@ Dialog{
 
                     SpecialDialogs.ColorDialog{
                         id: componentColorPicker
-                        color: component.componentColor ? component.componentColor : "lightgray"
+                        color: component.componentColor ? component.componentColor : "black"
                         onAccepted: {
                             if(component.componentColor)
                                 component.componentColor = color

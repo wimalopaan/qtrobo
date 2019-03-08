@@ -16,14 +16,7 @@ Item{
     property alias showValue: currentValue.visible
     property var componentType: GlobalDefinitions.ComponentType.BalanceSlider
     property color componentColor: Material.color(Material.Indigo)
-    onComponentColorChanged: setColor()
-
-    Component.onCompleted: setColor()
-
-    function setColor(){
-        markedBackground.color = componentColor
-        slider.handle.color = componentColor
-    }
+    property color fontColor: "black"
 
     Slider{
         id: slider
@@ -40,6 +33,7 @@ Item{
             width: 20
             height: 20
             radius: 25
+            color: componentColor
         }
 
         background: Rectangle {
@@ -59,6 +53,7 @@ Item{
                 y: slider.orientation !== Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.y : 0
                 height: slider.orientation === Qt.Horizontal ? 4 : (slider.visualPosition > 0.5 ? slider.handle.y - middle : middle - slider.handle.y)
                 radius: 2
+                color: componentColor
             }
         }
 
@@ -83,6 +78,7 @@ Item{
             font.pointSize: 12
             anchors.bottom: parent.top
             anchors.left: parent.left
+            color:  fontColor
         }
 
         Label{
@@ -91,6 +87,7 @@ Item{
             anchors.top: parent.bottom
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
+            color: fontColor
         }
 
         onValueChanged: serialConnection.writeToSerial(eventName, value)

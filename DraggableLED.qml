@@ -15,6 +15,7 @@ Item {
     property bool enableLED: false
     property alias componentColor: bulb.color
     property var componentType: GlobalDefinitions.ComponentType.LED
+    property color fontColor: "black"
 
     Rectangle{
         id: led
@@ -49,7 +50,8 @@ Item {
             id: label
             anchors.top: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-
+            color: fontColor
+            font.pointSize: 12
             text: qsTr("New LED")
         }
     }

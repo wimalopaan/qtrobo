@@ -17,16 +17,18 @@ Rectangle {
     property alias model: comboBox.model
     property var componentType: GlobalDefinitions.ComponentType.Dropdown
     property color componentColor: "lightgray"
+    property color fontColor: "black"
 
     ColumnLayout{
         anchors.fill: parent
         anchors.margins: 2
 
-        Text{
+        Label{
             id: label
             text: qsTr("New Dropdown")
             font.pointSize: 12
             Layout.alignment: Layout.Center
+            color: fontColor
         }
 
         ComboBox{
@@ -40,6 +42,16 @@ Rectangle {
                 id: comboBoxBackground
                 color: componentColor
                 anchors.fill: parent
+            }
+
+            contentItem: Text{
+                color: fontColor
+                text: parent.currentText
+                font.pointSize: 12
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                opacity: enabled ? 1.0 : 0.3
+                elide: Text.ElideRight
             }
 
             model: ListModel{

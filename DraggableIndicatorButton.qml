@@ -13,6 +13,7 @@ Item{
     property alias enabled: button.enabled
     property var componentType: GlobalDefinitions.ComponentType.IndicatorButton
     property color componentColor: "lightgray"
+    property color fontColor: "black"
 
     Button{
         id: button
@@ -24,6 +25,16 @@ Item{
         property bool isOn: false
 
         onPressed: serialConnection.writeToSerial(eventName, +isOn);
+
+        contentItem: Text{
+            text: parent.text
+            font: parent.font
+            opacity: enabled ? 1.0 : 0.3
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            color: fontColor
+        }
 
         background: Rectangle{
             anchors.fill: parent

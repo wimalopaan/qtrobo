@@ -18,14 +18,7 @@ Item{
     property alias showValue: currentValue.visible
     property var componentType: GlobalDefinitions.ComponentType.Slider
     property color componentColor: Material.color(Material.Indigo)
-
-    onComponentColorChanged: setColor()
-    Component.onCompleted: setColor()
-
-    function setColor(){
-        markedBackground.color = componentColor
-        slider.handle.color = componentColor
-    }
+    property color fontColor: "black"
 
     Slider{
         id: slider
@@ -41,6 +34,7 @@ Item{
             width: 20
             height: 20
             radius: 25
+            color: componentColor
         }
 
         background: Rectangle {
@@ -57,6 +51,7 @@ Item{
                 height: slider.orientation === Qt.Horizontal ? parent.height : parent.height - (parent.height * slider.visualPosition)
                 y: slider.orientation === Qt.Horizontal ? 0 : (parent.y + parent.height) * slider.visualPosition
                 radius: 2
+                color: componentColor
             }
         }
 
@@ -65,6 +60,7 @@ Item{
             height: 20
             text: qsTr("New Slider")
             font.pointSize: 12
+            color: fontColor
             anchors.bottom: parent.top
             anchors.left: parent.left
         }
@@ -72,6 +68,7 @@ Item{
         Label{
             id: currentValue
             text: parent.value + " / " + ((parent.value + Math.abs(parent.from)) / (parent.to - parent.from) * 100).toFixed(2) + "%"
+            color: fontColor
             anchors.top: parent.bottom
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
