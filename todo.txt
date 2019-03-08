@@ -4,8 +4,6 @@ Bugs:
 
 Prio 1:
 
-* Schriftfarbe
-* Controlfarbe
 * Prüffeld (KeepAlive): sendet in einem einstellbaren Zeitintervall (default 1s) ein 
   Event und erwartet eine einstellbare Antwort. 
   Kommt diese, wird es grün, kommt diese nicht, wird es rot und deativiert (konfigurierbar) die gesamten Controls
@@ -42,6 +40,8 @@ Erledigt:
 * Drop-Down-Button
 * Slider mit Rückstellung kann nicht gedreht werden
 * Numerisches Eingabefeld (gazzahlig) mit up/down
+* Schriftfarbe
+* Controlfarbe
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
