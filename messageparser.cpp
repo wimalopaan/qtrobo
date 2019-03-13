@@ -39,6 +39,8 @@ void MessageParser::parseData(char byte){
     case State::EVENT:
         if(byte == mEventValueDivider)
             mCurrentState = State::VALUE;
+        else if(byte == mEventEnd)
+            mCurrentState = State::END;
         else
             mCurrentEvent.eventName.append(byte);
         break;

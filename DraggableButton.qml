@@ -58,6 +58,6 @@ Item{
 
     RightClickEdit{
         root: root
-        enabled: true
+        enabled: !button.enabled
     }
 }

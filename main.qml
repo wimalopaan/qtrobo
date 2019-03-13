@@ -27,19 +27,7 @@ ApplicationWindow {
 
     Connections{
         target: GlobalDefinitions
-        onIsEditModeChanged:{
-            for(var i = 0; i < contentPane.count; ++i){
-                var children = contentPane.itemAt(i).children
-                for(var j = 0; j < children.length; ++j){
-                    children[j].enabled = !GlobalDefinitions.isEditMode
-                }
-            }
-
-            for(i = 0; i < tabBar.count; ++i){
-                var tab = tabBar.itemAt(i)
-                tab.editEnabled = GlobalDefinitions.isEditMode
-            }
-        }
+        onIsEditModeChanged: setLayoutEditable(GlobalDefinitions.isEditMode)
 
         onHasLayoutBeenEditedChanged:{
             layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && layoutPersist.isFilenameValid
@@ -190,9 +178,20 @@ ApplicationWindow {
             MenuItem{
                 text: qsTr("Events")
                 onTriggered: eventSettingsDialog.open()
+                enabled: !serialConnection.isConnected
 
                 EventSettingsDialog{
                     id: eventSettingsDialog
+                }
+            }
+
+            MenuItem{
+                text: qsTr("Heartbeat")
+                enabled: !serialConnection.isConnected
+                onTriggered: heartbeatSettingsDialog.open()
+
+                HeartbeatSettingsDialog{
+                    id:heartbeatSettingsDialog
                 }
             }
         }
@@ -233,8 +232,9 @@ ApplicationWindow {
         height: 20
         color: "lightgray"
 
-        RowLayout{
+        GridLayout{
             anchors.fill: parent
+            columns: 3
             Text{
                 id: connectionStatus
                 Layout.alignment: Layout.Center
@@ -244,6 +244,36 @@ ApplicationWindow {
             Connections{
                 target: serialConnection
                 onConnectionStateChanged: connectionStatus.text = "Serial Port: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+            }
+
+            Text{
+                id: keepAlive
+                Layout.alignment: Layout.Center
+                text: "Hardware response: "
+                visible: serialConnection.heartbeatEnabled
+
+                Rectangle{
+                    id: heartbeatStatusLED
+                    width: parent.height
+                    height: width
+
+                    radius: 25
+                    anchors.left: parent.right
+                    color: "lightgreen"
+
+
+                    ColorAnimation on color{
+                        id: heartbeatLEDColorAnimation
+                        from: "lightgreen"
+                        to: "darkgreen"
+                        duration: 250
+                    }
+
+                    Connections{
+                        target: serialConnection
+                        onHeartbeatTriggered: heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
+                    }
+                }
             }
 
 
@@ -335,6 +365,20 @@ ApplicationWindow {
         var childrenFirstPane = contentPane.itemAt(0).children
         for(var j = childrenFirstPane.length; j > 0; --j){
             childrenFirstPane[j-1].destroy()
+        }
+    }
+
+    function setLayoutEditable(isEditable){
+        for(var i = 0; i < contentPane.count; ++i){
+            var children = contentPane.itemAt(i).children
+            for(var j = 0; j < children.length; ++j){
+                children[j].enabled = !isEditable
+            }
+        }
+
+        for(i = 0; i < tabBar.count; ++i){
+            var tab = tabBar.itemAt(i)
+            tab.editEnabled = isEditable
         }
     }
 

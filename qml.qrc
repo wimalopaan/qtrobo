@@ -24,5 +24,6 @@
         <file>DraggableSliderMenu.qml</file>
         <file>DraggableBalanceSliderMenu.qml</file>
         <file>DraggableSpinbox.qml</file>
+        <file>HeartbeatSettingsDialog.qml</file>
     </qresource>
 </RCC>

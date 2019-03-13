@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QSerialPort>
 #include <QVariantList>
+#include <QTimer>
 
 #include "messageparser.h"
 
@@ -22,6 +23,11 @@ class SerialConnection: public QObject
     Q_PROPERTY(char eventValueDivider READ eventValueDivider WRITE eventValueDivider NOTIFY eventValueDividerChanged)
     Q_PROPERTY(char eventEnd READ eventEnd WRITE eventEnd NOTIFY eventEndChanged)
     Q_PROPERTY(char eventStart READ eventStart WRITE eventStart NOTIFY eventStartChanged)
+    Q_PROPERTY(QString heartbeatRequest MEMBER mHeartbeatRequest NOTIFY heartbeatRequestChanged)
+    Q_PROPERTY(QString heartbeatResponse MEMBER mHeartbeatResponse NOTIFY heartbeatResponseChanged)
+    Q_PROPERTY(int heartbeatTimeout MEMBER mHeartbeatTimeout NOTIFY heartbeatTimeoutChanged)
+    Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
+    Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
 
 public:
     SerialConnection(QObject *parent = nullptr);
@@ -66,18 +72,29 @@ signals:
     void eventValueDividerChanged(char eventValueDivider);
     void eventEndChanged(char eventEnd);
     void eventStartChanged(char eventStart);
+    void heartbeatTriggered(bool heartbeatStatus);
+    void heartbeatRequestChanged(const QString &heartbeatRequest);
+    void heartbeatResponseChanged(const QString &heartbeatResponse);
+    void heartbeatTimeoutChanged(int heartbeatTimeout);
+    void heartbeatEnabledChanged(bool heartbeatEnabled);
 
 public slots:
     void onReadyRead();
     void onParsedValueReady(MessageParser::Event event);
+    void onHeartbeatTriggered();
 
 private:
     QSerialPort mSerialPort;
     QString mEventName;
     QString mData;
-
+    QTimer mHeartbeat;
     MessageParser mParser;
     MessageParser::Event mEvent;
+    QString mHeartbeatRequest;
+    QString mHeartbeatResponse;
+    int mHeartbeatTimeout;
+    bool mHeartbeatStatus;
+    bool mHeartbeatEnabled;
 
     static const char DEFAULT_EVENT_START = '$';
     static const char DEFAULT_EVENT_VALUE_DIVIDER = ':';

@@ -11,9 +11,16 @@ const char SerialConnection::DEFAULT_EVENT_END;
 
 SerialConnection::SerialConnection(QObject *parent) :
     QObject(parent),
-    mParser(this)
+    mHeartbeat(this),
+    mParser(this),
+    mHeartbeatRequest("PING"),
+    mHeartbeatResponse("PONG"),
+    mHeartbeatTimeout(1000),
+    mHeartbeatStatus(false),
+    mHeartbeatEnabled(false)
 {
     connect(&mSerialPort, SIGNAL(readyRead()), SLOT(onReadyRead()));
+    connect(&mHeartbeat, SIGNAL(timeout()), this, SLOT(onHeartbeatTriggered()));
     connect(&mParser, &MessageParser::messageParsed, this, &SerialConnection::onParsedValueReady);
 
     mSerialPort.setBaudRate(9600);
@@ -21,7 +28,7 @@ SerialConnection::SerialConnection(QObject *parent) :
 
     mParser.eventStart(DEFAULT_EVENT_START);
     mParser.eventValueDivider(DEFAULT_EVENT_VALUE_DIVIDER);
-    mParser.eventEnd(DEFAULT_EVENT_END);
+    mParser.eventEnd(DEFAULT_EVENT_END);    
 }
 
 QStringList SerialConnection::serialInterfaces() const{
@@ -43,20 +50,30 @@ void SerialConnection::connectToSerial(const QString &name){
     mSerialPort.setPortName(name);
     mSerialPort.open(QIODevice::ReadWrite);
 
+    if(mSerialPort.isOpen() && mHeartbeatEnabled)
+        mHeartbeat.start(mHeartbeatTimeout);
+
     emit connectionStateChanged(isConnected());
 }
 
 void SerialConnection::disconnectFromSerial(){
     if(mSerialPort.isOpen())
         mSerialPort.close();
+
+    if(mHeartbeat.isActive())
+        mHeartbeat.stop();
+
     emit connectionStateChanged(isConnected());
 }
 
 void SerialConnection::writeToSerial(const QString &eventName){
 
     if(mSerialPort.isOpen() && !eventName.isEmpty()){
-        qDebug() << "Writing: " << eventName;
-        const char* dataBytes = eventName.toStdString().c_str();
+        QString request;
+        request += mParser.eventStart();
+        request += eventName;
+        request += mParser.eventEnd();
+        const char* dataBytes = request.toStdString().c_str();
 
         mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes) + 1));
     }
@@ -77,13 +94,23 @@ void SerialConnection::onReadyRead(){
         QByteArray dataBuffer = mSerialPort.readAll();
 
         mParser.parseData(dataBuffer);
-
     }
 }
 
 void SerialConnection::onParsedValueReady(MessageParser::Event event){
-    qDebug() << event;
+    if(mHeartbeatEnabled && event.eventName.contains(mHeartbeatResponse)){
+        mHeartbeatStatus = true;
+        return;
+    }
+
     emit dataChanged(event.eventName, event.value);
+}
+
+void SerialConnection::onHeartbeatTriggered(){
+    emit heartbeatTriggered(mHeartbeatStatus);
+    mHeartbeatStatus = false;
+
+    writeToSerial(mHeartbeatRequest);
 }
 
 const QString& SerialConnection::data() const{
