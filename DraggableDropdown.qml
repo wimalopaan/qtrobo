@@ -18,6 +18,8 @@ Rectangle {
     property var componentType: GlobalDefinitions.ComponentType.Dropdown
     property color componentColor: "lightgray"
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     ColumnLayout{
         anchors.fill: parent
@@ -68,16 +70,16 @@ Rectangle {
 
     RightClickEdit{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 
     DeleteComponentKnob{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 }

@@ -14,6 +14,8 @@ Item{
     property var componentType: GlobalDefinitions.ComponentType.IndicatorButton
     property color componentColor: "lightgray"
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     Button{
         id: button
@@ -70,16 +72,16 @@ Item{
 
     DeleteComponentKnob{
         root: root
-        enabled: !button.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !button.enabled
+        enabled: root.edible
     }
 
     RightClickEdit{
         root: root
-        enabled: !button.enabled
+        enabled: root.edible
     }
 }

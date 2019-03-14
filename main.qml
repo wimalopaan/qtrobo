@@ -27,11 +27,10 @@ ApplicationWindow {
 
     Connections{
         target: GlobalDefinitions
-        onIsEditModeChanged: setLayoutEditable(GlobalDefinitions.isEditMode)
+        onIsEditModeChanged: setLayoutEdible(GlobalDefinitions.isEditMode)
 
-        onHasLayoutBeenEditedChanged:{
-            layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && layoutPersist.isFilenameValid
-        }
+        onHasLayoutBeenEditedChanged: layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && layoutPersist.isFilenameValid
+
     }
 
     Component.onCompleted: GlobalDefinitions.layoutPersisted()
@@ -170,6 +169,14 @@ ApplicationWindow {
                 enabled: serialConnection.isConnected
                 onTriggered: serialConnection.disconnectFromSerial()
             }
+
+            Connections{
+                target: serialConnection
+                onConnectionStateChanged: {
+                    deviceMenu.enabled = !serialConnection.isConnected
+                    disconnect.enabled = serialConnection.isConnected
+                }
+            }
         }
 
         Menu{
@@ -271,7 +278,10 @@ ApplicationWindow {
 
                     Connections{
                         target: serialConnection
-                        onHeartbeatTriggered: heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
+                        onHeartbeatTriggered: {
+                            heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
+                            setLayoutEnabled(heartbeatStatus)
+                        }
                     }
                 }
             }
@@ -368,17 +378,27 @@ ApplicationWindow {
         }
     }
 
-    function setLayoutEditable(isEditable){
+    function setLayoutEdible(isEdible){
         for(var i = 0; i < contentPane.count; ++i){
             var children = contentPane.itemAt(i).children
             for(var j = 0; j < children.length; ++j){
-                children[j].enabled = !isEditable
+                children[j].edible = isEdible
             }
         }
 
         for(i = 0; i < tabBar.count; ++i){
             var tab = tabBar.itemAt(i)
-            tab.editEnabled = isEditable
+            tab.editEnabled = isEdible
+        }
+    }
+
+    function setLayoutEnabled(isEnabled){
+        for(var i = 0; i < contentPane.count; ++i){
+            var children = contentPane.itemAt(i).children
+            for(var j = 0; j < children.length; ++j){
+                if(!children[j].edible)
+                    children[j].enabled = isEnabled
+            }
         }
     }
 

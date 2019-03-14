@@ -16,6 +16,8 @@ Item {
     property alias componentColor: bulb.color
     property var componentType: GlobalDefinitions.ComponentType.LED
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     Rectangle{
         id: led
@@ -69,16 +71,16 @@ Item {
 
     DeleteComponentKnob{
         root: root
-        enabled: !led.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !led.enabled
+        enabled: root.edible
     }
 
     RightClickEdit{
         root: root
-        enabled: !led.enabled
+        enabled: root.edible
     }
 }

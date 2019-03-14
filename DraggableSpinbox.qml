@@ -16,6 +16,8 @@ Rectangle{
     property var componentType: GlobalDefinitions.ComponentType.Spinbox
     property color componentColor: "lightgray"
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     IntValidator{
         id: rangeValidator
@@ -110,16 +112,16 @@ Rectangle{
 
     DeleteComponentKnob{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 
     RightClickEdit{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !root.enabled
+        enabled: root.edible
     }
 }

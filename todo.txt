@@ -4,7 +4,6 @@ Bugs:
 
 Prio 1:
 
-* KeepAlive deativiert (konfigurierbar) die gesamten Controls
 * Bildfeld (.png, jpg, ...) (ohne Funktion)
 * Textfeld: generiert auch einen Event: <startsybol><text><endesymbol>
 
@@ -43,6 +42,7 @@ Erledigt:
 * Controlfarbe
 * Prüffeld (KeepAlive): sendet in einem einstellbaren Zeitintervall (default 1s) ein
   Event und erwartet eine einstellbare Antwort. Kommt diese, wird es grün, kommt diese nicht, wird es rot
+* KeepAlive deativiert (konfigurierbar) die gesamten Controls
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)

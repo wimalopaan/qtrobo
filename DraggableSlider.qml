@@ -19,6 +19,8 @@ Item{
     property var componentType: GlobalDefinitions.ComponentType.Slider
     property color componentColor: Material.color(Material.Indigo)
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     Slider{
         id: slider
@@ -88,22 +90,22 @@ Item{
 
     DeleteComponentKnob{
         root: root
-        enabled: !slider.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !slider.enabled
+        enabled: root.edible
     }
 
     RightClickEdit{
         root: root
-        enabled: !slider.enabled
+        enabled: root.edible
     }
 
     RotateKnob{
         root: root
         orientation: slider
-        enabled: !slider.enabled
+        enabled: root.edible
     }
 }

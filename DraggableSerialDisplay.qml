@@ -16,6 +16,8 @@ Rectangle{
     property var componentType: GlobalDefinitions.ComponentType.SerialDisplay
     property color componentColor: "lightgray"
     property color fontColor: "black"
+    property bool edible: true
+    onEdibleChanged: enabled = !edible
 
     Label{
         id: displayName
@@ -77,17 +79,17 @@ Rectangle{
     }
     DeleteComponentKnob{
         root: root
-        enabled: !textArea.enabled
+        enabled: root.edible
     }
 
     ScaleKnob{
         root: root
-        enabled: !textArea.enabled
+        enabled: root.edible
     }
 
     RightClickEdit{
         root: root
-        enabled: !textArea.enabled
+        enabled: root.edible
     }
 }
 
