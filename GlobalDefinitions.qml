@@ -23,7 +23,8 @@ QtObject{
         Dropdown,
         LED,
         SerialDisplay,
-        Spinbox
+        Spinbox,
+        Image
     }
 
     property var componentName: [
@@ -34,6 +35,7 @@ QtObject{
         "DraggableDropdown",
         "DraggableLED",
         "DraggableSerialDisplay",
-        "DraggableSpinbox"
+        "DraggableSpinbox",
+        "DraggableImage"
     ]
 }

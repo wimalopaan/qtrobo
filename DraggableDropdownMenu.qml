@@ -6,7 +6,7 @@ GridLayout{
     property var component
     columns: 2
 
-    Text{
+    Label{
         Layout.fillWidth: true
         text: "Entries:"
     }
@@ -18,7 +18,7 @@ GridLayout{
         model: component.comboBox.model
     }
 
-    Text{
+    Label{
         Layout.fillWidth: true
         text: "Edit current:"
     }

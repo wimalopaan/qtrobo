@@ -37,33 +37,38 @@ Dialog{
             GridLayout{
                 columns: 2
                 Layout.fillWidth: true
-                Text{
+                Label{
                     Layout.fillWidth: true
                     text: "Control Name:"
+                    enabled: component.label !== undefined
                 }
 
                 TextField{
                     Layout.fillWidth: true
-                    text: component.label
+                    text: component.label ? component.label : ""
+                    enabled: component.label !== undefined
 
                     onTextChanged: component.label = text
                 }
 
-                Text{
+                Label{
                     Layout.fillWidth: true
                     text: "Event Name:"
+                    enabled: component.eventName !== undefined
                 }
 
                 TextField{
                     Layout.fillWidth: true
-                    text: component.eventName
+                    text: component.eventName ? component.eventName : ""
+                    enabled: component.eventName !== undefined
 
                     onTextChanged: component.eventName = text
                 }
 
-                Text{
+                Label{
                     Layout.fillWidth: true
                     text: "Font Color:"
+                    enabled: component.fontColor !== undefined
                 }
 
                 TextField{
@@ -87,9 +92,10 @@ Dialog{
                     }
                 }
 
-                Text{
+                Label{
                     Layout.fillWidth: true
                     text: "Component Color:"
+                    enabled: component.componentColor !== undefined
                 }
 
                 TextField{
@@ -131,6 +137,8 @@ Dialog{
             return "DraggableSliderMenu.qml"
         else if(component instanceof DraggableBalanceSlider)
             return "DraggableBalanceSliderMenu.qml"
+        else if(component instanceof DraggableImage)
+            return "DraggableImageMenu.qml"
         else
             return ""
     }

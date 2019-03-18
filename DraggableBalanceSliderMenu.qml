@@ -6,7 +6,7 @@ GridLayout{
     property var component
     columns: 2
 
-    Text{
+    Label{
         Layout.fillWidth: true
         text: qsTr("Show Value:")
     }

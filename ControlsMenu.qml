@@ -44,4 +44,9 @@ Menu{
         text: qsTr("Spinbox")
         onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Spinbox)
     }
+
+    MenuItem{
+        text: qsTr("Image")
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Image)
+    }
 }

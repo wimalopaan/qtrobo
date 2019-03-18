@@ -37,4 +37,5 @@ HEADERS += \
     messageparser.h
 
 DISTFILES += \
-    todo.txt
+    todo.txt \
+    placeholder_image.png

@@ -9,7 +9,7 @@ GridLayout{
         id: rangeValidator
     }
 
-        Text{
+        Label{
             Layout.fillWidth: true
             text: qsTr("Min Value:")
         }
@@ -30,7 +30,7 @@ GridLayout{
 
 
 
-        Text{
+        Label{
             Layout.fillWidth: true
             text: qsTr("Max Value:")
         }
@@ -50,7 +50,7 @@ GridLayout{
 
 
 
-        Text{
+        Label{
             Layout.fillWidth: true
             text: qsTr("Show Value:")
         }

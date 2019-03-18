@@ -433,7 +433,8 @@ ApplicationWindow {
                     minimumValue: child.minimumValue,
                     maximumValue: child.maximumValue,
                     showValue: child.showValue,
-                    modelEntries: modelEntries.length > 0 ? modelEntries : undefined
+                    modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
+                    imageSource: child.imageSource.toString()
                 }
 
                 objs.push(obj)
@@ -479,6 +480,8 @@ ApplicationWindow {
                         for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
                             componentObject.model.append(obj.modelEntries[modelIndex])
                     }
+                    if(obj.imageSource)
+                        componentObject.imageSource = obj.imageSource
                 }
             }
         }
