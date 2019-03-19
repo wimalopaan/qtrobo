@@ -434,7 +434,7 @@ ApplicationWindow {
                     maximumValue: child.maximumValue,
                     showValue: child.showValue,
                     modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
-                    imageSource: child.imageSource.toString()
+                    imageSource: child.imageSource ? child.imageSource.toString() : undefined
                 }
 
                 objs.push(obj)

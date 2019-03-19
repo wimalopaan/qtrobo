@@ -3,7 +3,8 @@ import QtQuick.Controls 2.5
 
 Item{
     id: root
-
+    width: 200
+    height: width * (image.sourceSize.height / image.sourceSize.width)
     property string displayedName: qsTr("Image")
     property alias enabled: image.enabled
     property var componentType: GlobalDefinitions.ComponentType.Image
@@ -20,11 +21,6 @@ Item{
         onStatusChanged: {
             if(status === Image.Error || status === Image.Null)
                 source = "placeholder_image.png"
-            else if(status === Image.Ready){
-                root.width = 200
-                root.height = root.width * (sourceSize.height / sourceSize.width)
-            }
-
         }
     }
 
