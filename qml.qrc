@@ -28,5 +28,6 @@
         <file>DraggableImage.qml</file>
         <file>placeholder_image.png</file>
         <file>DraggableImageMenu.qml</file>
+        <file>DraggableTextInput.qml</file>
     </qresource>
 </RCC>

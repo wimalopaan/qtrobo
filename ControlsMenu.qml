@@ -49,4 +49,9 @@ Menu{
         text: qsTr("Image")
         onTriggered: root.createComponent(GlobalDefinitions.ComponentType.Image)
     }
+
+    MenuItem{
+        text: qsTr("Text Input")
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.TextInput)
+    }
 }
