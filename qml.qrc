@@ -29,5 +29,7 @@
         <file>placeholder_image.png</file>
         <file>DraggableImageMenu.qml</file>
         <file>DraggableTextInput.qml</file>
+        <file>DraggableCircularGauge.qml</file>
+        <file>DraggableCircularGaugeMenu.qml</file>
     </qresource>
 </RCC>

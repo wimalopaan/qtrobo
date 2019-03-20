@@ -54,4 +54,9 @@ Menu{
         text: qsTr("Text Input")
         onTriggered: root.createComponent(GlobalDefinitions.ComponentType.TextInput)
     }
+
+    MenuItem{
+        text: qsTr("Circular Gauge")
+        onTriggered: root.createComponent(GlobalDefinitions.ComponentType.CircularGauge)
+    }
 }

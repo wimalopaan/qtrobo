@@ -139,6 +139,8 @@ Dialog{
             return "DraggableBalanceSliderMenu.qml"
         else if(component instanceof DraggableImage)
             return "DraggableImageMenu.qml"
+        else if(component instanceof DraggableCircularGauge)
+            return "DraggableCircularGaugeMenu.qml"
         else
             return ""
     }
