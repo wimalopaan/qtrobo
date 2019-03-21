@@ -37,9 +37,14 @@ Rectangle{
         Button{
             text: "Send"
             onClicked: {
-                if(eventName && eventName.length > 0 && textinput.text.length > 0){
-                    serialConnection.writeToSerial(eventName, textinput.text)
-                    textinput.clear()
+                if(textinput.text.length > 0){
+                    if(eventName && eventName.length > 0){
+                        serialConnection.writeToSerial(eventName, textinput.text)
+                        textinput.clear()
+                    }else{
+                        serialConnection.writeToSerial(textinput.text)
+                        textinput.clear()
+                    }
                 }
             }
         }
