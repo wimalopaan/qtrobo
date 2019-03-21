@@ -4,7 +4,6 @@ Bugs:
 
 Prio 1:
 
-* Textfeld: generiert auch einen Event: <startsybol><text><endesymbol>
 
 Prio 2:
 
@@ -43,6 +42,7 @@ Erledigt:
 * Bildfeld (.png, jpg, ...) (ohne Funktion)
 * Drehspulinstrumentanzeige
 * Füllstandsmesseranzeige
+* Textfeld: generiert auch einen Event: <startsybol><text><endesymbol>
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
