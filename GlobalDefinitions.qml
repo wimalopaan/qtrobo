@@ -26,7 +26,8 @@ QtObject{
         Spinbox,
         Image,
         TextInput,
-        CircularGauge
+        CircularGauge,
+        LinearGauge
     }
 
     property var componentName: [
@@ -40,6 +41,26 @@ QtObject{
         "DraggableSpinbox",
         "DraggableImage",
         "DraggableTextInput",
-        "DraggableCircularGauge"
+        "DraggableCircularGauge",
+        "DraggableLinearGauge"
     ]
+
+    property var componentDisplayName: [
+        "Button",
+        "Indicator Button",
+        "Slider",
+        "Balance Slider",
+        "Dropdown",
+        "LED",
+        "Serial Display",
+        "Spinbox",
+        "Image",
+        "Text Input",
+        "Circular Gauge",
+        "Linear Gauge"
+    ]
+
+    function getDisplayName(componentType){
+        return componentDisplayName[componentType]
+    }
 }

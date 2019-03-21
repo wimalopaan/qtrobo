@@ -9,7 +9,6 @@ Rectangle {
     border.width: 2
     border.color: componentColor
 
-    property string displayedName: qsTr("Dropdown")
     property string eventName
     property alias label: label.text
     property alias enabled: comboBox.enabled

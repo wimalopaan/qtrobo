@@ -22,7 +22,7 @@ Dialog{
                 font.capitalization: Font.MixedCase
             }
             TabButton{
-                text: component.displayedName
+                text: GlobalDefinitions.getDisplayName(component.componentType)
                 font.capitalization: Font.MixedCase
                 enabled: loadComponentMenu(component) !== ""
             }
@@ -139,8 +139,8 @@ Dialog{
             return "DraggableBalanceSliderMenu.qml"
         else if(component instanceof DraggableImage)
             return "DraggableImageMenu.qml"
-        else if(component instanceof DraggableCircularGauge)
-            return "DraggableCircularGaugeMenu.qml"
+        else if(component instanceof DraggableCircularGauge || component instanceof DraggableLinearGauge)
+            return "DraggableGaugeMenu.qml"
         else
             return ""
     }

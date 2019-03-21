@@ -8,15 +8,15 @@ import QtQuick.Layouts 1.3
 
 Item{
     id: root
-    width: 300
+    width: 150
     height: 300
 
     property string eventName
-    property string label: qsTr("New Circular Gauge")
+    property string label: qsTr("New Linear Gauge")
     property alias enabled: layout.enabled
     property alias minimumValue: gauge.minimumValue
     property alias maximumValue: gauge.maximumValue
-    property var componentType: GlobalDefinitions.ComponentType.CircularGauge
+    property var componentType: GlobalDefinitions.ComponentType.LinearGauge
     property color fontColor: "black"
     property color componentColor: "black"
     property bool edible: true
@@ -37,38 +37,52 @@ Item{
             font.pointSize: 12
         }
 
-        CircularGauge{
+        Gauge{
             id: gauge
             Layout.fillHeight: true
-            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
 
-            style: CircularGaugeStyle{
-                tickmarkStepSize: Math.abs(parent.maximumValue - parent.minimumValue) / 10
-                tickmarkLabel: Text{
-                    font.pixelSize: Math.max(6, outerRadius * 0.1)
-                    text: styleData.value
-                    color: fontColor
-                    antialiasing: true
-                }
-
-                tickmark: Rectangle{
-                    implicitWidth: outerRadius * 0.02
-                    antialiasing: true
-                    implicitHeight: outerRadius * 0.06
-                    color: componentColor
-                }
-
-                minorTickmark: Rectangle {
-                    implicitWidth: outerRadius * 0.01
-                    antialiasing: true
-                    implicitHeight: outerRadius * 0.03
-                    color: componentColor
-                }
-            }
-
+            tickmarkStepSize: Math.abs(maximumValue - minimumValue) / 10
             Behavior on value{
                 SmoothedAnimation{
                     velocity: 50
+                }
+            }
+
+            style: GaugeStyle{
+                tickmark: Item {
+                    implicitWidth: 18
+                    implicitHeight: 1
+
+                    Rectangle {
+                        color: fontColor
+                        anchors.fill: parent
+                        anchors.leftMargin: 3
+                        anchors.rightMargin: 3
+                    }
+                }
+
+                minorTickmark: Item {
+                    implicitWidth: 8
+                    implicitHeight: 1
+
+                    Rectangle {
+                        color: fontColor
+                        anchors.fill: parent
+                        anchors.leftMargin: 2
+                        anchors.rightMargin: 4
+                    }
+                }
+
+                tickmarkLabel: Text{
+                    color: fontColor
+                    text: Math.floor(styleData.value)
+                    font.pointSize: 10
+                }
+
+                valueBar: Rectangle {
+                    implicitWidth: 16
+                    color: componentColor
                 }
             }
         }

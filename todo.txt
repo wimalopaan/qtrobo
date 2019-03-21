@@ -9,7 +9,6 @@ Prio 1:
 Prio 2:
 
 * Füllstandsmesseranzeige
-* Drehspulinstrumentanzeige
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Slider-Koppelelement 
 * Graph-Anzeige (über Anzahl der Werte)
@@ -43,6 +42,7 @@ Erledigt:
   Event und erwartet eine einstellbare Antwort. Kommt diese, wird es grün, kommt diese nicht, wird es rot
 * KeepAlive deativiert (konfigurierbar) die gesamten Controls
 * Bildfeld (.png, jpg, ...) (ohne Funktion)
+* Drehspulinstrumentanzeige
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)

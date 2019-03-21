@@ -5,7 +5,7 @@ Item{
     id: root
     width: 200
     height: width * (image.sourceSize.height / image.sourceSize.width)
-    property string displayedName: qsTr("Image")
+
     property alias enabled: image.enabled
     property var componentType: GlobalDefinitions.ComponentType.Image
     property bool edible: true

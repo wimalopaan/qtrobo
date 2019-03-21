@@ -29,8 +29,6 @@ GridLayout{
 
     }
 
-
-
     Label{
         Layout.fillWidth: true
         text: qsTr("Max Value:")

@@ -8,7 +8,6 @@ Item{
     width: 200
     height: 30
 
-    property string displayedName: qsTr("Slider")
     property alias label: label.text
     property string eventName
     property alias enabled: slider.enabled

@@ -9,7 +9,6 @@ Rectangle{
     border.color: componentColor
     border.width: 2
 
-    property string displayedName: qsTr("Serial Display")
     property alias label: displayName.text
     property alias enabled: textArea.enabled
     property string eventName

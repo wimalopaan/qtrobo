@@ -30,6 +30,7 @@
         <file>DraggableImageMenu.qml</file>
         <file>DraggableTextInput.qml</file>
         <file>DraggableCircularGauge.qml</file>
-        <file>DraggableCircularGaugeMenu.qml</file>
+        <file>DraggableGaugeMenu.qml</file>
+        <file>DraggableLinearGauge.qml</file>
     </qresource>
 </RCC>

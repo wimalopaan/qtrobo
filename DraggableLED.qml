@@ -8,7 +8,6 @@ Item {
     width: 30
     height: 30
 
-    property string displayedName: qsTr("LED")
     property string eventName
     property alias label: label.text
     property alias enabled: led.enabled

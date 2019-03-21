@@ -7,7 +7,7 @@ Rectangle{
     width: 200
     height: 100
     border.width: 2
-    property string displayedName: qsTr("Text Input")
+
     property string eventName
     property string label: qsTr("New Textinput")
     property alias enabled: layout.enabled
