@@ -4,16 +4,16 @@ Bugs:
 
 Prio 1:
 
+* Graph-Anzeige (über Anzahl der Werte)
+* senden an eine pipe/local-socket: Pfadname
 
 Prio 2:
 
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Slider-Koppelelement 
-* Graph-Anzeige (über Anzahl der Werte)
 * stabiles JSON-Dateiformat
 (* Drehknopf / Poti)
 * JavaScript-Integration für Berechnungen
-* senden an eine pipe/local-socket: Pfadname
 * Localization
 
 Erledigt:
