@@ -27,7 +27,8 @@ QtObject{
         Image,
         TextInput,
         CircularGauge,
-        LinearGauge
+        LinearGauge,
+        Chart
     }
 
     property var componentName: [
@@ -42,7 +43,8 @@ QtObject{
         "DraggableImage",
         "DraggableTextInput",
         "DraggableCircularGauge",
-        "DraggableLinearGauge"
+        "DraggableLinearGauge",
+        "DraggableChart"
     ]
 
     property var componentDisplayName: [
@@ -57,7 +59,8 @@ QtObject{
         "Image",
         "Text Input",
         "Circular Gauge",
-        "Linear Gauge"
+        "Linear Gauge",
+        "Chart"
     ]
 
     function getDisplayName(componentType){

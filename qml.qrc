@@ -32,5 +32,6 @@
         <file>DraggableCircularGauge.qml</file>
         <file>DraggableGaugeMenu.qml</file>
         <file>DraggableLinearGauge.qml</file>
+        <file>DraggableChart.qml</file>
     </qresource>
 </RCC>

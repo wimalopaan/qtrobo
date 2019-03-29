@@ -7,5 +7,6 @@ As the project relies on the QT framework it is necessary to have it installed. 
 
 * QT5 Serial Port 
 * QT5 Quickcontrols 2
+* QT5 Charts
 
 The compilation should be straight forward as the project utilizes the standard qmake build for QT applications.
