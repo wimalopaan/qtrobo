@@ -2,9 +2,13 @@ QtRobo:
 
 Bugs:
 
+* Vermutung: Beim Parsen gehen Zeichen verloren
+
 Prio 1:
 
-* Debug-Fenster: hier werden alle empfangenen Strings omplett angezeigt
+* Debug-Fenster: hier werden alle empfangenen Strings komplett angezeigt
+* Spinbox: maximal/Minimal-Wert
+* normaler Slider: Mittelstrich
 * Graph-Anzeige (über Anzahl der Werte), Anzahl der dargestellten x-Werte einstellbar, y-Skalierung [auto/fest]
 * senden an eine pipe/local-socket: Pfadname
 
