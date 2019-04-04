@@ -3,6 +3,7 @@ QtRobo:
 Bugs:
 
 * Vermutung: Beim Parsen gehen Zeichen verloren
+* sendet noch `\0` mit am Ende eines Events
 
 Prio 1:
 
