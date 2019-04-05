@@ -1,4 +1,5 @@
 #include "messageparser.h"
+#include <QChar>
 
 MessageParser::MessageParser(QObject *parent) : QObject(parent), mCurrentState(State::START){}
 
@@ -41,14 +42,14 @@ void MessageParser::parseData(char byte){
             mCurrentState = State::VALUE;
         else if(byte == mEventEnd)
             mCurrentState = State::END;
-        else
+        else if(QChar::isLetterOrNumber(static_cast<uint>(byte)))
             mCurrentEvent.eventName.append(byte);
         break;
 
     case State::VALUE:
         if(byte == mEventEnd)
             mCurrentState = State::END;
-        else
+        else if(QChar::isLetterOrNumber(static_cast<uint>(byte)))
             mCurrentEvent.value.append(byte);
         break;
 
