@@ -75,7 +75,10 @@ void SerialConnection::writeToSerial(const QString &eventName){
         request += mParser.eventEnd();
         const char* dataBytes = request.toStdString().c_str();
 
-        mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes) + 1));
+        if(mParser.eventEnd() == '\0')
+            mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)) + 1);
+        else
+            mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)));
     }
 }
 
