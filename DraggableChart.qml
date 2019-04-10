@@ -13,6 +13,12 @@ Item{
     property alias enabled: chart.enabled
     property var componentType: GlobalDefinitions.ComponentType.Chart
     property alias componentColor: series.color
+    property int numberOfValues: 10
+    onNumberOfValuesChanged: {
+        while(series.count > numberOfValues)
+            series.remove(0)
+    }
+
     property color fontColor: "black"
     property bool edible: true
     onEdibleChanged: enabled = !edible
@@ -26,30 +32,42 @@ Item{
 
         LineSeries{
             id: series
-            property int counter: 0
+            useOpenGL: true
 
             function addValue(y){
-                series.append(counter++, y)
+
+                if(count > Math.abs(xAxis.min))
+                    series.remove(0)
+
+                for(var i = 0; i < count; ++i){
+                    replace(series.at(i).x, series.at(i).y, series.at(i).x - 1, series.at(i).y)
+                }
+
+                series.append(0, y)
+
                 if(y > yAxis.max)
                     yAxis.max = Math.ceil(y)
             }
 
-            onCountChanged: {
+            /*onCountChanged: {
                 if(count > xAxis.max + 1){
                     xAxis.min++;
                     xAxis.max++;
                 }
-                count
-            }
+            }*/
 
             axisX: ValueAxis{
                 id: xAxis
-                min: 0
-                max: 10
-                tickCount: 10
+                min: numberOfValues * -1
+                max: 0
+                tickCount: 5
+                minorTickCount: 5
                 gridLineColor: "gray"
+                minorGridLineColor: "lightgray"
                 labelFormat: "%i"
                 labelsColor: fontColor
+
+                onMinChanged: applyNiceNumbers()
             }
 
             axisY: ValueAxis{
@@ -66,7 +84,6 @@ Item{
         id: connection
         target: serialConnection
         onDataChanged: {
-            console.log(data)
             if(eventName && root.eventName === eventName){
                 var parsedVal = parseInt(data)
                 if(!isNaN(parsedVal))

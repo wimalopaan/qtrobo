@@ -141,6 +141,8 @@ Dialog{
             return "DraggableImageMenu.qml"
         else if(component instanceof DraggableCircularGauge || component instanceof DraggableLinearGauge)
             return "DraggableGaugeMenu.qml"
+        else if(component instanceof DraggableChart)
+            return "DraggableChartMenu.qml"
         else
             return ""
     }

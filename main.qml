@@ -434,7 +434,8 @@ ApplicationWindow {
                     maximumValue: child.maximumValue,
                     showValue: child.showValue,
                     modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
-                    imageSource: child.imageSource ? child.imageSource.toString() : undefined
+                    imageSource: child.imageSource ? child.imageSource.toString() : undefined,
+                    numberOfValues: child.numberOfValues
                 }
 
                 objs.push(obj)
@@ -475,6 +476,8 @@ ApplicationWindow {
                         componentObject.maximumValue = obj.maximumValue
                     if(obj.showValue)
                         componentObject.showValue = obj.showValue
+                    if(obj.numberOfValues)
+                        componentObject.numberOfValues = obj.numberOfValues
                     if(obj.modelEntries){
                         componentObject.model.clear()
                         for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)

@@ -33,5 +33,6 @@
         <file>DraggableGaugeMenu.qml</file>
         <file>DraggableLinearGauge.qml</file>
         <file>DraggableChart.qml</file>
+        <file>DraggableChartMenu.qml</file>
     </qresource>
 </RCC>
