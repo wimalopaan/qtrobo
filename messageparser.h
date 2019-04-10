@@ -11,8 +11,7 @@ public:
     enum class State{
         START,
         EVENT,
-        VALUE,
-        END
+        VALUE
     };
 
     struct Event{

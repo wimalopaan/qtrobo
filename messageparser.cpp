@@ -40,22 +40,21 @@ void MessageParser::parseData(char byte){
     case State::EVENT:
         if(byte == mEventValueDivider)
             mCurrentState = State::VALUE;
-        else if(byte == mEventEnd)
-            mCurrentState = State::END;
+        else if(byte == mEventEnd){
+            mCurrentState = State::START;
+            emit messageParsed(mCurrentEvent);
+        }
         else if(QChar::isLetterOrNumber(static_cast<uint>(byte)))
             mCurrentEvent.eventName.append(byte);
         break;
 
     case State::VALUE:
-        if(byte == mEventEnd)
-            mCurrentState = State::END;
+        if(byte == mEventEnd){
+            mCurrentState = State::START;
+            emit messageParsed(mCurrentEvent);
+        }
         else if(QChar::isLetterOrNumber(static_cast<uint>(byte)))
             mCurrentEvent.value.append(byte);
-        break;
-
-    case State::END:
-        mCurrentState = State::START;
-        emit messageParsed(mCurrentEvent);
         break;
     }
 }
