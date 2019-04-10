@@ -34,5 +34,7 @@
         <file>DraggableLinearGauge.qml</file>
         <file>DraggableChart.qml</file>
         <file>DraggableChartMenu.qml</file>
+        <file>bug_logo.png</file>
+        <file>DebugPopup.qml</file>
     </qresource>
 </RCC>

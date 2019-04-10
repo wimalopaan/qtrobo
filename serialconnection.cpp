@@ -95,7 +95,7 @@ void SerialConnection::onReadyRead(){
     if(mSerialPort.isOpen()){
 
         QByteArray dataBuffer = mSerialPort.readAll();
-
+        emit debugChanged(dataBuffer);
         mParser.parseData(dataBuffer);
     }
 }

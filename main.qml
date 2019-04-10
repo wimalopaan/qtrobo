@@ -208,6 +208,16 @@ ApplicationWindow {
         spacing: 2
         width: parent.width
 
+        Button{
+            Layout.fillHeight: true
+            icon.source: "qrc:/bug_logo.png"
+            onClicked: debugPopup.open()
+
+            DebugPopup{
+                id: debugPopup
+            }
+        }
+
         TabBar{
             id: tabBar
             Layout.fillWidth: true
