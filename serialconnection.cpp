@@ -75,6 +75,8 @@ void SerialConnection::writeToSerial(const QString &eventName){
         request += mParser.eventEnd();
         const char* dataBytes = request.toStdString().c_str();
 
+        parseDebug("Out", QByteArray{dataBytes});
+
         if(mParser.eventEnd() == '\0')
             mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)) + 1);
         else
@@ -95,7 +97,7 @@ void SerialConnection::onReadyRead(){
     if(mSerialPort.isOpen()){
 
         QByteArray dataBuffer = mSerialPort.readAll();
-        emit debugChanged(dataBuffer);
+        parseDebug("In", dataBuffer);
         mParser.parseData(dataBuffer);
     }
 }
@@ -178,4 +180,26 @@ char SerialConnection::eventStart() const{
 
 void SerialConnection::eventStart(char eventStart){
     mParser.eventStart(eventStart);
+}
+
+void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
+    QString result = tag;
+    result.append("\t\t");
+    for(char byte : data){
+        switch(byte){
+            case '\n':
+                result.append("\\n");
+                break;
+            case '\r':
+                result.append("\\r");
+                break;
+            case '\0':
+                result.append("\\0");
+                break;
+            default:
+                result.append(byte);
+        }
+    }
+
+    emit debugChanged(result);
 }

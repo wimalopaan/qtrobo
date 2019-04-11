@@ -28,7 +28,7 @@ class SerialConnection: public QObject
     Q_PROPERTY(int heartbeatTimeout MEMBER mHeartbeatTimeout NOTIFY heartbeatTimeoutChanged)
     Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
     Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
-    Q_PROPERTY(QByteArray debug MEMBER mDebug NOTIFY debugChanged)
+    Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
 
 public:
     SerialConnection(QObject *parent = nullptr);
@@ -64,6 +64,8 @@ public:
     char eventStart() const;
     void eventStart(char eventStart);
 
+    void parseDebug(const QString& tag, const QByteArray& data);
+
 signals:
     void dataChanged(const QString &eventName, const QString &data);
     void connectionStateChanged(bool connectionState);
@@ -78,7 +80,7 @@ signals:
     void heartbeatResponseChanged(const QString &heartbeatResponse);
     void heartbeatTimeoutChanged(int heartbeatTimeout);
     void heartbeatEnabledChanged(bool heartbeatEnabled);
-    void debugChanged(const QByteArray& debug);
+    void debugChanged(const QString& debug);
 
 public slots:
     void onReadyRead();
@@ -97,7 +99,7 @@ private:
     int mHeartbeatTimeout;
     bool mHeartbeatStatus;
     bool mHeartbeatEnabled;
-    QByteArray mDebug;
+    QString mDebug;
 
     static const char DEFAULT_EVENT_START = '$';
     static const char DEFAULT_EVENT_VALUE_DIVIDER = ':';

@@ -211,11 +211,16 @@ ApplicationWindow {
         Button{
             Layout.fillHeight: true
             icon.source: "qrc:/bug_logo.png"
-            onClicked: debugPopup.open()
+            onClicked: {
+                var component = Qt.createComponent("DebugPopup.qml")
+                if(component){
+                    var debugWindow = component.createObject(window)
+                    if(debugWindow)
+                        debugWindow.show()
+                }
 
-            DebugPopup{
-                id: debugPopup
             }
+
         }
 
         TabBar{
