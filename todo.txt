@@ -2,12 +2,10 @@ QtRobo:
 
 Bugs:
 
-* Vermutung: Beim Parsen gehen Zeichen verloren
-* sendet noch `\0` mit am Ende eines Events
+* Button geben kein visuelles Feedback beim Klicken
 
 Prio 1:
 
-* Debug-Fenster: hier werden alle empfangenen Strings komplett angezeigt
 * Abbildung des angezeigten Wertebereiches eines Sliders / Gauge auf den übertragenen Wertebereich. Etwa [-100,100] (angezeigt) auf [0,200] übertragen.
 * Spinbox: maximal/Minimal-Wert
 * normaler Slider: Mittelstrich zeichnen
@@ -51,6 +49,9 @@ Erledigt:
 * Drehspulinstrumentanzeige
 * Füllstandsmesseranzeige
 * Textfeld: generiert auch einen Event: <startsybol><text><endesymbol>
+* Vermutung: Beim Parsen gehen Zeichen verloren
+* sendet noch `\0` mit am Ende eines Events
+* Debug-Fenster: hier werden alle empfangenen Strings komplett angezeigt
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
