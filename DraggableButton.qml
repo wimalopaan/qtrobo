@@ -19,9 +19,10 @@ Item{
         id: button
         anchors.fill: parent
         text: qsTr("New Button")
-
         enabled: false
         font.pointSize: 12
+
+        property bool isPressed: false
 
         contentItem: Text{
             text: parent.text
@@ -38,13 +39,22 @@ Item{
             anchors.fill: parent
             color: "lightgray"
             radius: 2
+
+            Rectangle{
+                anchors.fill: parent
+                color: Qt.rgba(0.5, 0.5, 0.5, (button.isPressed ? 0.5 : 0))
+            }
         }
 
         onTextChanged: GlobalDefinitions.layoutEdited()
 
         onPressed:{
-            serialConnection.writeToSerial(eventName);
+            serialConnection.writeToSerial(eventName)
+            isPressed = true
         }
+
+        onReleased: isPressed = false
+
     }
 
     DeleteComponentKnob{

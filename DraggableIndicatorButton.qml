@@ -22,10 +22,15 @@ Item{
         text: qsTr("New Button")
         enabled: false
         font.pointSize: 12
-
         property bool isOn: false
+        property bool isPressed: false
 
-        onPressed: serialConnection.writeToSerial(eventName, +isOn);
+        onPressed: {
+            serialConnection.writeToSerial(eventName, +isOn)
+            isPressed = true
+        }
+
+        onReleased: isPressed = false
 
         contentItem: Text{
             text: parent.text
@@ -40,6 +45,13 @@ Item{
         background: Rectangle{
             anchors.fill: parent
             color: componentColor
+            radius: 2
+
+            Rectangle{
+                anchors.fill: parent
+                color: Qt.rgba(0.5, 0.5, 0.5, (button.isPressed ? 0.5 : 0))
+                radius: 2
+            }
         }
 
 

@@ -2,8 +2,6 @@ QtRobo:
 
 Bugs:
 
-* Button geben kein visuelles Feedback beim Klicken
-
 Prio 1:
 
 * Abbildung des angezeigten Wertebereiches eines Sliders / Gauge auf den übertragenen Wertebereich. Etwa [-100,100] (angezeigt) auf [0,200] übertragen.
@@ -52,6 +50,7 @@ Erledigt:
 * Debug-Fenster: hier werden alle empfangenen Strings komplett angezeigt
 * Spinbox: maximal/Minimal-Wert
 * normaler Slider: Mittelstrich zeichnen
+* Button geben kein visuelles Feedback beim Klicken
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
