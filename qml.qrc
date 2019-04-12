@@ -36,5 +36,6 @@
         <file>DraggableChartMenu.qml</file>
         <file>bug_logo.png</file>
         <file>DebugPopup.qml</file>
+        <file>DraggableSpinboxMenu.qml</file>
     </qresource>
 </RCC>

@@ -15,12 +15,10 @@ Rectangle{
     property var componentType: GlobalDefinitions.ComponentType.Spinbox
     property color componentColor: "lightgray"
     property color fontColor: "black"
+    property alias minimumValue: spinbox.from
+    property alias maximumValue: spinbox.to
     property bool edible: true
     onEdibleChanged: enabled = !edible
-
-    IntValidator{
-        id: rangeValidator
-    }
 
     ColumnLayout{
         anchors.fill: parent
@@ -40,8 +38,8 @@ Rectangle{
             Layout.rightMargin: 15
             enabled: false
             editable: true
-            from: rangeValidator.bottom
-            to: rangeValidator.top
+            from: 0
+            to: 100
             contentItem: TextInput{
                 z:2
                 text: parent.textFromValue(parent.value, parent.locale)

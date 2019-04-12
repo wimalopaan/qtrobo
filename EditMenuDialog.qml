@@ -143,6 +143,8 @@ Dialog{
             return "DraggableGaugeMenu.qml"
         else if(component instanceof DraggableChart)
             return "DraggableChartMenu.qml"
+        else if(component instanceof DraggableSpinbox)
+            return "DraggableSpinboxMenu.qml"
         else
             return ""
     }
