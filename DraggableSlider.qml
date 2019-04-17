@@ -18,6 +18,7 @@ Item{
     property var componentType: GlobalDefinitions.ComponentType.Slider
     property color componentColor: Material.color(Material.Indigo)
     property color fontColor: "black"
+    property bool mapToUnsigned: false
     property bool edible: true
     onEdibleChanged: enabled = !edible
 
@@ -75,17 +76,28 @@ Item{
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        onValueChanged: serialConnection.writeToSerial(eventName, value)
+        onValueChanged: {
+            var sentValue = value
+            if(mapToUnsigned)
+                sentValue = sentValue - slider.from
+
+            serialConnection.writeToSerial(eventName, sentValue)
+        }
     }
 
     Connections{
         target: serialConnection
         onDataChanged:{
             if(eventName === root.eventName && data){
-                slider.value = +data
+                var receivedValue = +data
+                if(mapToUnsigned)
+                    receivedValue = receivedValue + slider.from
+
+                slider.value = receivedValue
             }
         }
     }
+
 
     DeleteComponentKnob{
         root: root

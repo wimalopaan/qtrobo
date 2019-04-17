@@ -46,4 +46,15 @@ GridLayout{
             component.maximumValue = value
         }
     }
+
+    Label{
+        Layout.fillWidth: true
+        text: qsTr("Map To Unsigned:")
+    }
+
+    CheckBox{
+        checked: component.mapToUnsigned !== undefined ? component.mapToUnsigned : false
+        onCheckedChanged: component.mapToUnsigned = checked
+        Layout.fillWidth: true
+    }
 }

@@ -4,7 +4,6 @@ Bugs:
 
 Prio 1:
 
-* Abbildung des angezeigten Wertebereiches eines Sliders / Gauge auf den übertragenen Wertebereich. Etwa [-100,100] (angezeigt) auf [0,200] übertragen.
 * Defaultwerte: nach dem Starten werden die Elemente auf diesen initial-Wert gesetzt
 * Graph-Anzeige (über Anzahl der Werte), Anzahl der dargestellten x-Werte einstellbar, y-Skalierung [auto/fest]
 * senden an eine pipe/local-socket: Pfadname
@@ -51,6 +50,7 @@ Erledigt:
 * Spinbox: maximal/Minimal-Wert
 * normaler Slider: Mittelstrich zeichnen
 * Button geben kein visuelles Feedback beim Klicken
+* Abbildung des angezeigten Wertebereiches eines Sliders / Gauge auf den übertragenen Wertebereich. Etwa [-100,100] (angezeigt) auf [0,200] übertragen.
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)

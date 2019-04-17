@@ -16,4 +16,15 @@ GridLayout{
         onCheckedChanged: component.showValue = checked
         Layout.fillWidth: true
     }
+
+    Label{
+        Layout.fillWidth: true
+        text: qsTr("Map To Unsigned:")
+    }
+
+    CheckBox{
+        checked: component.mapToUnsigned !== undefined ? component.mapToUnsigned : false
+        onCheckedChanged: component.mapToUnsigned = checked
+        Layout.fillWidth: true
+    }
 }

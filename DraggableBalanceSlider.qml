@@ -17,6 +17,7 @@ Item{
     property color componentColor: Material.color(Material.Indigo)
     property color fontColor: "black"
     property bool edible: true
+    property bool mapToUnsigned: false
     onEdibleChanged: enabled = !edible
 
 
@@ -92,14 +93,24 @@ Item{
             color: fontColor
         }
 
-        onValueChanged: serialConnection.writeToSerial(eventName, value)
+        onValueChanged: {
+            var sentValue = value
+            if(mapToUnsigned)
+                sentValue = sentValue - slider.from
+
+            serialConnection.writeToSerial(eventName, sentValue)
+        }
     }
 
     Connections{
         target: serialConnection
         onDataChanged:{
             if(eventName === root.eventName && data){
-                slider.value = +data
+                var receivedValue = +data
+                if(mapToUnsigned)
+                    receivedValue = receivedValue + slider.from
+
+                slider.value = receivedValue
             }
         }
     }

@@ -20,6 +20,7 @@ Item{
     property color fontColor: "black"
     property color componentColor: "black"
     property bool edible: true
+    property bool mapToUnsigned: false
     onEdibleChanged: enabled = !edible
 
     GridLayout{
@@ -68,7 +69,7 @@ Item{
 
             Behavior on value{
                 SmoothedAnimation{
-                    velocity: 50
+                    velocity: 75
                 }
             }
         }
@@ -76,11 +77,13 @@ Item{
         Connections{
             id: connection
             target: serialConnection
-            onDataChanged: {
-                console.log(data)
-                if(eventName && root.eventName === eventName){
-                    gauge.value = data
+            onDataChanged:{
+                if(eventName === root.eventName && data){
+                    var receivedValue = +data
+                    if(mapToUnsigned)
+                        receivedValue = receivedValue + gauge.minimumValue
 
+                    gauge.value = receivedValue
                 }
             }
 

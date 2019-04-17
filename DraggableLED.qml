@@ -64,8 +64,6 @@ Item {
                  enableLED = !!+data
             }
         }
-
-        Component.onDestruction: target = undefined
     }
 
     DeleteComponentKnob{
