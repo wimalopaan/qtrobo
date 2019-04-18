@@ -18,8 +18,9 @@ Item{
     property var componentType: GlobalDefinitions.ComponentType.Slider
     property color componentColor: Material.color(Material.Indigo)
     property color fontColor: "black"
-    property bool mapToUnsigned: false
     property bool edible: true
+    property int mappedMinimumValue: slider.from
+    property int mappedMaximumValue: slider.to
     onEdibleChanged: enabled = !edible
 
     Slider{
@@ -76,13 +77,7 @@ Item{
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        onValueChanged: {
-            var sentValue = value
-            if(mapToUnsigned)
-                sentValue = sentValue - slider.from
-
-            serialConnection.writeToSerial(eventName, sentValue)
-        }
+        onValueChanged: serialConnection.writeToSerial(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
     }
 
     Connections{
@@ -90,14 +85,10 @@ Item{
         onDataChanged:{
             if(eventName === root.eventName && data){
                 var receivedValue = +data
-                if(mapToUnsigned)
-                    receivedValue = receivedValue + slider.from
-
-                slider.value = receivedValue
+                slider.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, slider.from, slider.to)
             }
         }
     }
-
 
     DeleteComponentKnob{
         root: root

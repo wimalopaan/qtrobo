@@ -66,4 +66,12 @@ QtObject{
     function getDisplayName(componentType){
         return componentDisplayName[componentType]
     }
+
+    function mapToValueRange(value, fromMin, fromMax, toMin, toMax){
+        var result = 1 / (fromMax - fromMin)
+        result = result * (value - fromMin)
+        result = result * (toMax - toMin)
+        result = result + toMin
+        return (result | 0)
+    }
 }

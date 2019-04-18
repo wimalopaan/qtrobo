@@ -58,12 +58,31 @@ GridLayout{
 
     Label{
         Layout.fillWidth: true
-        text: qsTr("Map To Unsigned:")
+        text: qsTr("Map To Min Value:")
     }
 
-    CheckBox{
-        checked: component.mapToUnsigned !== undefined ? component.mapToUnsigned : false
-        onCheckedChanged: component.mapToUnsigned = checked
+    SpinBox{
+        id: sliderMappedMinValue
         Layout.fillWidth: true
+        from: rangeValidator.bottom
+        to: rangeValidator.top
+        value: component.mappedMinimumValue !== undefined ? component.mappedMinimumValue : 0
+        editable: true
+        onValueChanged: component.mappedMinimumValue = value
+    }
+
+    Label{
+        Layout.fillWidth: true
+        text: qsTr("Map To Max Value:")
+    }
+
+    SpinBox{
+        id: sliderMappedMaxValue
+        Layout.fillWidth: true
+        from: rangeValidator.bottom
+        to: rangeValidator.top
+        value: component.mappedMaximumValue !== undefined ? component.mappedMaximumValue : 0
+        editable: true
+        onValueChanged: component.mappedMaximumValue = value
     }
 }

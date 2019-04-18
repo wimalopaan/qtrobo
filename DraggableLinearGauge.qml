@@ -16,6 +16,8 @@ Item{
     property alias enabled: layout.enabled
     property alias minimumValue: gauge.minimumValue
     property alias maximumValue: gauge.maximumValue
+    property int mappedMinimumValue: gauge.minimumValue
+    property int mappedMaximumValue: gauge.maximumValue
     property var componentType: GlobalDefinitions.ComponentType.LinearGauge
     property color fontColor: "black"
     property color componentColor: "black"
@@ -94,10 +96,7 @@ Item{
             onDataChanged:{
                 if(eventName === root.eventName && data){
                     var receivedValue = +data
-                    if(mapToUnsigned)
-                        receivedValue = receivedValue + gauge.minimumValue
-
-                    gauge.value = receivedValue
+                    gauge.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
                 }
             }
 

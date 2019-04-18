@@ -447,8 +447,9 @@ ApplicationWindow {
                     componentColor: child.componentColor,
                     minimumValue: child.minimumValue,
                     maximumValue: child.maximumValue,
+                    mappedMinimumValue: child.mappedMinimumValue,
+                    mappedMaximumValue: child.mappedMaximumValue,
                     showValue: child.showValue,
-                    mapToUnsigned: child.mapToUnsigned,
                     modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
                     imageSource: child.imageSource ? child.imageSource.toString() : undefined,
                     numberOfValues: child.numberOfValues
@@ -492,8 +493,10 @@ ApplicationWindow {
                         componentObject.maximumValue = obj.maximumValue
                     if(obj.showValue)
                         componentObject.showValue = obj.showValue
-                    if(obj.mapToUnsigned)
-                        componentObject.mapToUnsigned = obj.mapToUnsigned
+                    if(obj.mappedMinimumValue)
+                        componentObject.mappedMinimumValue = obj.mappedMinimumValue
+                    if(obj.mappedMaximumValue)
+                        componentObject.mappedMaximumValue = obj.mappedMaximumValue
                     if(obj.numberOfValues)
                         componentObject.numberOfValues = obj.numberOfValues
                     if(obj.modelEntries){

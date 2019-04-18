@@ -17,7 +17,10 @@ Item{
     property color componentColor: Material.color(Material.Indigo)
     property color fontColor: "black"
     property bool edible: true
-    property bool mapToUnsigned: false
+    property int mappedMinimumValue: slider.from
+    property int mappedMaximumValue: slider.to
+    property alias minimumValue: slider.from
+    property alias maximumValue: slider.to
     onEdibleChanged: enabled = !edible
 
 
@@ -93,24 +96,15 @@ Item{
             color: fontColor
         }
 
-        onValueChanged: {
-            var sentValue = value
-            if(mapToUnsigned)
-                sentValue = sentValue - slider.from
-
-            serialConnection.writeToSerial(eventName, sentValue)
-        }
+        onValueChanged: serialConnection.writeToSerial(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
     }
 
     Connections{
         target: serialConnection
         onDataChanged:{
             if(eventName === root.eventName && data){
-                var receivedValue = +data
-                if(mapToUnsigned)
-                    receivedValue = receivedValue + slider.from
-
-                slider.value = receivedValue
+                var receivedValue = +data  
+                slider.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, slider.from, slider.to)
             }
         }
     }
