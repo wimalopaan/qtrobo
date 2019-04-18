@@ -184,7 +184,8 @@ void SerialConnection::eventStart(char eventStart){
 
 void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
     QString result = tag;
-    result.append("\t\t");
+    result.append("\u27A1");
+
     for(char byte : data){
         switch(byte){
             case '\n':

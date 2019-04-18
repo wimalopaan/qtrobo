@@ -10,17 +10,26 @@ Window{
 
     ScrollView{
         anchors.fill: parent
+        anchors.margins: 10
 
         TextArea{
             id: debugTextArea
             anchors.fill: parent
             readOnly: true
+            textFormat: Text.RichText
         }
-
 
         Connections{
             target: serialConnection
-            onDebugChanged:  debugTextArea.append(debug)
+            onDebugChanged:  {
+                var formattedText = "";
+                if(debug.startsWith("In")){
+                    formattedText = formattedText.concat("<span style=\"background-color: #b3ffe6;\">" + debug + "</span>");
+                }else{
+                    formattedText = formattedText.concat("<span style=\"background-color: #ffb3b3;\">" + debug + "</span>");
+                }
+                debugTextArea.append(formattedText)
+            }
         }
     }
 }
