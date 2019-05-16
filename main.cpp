@@ -5,6 +5,8 @@
 #include <QSerialPort>
 #include "serialconnection.h"
 #include "layoutpersist.h"
+#include "enumdefinitions.h"
+#include "qtrobo.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,11 +21,16 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<QSerialPort>("QSerialPort", 0, 1, "QSerialPort");
 
+    qmlRegisterUncreatableMetaObject(ConnectionType::staticMetaObject, "QtRobo.ConnectionType", 1, 0, "ConnectionType", "Error: only enums");
+    qRegisterMetaType<ConnectionType::ConnectionType>("ConnectionType");
+
+    QtRobo qtRobo;
     QQmlApplicationEngine engine;
     SerialConnection serialConnection;
     LayoutPersist layoutPersist;
 
-    engine.rootContext()->setContextProperty("serialConnection", &serialConnection);
+    engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
+    //engine.rootContext()->setContextProperty("serialConnection", &serialConnection);
     engine.rootContext()->setContextProperty("layoutPersist", &layoutPersist);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

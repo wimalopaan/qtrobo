@@ -1,12 +1,30 @@
-#ifndef QTROBO_H
-#define QTROBO_H
-
+#pragma once
 #include <QObject>
+#include <map>
+#include <memory>
 
-class QtRobo
+#include "connection.h"
+#include "enumdefinitions.h"
+
+class QtRobo: public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(Connection* connection READ connection NOTIFY connectionChanged)
+    Q_PROPERTY(ConnectionType::ConnectionType connectionType MEMBER mConnectionType NOTIFY connectionChanged)
+
 public:
-    QtRobo();
+    explicit QtRobo(QObject *parent = nullptr);
+    ~QtRobo();
+
+    Connection * connection();
+
+signals:
+    void connectionChanged();
+
+public slots:
+
+private:
+    std::map<ConnectionType::ConnectionType, std::unique_ptr<Connection>> mConnections;
+    ConnectionType::ConnectionType mConnectionType = ConnectionType::ConnectionType::Serial;
 };
 
-#endif // QTROBO_H

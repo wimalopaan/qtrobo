@@ -29,7 +29,7 @@ Dialog{
         TextField{
             id: eventStart
             Layout.fillWidth: true
-            text: String.fromCharCode(serialConnection.eventStart)
+            text: String.fromCharCode(qtRobo.connection.messageParser.eventStart)
             onTextChanged: text.length > 1 ? text = text.charAt(text.length - 1) : text
         }
 
@@ -40,7 +40,7 @@ Dialog{
         TextField{
             id: eventValueDivider
             Layout.fillWidth: true
-            text: String.fromCharCode(serialConnection.eventValueDivider)
+            text: String.fromCharCode(qtRobo.connection.messageParser.eventValueDivider)
             onTextChanged: text.length > 1 ? text = text.charAt(text.length - 1) : text
         }
 
@@ -52,7 +52,7 @@ Dialog{
             id: eventEnd
             Layout.fillWidth: true
             textRole: "description"
-            currentIndex: getIndexFromValue(eventEndModel, serialConnection.eventEnd)
+            currentIndex: getIndexFromValue(eventEndModel, qtRobo.connection.messageParser.eventEnd)
             property var currentItem: eventEndModel.get(currentIndex)
 
             model: ListModel{

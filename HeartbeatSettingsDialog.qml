@@ -19,7 +19,7 @@ Dialog{
         CheckBox{
             id: heartbeatEnabled
             Layout.fillWidth: true
-            checked: serialConnection.heartbeatEnabled
+            checked: qtRobo.connection.heartbeatEnabled
         }
 
         Text{
@@ -29,7 +29,7 @@ Dialog{
         TextField{
             id: heartbeatRequest
             Layout.fillWidth: true
-            text: serialConnection.heartbeatRequest
+            text: qtRobo.connection.heartbeatRequest
         }
 
         Text{
@@ -39,7 +39,7 @@ Dialog{
         TextField{
             id: heartbeatResponse
             Layout.fillWidth: true
-            text: serialConnection.heartbeatResponse
+            text: qtRobo.connection.heartbeatResponse
         }
 
         Text{
@@ -49,7 +49,7 @@ Dialog{
         SpinBox{
             id: heartbeatTimeout
             Layout.fillWidth: true
-            value: serialConnection.heartbeatTimeout
+            value: qtRobo.connection.heartbeatTimeout
             editable: true
             from:  500
             to: 10000
@@ -76,14 +76,14 @@ Dialog{
     }
 
     onAccepted: {
-        serialConnection.heartbeatEnabled = heartbeatEnabled.checked
+        qtRobo.connection.heartbeatEnabled = qtRobo.connection.checked
 
         if(heartbeatRequest.text.length > 0)
-            serialConnection.heartbeatRequest = heartbeatRequest.text
+            qtRobo.connection.heartbeatRequest = heartbeatRequest.text
 
         if(heartbeatResponse.text.length > 0)
-            serialConnection.heartbeatResponse = heartbeatResponse.text
+            qtRobo.connection.heartbeatResponse = heartbeatResponse.text
 
-        serialConnection.heartbeatTimeout = heartbeatTimeout.value
+        qtRobo.connection.heartbeatTimeout = heartbeatTimeout.value
     }
 }

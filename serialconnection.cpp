@@ -5,33 +5,48 @@
 #include <QJsonDocument>
 #include <QDebug>
 
-const char SerialConnection::DEFAULT_EVENT_START;
-const char SerialConnection::DEFAULT_EVENT_VALUE_DIVIDER;
-const char SerialConnection::DEFAULT_EVENT_END;
 
 SerialConnection::SerialConnection(QObject *parent) :
-    QObject(parent),
-    mHeartbeat(this),
-    mParser(this),
-    mHeartbeatRequest("PING"),
-    mHeartbeatResponse("PONG"),
-    mHeartbeatTimeout(1000),
-    mHeartbeatStatus(false),
-    mHeartbeatEnabled(false)
+    Connection(parent)
 {
-    connect(&mSerialPort, SIGNAL(readyRead()), SLOT(onReadyRead()));
-    connect(&mHeartbeat, SIGNAL(timeout()), this, SLOT(onHeartbeatTriggered()));
-    connect(&mParser, &MessageParser::messageParsed, this, &SerialConnection::onParsedValueReady);
+
 
     mSerialPort.setBaudRate(9600);
     mSerialPort.setStopBits(QSerialPort::TwoStop);
-
-    mParser.eventStart(DEFAULT_EVENT_START);
-    mParser.eventValueDivider(DEFAULT_EVENT_VALUE_DIVIDER);
-    mParser.eventEnd(DEFAULT_EVENT_END);    
 }
 
-QStringList SerialConnection::serialInterfaces() const{
+bool SerialConnection::isConnected() const{
+    return false;
+}
+
+void SerialConnection::write(const QString &eventName){
+
+}
+
+void SerialConnection::write(const QString &eventName, const QString &data){
+
+}
+
+void SerialConnection::connect(){
+
+}
+
+void SerialConnection::disconnect(){
+
+}
+
+QStringList SerialConnection::serialInterfaces(){
+    QSerialPortInfo serialPortInfo;
+    QStringList portNames;
+
+    for(auto info : serialPortInfo.availablePorts()){
+        portNames << info.portName();
+    }
+
+    return portNames;
+}
+
+/*QStringList SerialConnection::serialInterfaces() const{
     QSerialPortInfo serialPortInfo;
     QStringList portNames;
 
@@ -204,3 +219,5 @@ void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
 
     emit debugChanged(result);
 }
+
+*/

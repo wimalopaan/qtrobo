@@ -7,6 +7,10 @@
 class MessageParser: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(char eventStart READ eventStart WRITE eventStart NOTIFY eventStartChanged)
+    Q_PROPERTY(char eventValueDivider READ eventValueDivider WRITE eventValueDivider NOTIFY eventValueDividerChanged)
+    Q_PROPERTY(char eventEnd READ eventEnd WRITE eventEnd NOTIFY eventEndChanged)
+
 public:
     enum class State{
         START,
@@ -39,13 +43,16 @@ public:
 
 signals:
     void messageParsed(Event event);
+    void eventStartChanged(char eventStart);
+    void eventValueDividerChanged(char eventValueDivider);
+    void eventEndChanged(char eventEnd);
 
 public slots:
 
 private:
     MessageParser(const MessageParser&);
 
-    char mEventStart;
+    char mEventStart = '$';
     char mEventValueDivider;
     char mEventEnd;
 

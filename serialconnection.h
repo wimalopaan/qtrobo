@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <QObject>
 #include <QString>
 #include <vector>
@@ -7,34 +7,28 @@
 #include <QVariantList>
 #include <QTimer>
 
+#include "connection.h"
 #include "messageparser.h"
 
-class SerialConnection: public QObject
+class SerialConnection: public Connection
 {
 
     Q_OBJECT
-    Q_PROPERTY(QString data READ data NOTIFY dataChanged)
-    Q_PROPERTY(QString eventName READ eventName NOTIFY dataChanged)
-    Q_PROPERTY(QString portName READ portName)
-    Q_PROPERTY(bool isConnected READ isConnected NOTIFY connectionStateChanged)
-    Q_PROPERTY(qint32 baudrate READ baudrate WRITE baudrate NOTIFY baudrateChanged)
-    Q_PROPERTY(QSerialPort::StopBits stopbit READ stopbit WRITE stopbit NOTIFY stopbitChanged)
-    Q_PROPERTY(QSerialPort::Parity paritybit READ paritybit WRITE paritybit NOTIFY paritybitChanged)
-    Q_PROPERTY(char eventValueDivider READ eventValueDivider WRITE eventValueDivider NOTIFY eventValueDividerChanged)
-    Q_PROPERTY(char eventEnd READ eventEnd WRITE eventEnd NOTIFY eventEndChanged)
-    Q_PROPERTY(char eventStart READ eventStart WRITE eventStart NOTIFY eventStartChanged)
-    Q_PROPERTY(QString heartbeatRequest MEMBER mHeartbeatRequest NOTIFY heartbeatRequestChanged)
-    Q_PROPERTY(QString heartbeatResponse MEMBER mHeartbeatResponse NOTIFY heartbeatResponseChanged)
-    Q_PROPERTY(int heartbeatTimeout MEMBER mHeartbeatTimeout NOTIFY heartbeatTimeoutChanged)
-    Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
-    Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
-    Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
+    //Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
 
 public:
     SerialConnection(QObject *parent = nullptr);
 
-    Q_INVOKABLE QStringList serialInterfaces() const;
-    Q_INVOKABLE void connectToSerial(const QString &name);
+    virtual bool isConnected() const override;
+
+    void write(const QString &eventName) override;
+    void write(const QString &eventName, const QString &data) override;
+
+    void connect() override;
+    void disconnect() override;
+
+    Q_INVOKABLE QStringList serialInterfaces();
+    /*Q_INVOKABLE void connectToSerial(const QString &name);
     Q_INVOKABLE void disconnectFromSerial();
     Q_INVOKABLE void writeToSerial(const QString &eventName);
     Q_INVOKABLE void writeToSerial(const QString &eventName, const QVariant &value);
@@ -64,10 +58,10 @@ public:
     char eventStart() const;
     void eventStart(char eventStart);
 
-    void parseDebug(const QString& tag, const QByteArray& data);
+    void parseDebug(const QString& tag, const QByteArray& data);*/
 
 signals:
-    void dataChanged(const QString &eventName, const QString &data);
+    /*void dataChanged(const QString &eventName, const QString &data);
     void connectionStateChanged(bool connectionState);
     void baudrateChanged(qint32 baudrate);
     void stopbitChanged(QSerialPort::StopBits stopbit);
@@ -75,33 +69,27 @@ signals:
     void eventValueDividerChanged(char eventValueDivider);
     void eventEndChanged(char eventEnd);
     void eventStartChanged(char eventStart);
-    void heartbeatTriggered(bool heartbeatStatus);
-    void heartbeatRequestChanged(const QString &heartbeatRequest);
-    void heartbeatResponseChanged(const QString &heartbeatResponse);
-    void heartbeatTimeoutChanged(int heartbeatTimeout);
-    void heartbeatEnabledChanged(bool heartbeatEnabled);
-    void debugChanged(const QString& debug);
 
+    void debugChanged(const QString& debug);
+    */
 public slots:
-    void onReadyRead();
+    /*void onReadyRead();
     void onParsedValueReady(MessageParser::Event event);
     void onHeartbeatTriggered();
+    */
 
 private:
     QSerialPort mSerialPort;
-    QString mEventName;
+    /*QString mEventName;
     QString mData;
     QTimer mHeartbeat;
     MessageParser mParser;
     MessageParser::Event mEvent;
-    QString mHeartbeatRequest;
-    QString mHeartbeatResponse;
-    int mHeartbeatTimeout;
-    bool mHeartbeatStatus;
-    bool mHeartbeatEnabled;
+
     QString mDebug;
 
     static const char DEFAULT_EVENT_START = '$';
     static const char DEFAULT_EVENT_VALUE_DIVIDER = ':';
     static const char DEFAULT_EVENT_END = '\n';
+    */
 };

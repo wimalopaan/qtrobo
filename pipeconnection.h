@@ -1,12 +1,19 @@
-#ifndef PIPECONNECTION_H
-#define PIPECONNECTION_H
+#pragma once
 
 #include <QObject>
+
+#include "connection.h"
 
 class PipeConnection : public Connection
 {
 public:
-    PipeConnection();
-};
+    explicit PipeConnection(QObject *parent = nullptr);
 
-#endif // PIPECONNECTION_H
+    void write(const QString &eventName) override;
+    void write(const QString &eventName, const QString &data) override;
+
+    void connect() override;
+    void disconnect() override;
+
+    bool isConnected() const override;
+};

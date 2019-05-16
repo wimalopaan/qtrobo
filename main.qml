@@ -50,8 +50,8 @@ ApplicationWindow {
             if(pressedButtons & Qt.RightButton){
                 contextMenu.popup()
 
-                deviceMenu.enabled = !serialConnection.isConnected
-                disconnect.enabled = serialConnection.isConnected
+                deviceMenu.enabled = !qtRobo.connection.isConnected
+                disconnect.enabled = qtRobo.connection.isConnected
             }
             else if(pressedButtons & Qt.LeftButton && GlobalDefinitions.isEditMode){
                 var child = contentPane.currentItem.childAt(mouseX, mouseY)
@@ -155,26 +155,27 @@ ApplicationWindow {
         }
 
         Menu{
-            title: qsTr("&Serial Port")
+            title: qsTr("&Devices")
 
             DeviceMenu{
                 id: deviceMenu
                 root: window
-                enabled: !serialConnection.isConnected
+                onOpened: qtRobo.connectionType = ConnectionType.Serial
+                enabled: !qtRobo.connection.isConnected
             }
 
             MenuItem{
                 id: disconnect
                 text: qsTr("Disconnect")
-                enabled: serialConnection.isConnected
-                onTriggered: serialConnection.disconnectFromSerial()
+                enabled: qtRobo.connection.isConnected
+                onTriggered: qtRobo.disconnect()
             }
 
             Connections{
-                target: serialConnection
+                target: qtRobo.connection
                 onConnectionStateChanged: {
-                    deviceMenu.enabled = !serialConnection.isConnected
-                    disconnect.enabled = serialConnection.isConnected
+                    deviceMenu.enabled = !qtRobo.connection.isConnected
+                    disconnect.enabled = qtRobo.connection.isConnected
                 }
             }
         }
@@ -185,7 +186,7 @@ ApplicationWindow {
             MenuItem{
                 text: qsTr("Events")
                 onTriggered: eventSettingsDialog.open()
-                enabled: !serialConnection.isConnected
+                enabled: !qtRobo.connection.isConnected
 
                 EventSettingsDialog{
                     id: eventSettingsDialog
@@ -194,11 +195,20 @@ ApplicationWindow {
 
             MenuItem{
                 text: qsTr("Heartbeat")
-                enabled: !serialConnection.isConnected
+                enabled: !qtRobo.connection.isConnected
                 onTriggered: heartbeatSettingsDialog.open()
 
                 HeartbeatSettingsDialog{
                     id:heartbeatSettingsDialog
+                }
+            }
+
+            MenuItem{
+                text: qsTr("Default Values")
+                onTriggered: defaultValuesDialog.open()
+
+                DefaultValuesDialog{
+                    id: defaultValuesDialog
                 }
             }
         }
@@ -260,19 +270,19 @@ ApplicationWindow {
             Text{
                 id: connectionStatus
                 Layout.alignment: Layout.Center
-                text: connectionStatus.text = "Serial Port: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+                text: connectionStatus.text = "Serial Port: " + (qtRobo.connection.isConnected ? "Connected"  : "Not connected")
             }
 
             Connections{
-                target: serialConnection
-                onConnectionStateChanged: connectionStatus.text = "Serial Port: " + (serialConnection.isConnected ? "Connected to " + serialConnection.portName : "Not connected")
+                target: qtRobo.connection
+                onConnectionStateChanged: connectionStatus.text = "Serial Port: " + (qtRobo.connection.isConnected ? "Connected" : "Not connected")
             }
 
             Text{
                 id: keepAlive
                 Layout.alignment: Layout.Center
                 text: "Hardware response: "
-                visible: serialConnection.heartbeatEnabled
+                visible: qtRobo.connection.heartbeatEnabled
 
                 Rectangle{
                     id: heartbeatStatusLED
@@ -292,7 +302,7 @@ ApplicationWindow {
                     }
 
                     Connections{
-                        target: serialConnection
+                        target: qtRobo.connection
                         onHeartbeatTriggered: {
                             heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
                             setLayoutEnabled(heartbeatStatus)

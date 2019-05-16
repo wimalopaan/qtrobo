@@ -74,4 +74,6 @@ QtObject{
         result = result + toMin
         return (result | 0)
     }
+
+
 }

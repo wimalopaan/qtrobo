@@ -1,4 +1,16 @@
-#ifndef ENUMDEFINITIONS_H
-#define ENUMDEFINITIONS_H
+#pragma once
+#include <QObject>
+#include <QQmlApplicationEngine>
 
-#endif // ENUMDEFINITIONS_H
+namespace ConnectionType{
+    Q_NAMESPACE
+
+    enum class ConnectionType{
+        Serial,
+        Pipe,
+        Socket
+    };
+
+    Q_ENUM_NS(ConnectionType)
+};
+
