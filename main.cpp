@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
 
     QtRobo qtRobo;
     QQmlApplicationEngine engine;
-    SerialConnection serialConnection;
     LayoutPersist layoutPersist;
 
     engine.rootContext()->setContextProperty("qtRobo", &qtRobo);

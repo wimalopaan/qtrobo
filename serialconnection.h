@@ -4,6 +4,7 @@
 #include <vector>
 #include <QStringList>
 #include <QSerialPort>
+#include <QByteArray>
 #include <QVariantList>
 #include <QTimer>
 
@@ -19,10 +20,11 @@ class SerialConnection: public Connection
 public:
     SerialConnection(QObject *parent = nullptr);
 
-    virtual bool isConnected() const override;
+    bool isConnected() const override;
 
-    void write(const QString &eventName) override;
-    void write(const QString &eventName, const QString &data) override;
+    QByteArray read() override;
+
+    void writeImpl(const QString &eventName) override;
 
     void connect() override;
     void disconnect() override;

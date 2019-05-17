@@ -9,22 +9,25 @@
 SerialConnection::SerialConnection(QObject *parent) :
     Connection(parent)
 {
-
-
     mSerialPort.setBaudRate(9600);
     mSerialPort.setStopBits(QSerialPort::TwoStop);
+
+    QObject::connect(&mSerialPort, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
 }
 
 bool SerialConnection::isConnected() const{
-    return false;
+    return mSerialPort.isOpen();
 }
 
-void SerialConnection::write(const QString &eventName){
+void SerialConnection::writeImpl(const QString &eventName){
+    const char* dataBytes = eventName.toStdString().c_str();
 
-}
+    //parseDebug("Out", QByteArray{dataBytes});
 
-void SerialConnection::write(const QString &eventName, const QString &data){
-
+    if(mParser.eventEnd() == '\0')
+        mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)) + 1);
+    else
+        mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)));
 }
 
 void SerialConnection::connect(){
@@ -44,6 +47,10 @@ QStringList SerialConnection::serialInterfaces(){
     }
 
     return portNames;
+}
+
+QByteArray SerialConnection::read(){
+    return mSerialPort.readAll();
 }
 
 /*QStringList SerialConnection::serialInterfaces() const{

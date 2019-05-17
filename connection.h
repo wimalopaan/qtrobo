@@ -2,6 +2,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <QVariant>
 
 #include "messageparser.h"
 
@@ -29,9 +30,10 @@ public:
     MessageParser* messageParser();
 
     virtual bool isConnected() const = 0;
+    virtual QByteArray read() = 0;
 
-    Q_INVOKABLE virtual void write(const QString &eventName) = 0;
-    Q_INVOKABLE virtual void write(const QString &eventName, const QString &data) = 0;
+    Q_INVOKABLE void write(const QString &eventName);
+    Q_INVOKABLE void write(const QString &eventName, const QVariant &data);
 
     Q_INVOKABLE virtual void connect() = 0;
     Q_INVOKABLE virtual void disconnect() = 0;
@@ -53,6 +55,7 @@ signals:
 public slots:
     void onParsedDataReady(const MessageParser::Event &event);
     void onHeartbeatTriggered();
+    void onReadyRead();
 
 protected:
     MessageParser mParser;
@@ -64,4 +67,6 @@ protected:
     int mHeartbeatTimeout;
     bool mHeartbeatStatus;
     bool mHeartbeatEnabled;
+
+    virtual void writeImpl(const QString &eventName) = 0;
 };

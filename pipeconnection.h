@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QObject>
+#include <QFile>
+#include <QByteArray>
 
 #include "connection.h"
 
@@ -9,11 +11,16 @@ class PipeConnection : public Connection
 public:
     explicit PipeConnection(QObject *parent = nullptr);
 
-    void write(const QString &eventName) override;
-    void write(const QString &eventName, const QString &data) override;
+    QByteArray read() override;
+
+    void writeImpl(const QString &eventName) override;
 
     void connect() override;
     void disconnect() override;
 
     bool isConnected() const override;
+
+private:
+    QFile mInputPipe;
+    QFile mOutputPipe;
 };

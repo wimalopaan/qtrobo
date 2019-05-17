@@ -16,6 +16,26 @@ Connection::Connection(const Connection &connection) : Connection(connection.par
 
 Connection::~Connection(){}
 
+void Connection::write(const QString &eventName){
+    if(isConnected() && !eventName.isEmpty()){
+        QString request;
+        request += mParser.eventStart();
+        request += eventName;
+        request += mParser.eventEnd();
+
+        writeImpl(request);
+    }
+}
+
+void Connection::write(const QString &eventName, const QVariant &data){
+    QString request;
+    request += eventName;
+    request += mParser.eventValueDivider();
+    request += data.toString();
+
+    write(request);
+}
+
 const QString& Connection::eventName() const{
     return mEvent.eventName;
 }
@@ -32,6 +52,14 @@ Connection& Connection::operator=(Connection &other){
     swap(*this, other);
 
     return *this;
+}
+
+void Connection::onReadyRead(){
+    if(isConnected()){
+        QByteArray dataBuffer = read();
+        //parseDebug("In", dataBuffer);
+        mParser.parseData(dataBuffer);
+    }
 }
 
 void Connection::onParsedDataReady(const MessageParser::Event &event){
