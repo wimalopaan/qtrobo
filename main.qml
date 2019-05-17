@@ -157,7 +157,7 @@ ApplicationWindow {
         Menu{
             title: qsTr("&Devices")
 
-            DeviceMenu{
+            SerialDeviceMenu{
                 id: deviceMenu
                 root: window
                 onOpened: qtRobo.connectionType = ConnectionType.Serial
