@@ -20,7 +20,7 @@ void PipeConnection::writeImpl(const QString &eventName){
         mOutputPipe.write(dataBytes, static_cast<qint64>(strlen(dataBytes)));
 }
 
-void PipeConnection::connect(){
+void PipeConnection::connect(const QVariantMap &preferences){
     mInputPipe.setFileName("fifoIn");
     mInputPipe.open(QIODevice::ReadOnly);
     mOutputPipe.setFileName("fifoOut");

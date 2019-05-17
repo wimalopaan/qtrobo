@@ -26,7 +26,7 @@ public:
 
     void writeImpl(const QString &eventName) override;
 
-    void connect() override;
+    void connect(const QVariantMap &preferences) override;
     void disconnect() override;
 
     Q_INVOKABLE QStringList serialInterfaces();

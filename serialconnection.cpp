@@ -30,12 +30,30 @@ void SerialConnection::writeImpl(const QString &eventName){
         mSerialPort.write(dataBytes, static_cast<qint64>(strlen(dataBytes)));
 }
 
-void SerialConnection::connect(){
+void SerialConnection::connect(const QVariantMap &preferences){
 
+    if(!preferences["serial_interface"].isNull()){
+
+        QString serialInterface = preferences["serial_interface"].toString();
+
+        if(isConnected()){
+            mSerialPort.close();
+        }
+
+        mSerialPort.setPortName(serialInterface);
+        mSerialPort.open(QIODevice::ReadWrite);
+
+        if(mSerialPort.isOpen() && mHeartbeatEnabled)
+            mHeartbeat.start(mHeartbeatTimeout);
+
+        emit connectionStateChanged(isConnected());
+    }
 }
 
 void SerialConnection::disconnect(){
-
+    if(isConnected())
+        mSerialPort.close();
+    emit connectionStateChanged(isConnected());
 }
 
 QStringList SerialConnection::serialInterfaces(){

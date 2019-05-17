@@ -3,6 +3,7 @@
 #include <QString>
 #include <QTimer>
 #include <QVariant>
+#include <QVariantMap>
 
 #include "messageparser.h"
 
@@ -35,7 +36,7 @@ public:
     Q_INVOKABLE void write(const QString &eventName);
     Q_INVOKABLE void write(const QString &eventName, const QVariant &data);
 
-    Q_INVOKABLE virtual void connect() = 0;
+    Q_INVOKABLE virtual void connect(const QVariantMap &preferences) = 0;
     Q_INVOKABLE virtual void disconnect() = 0;
 
     Connection& operator=(Connection& other);

@@ -23,7 +23,7 @@ Menu{
             SerialConnectionConfigDialog{
                 id: serialConnectionConfigDialog
                 onAccepted: {
-                    serialConnection.connectToSerial(selectedConnection)
+                    qtRobo.connection.connect({'serial_interface': selectedConnection})
                 }
             }
         }
