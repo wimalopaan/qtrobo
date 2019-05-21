@@ -49,7 +49,7 @@ Item{
         onTextChanged: GlobalDefinitions.layoutEdited()
 
         onPressed:{
-            serialConnection.writeToSerial(eventName)
+            qtRobo.connection.write(eventName)
             isPressed = true
         }
 

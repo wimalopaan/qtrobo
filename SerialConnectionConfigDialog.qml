@@ -6,9 +6,8 @@ import QSerialPort 0.1
 Dialog{
     id: root
     width: 300
-    height: 300
     title: qsTr("Serial Connection Config")
-    closePolicy: Popup.CloseOnReleaseOutside
+    closePolicy: Popup.CloseOnEscape
     property var component
 
     function getIndexFromValue(listModel, value){
@@ -20,13 +19,34 @@ Dialog{
          return 0
     }
 
+    onAboutToShow: {
+        var interfaces = qtRobo.connection.serialInterfaces()
+
+        for(var i = 0; i < interfaces.length; ++i)
+            interfaceModel.append({'interfaceName': interfaces[i]})
+    } 
+
     GridLayout{
         anchors.left: parent.left
         anchors.right: parent.right
         columns: 2
         rows: 3
 
-        Text{
+        Label{
+            text: "Interface:"
+        }
+
+        ComboBox{
+            id: interfaceCombobox
+            Layout.fillWidth: true
+            textRole: "interfaceName"
+            currentIndex: 0
+            model: ListModel{
+                id: interfaceModel
+            }
+        }
+
+        Label{
             text: "Baudrate:"
         }
 
@@ -34,7 +54,7 @@ Dialog{
             id: baudrateCombobox
             Layout.fillWidth: true
             textRole: "description"
-            currentIndex: getIndexFromValue(baudrateModel, serialConnection.baudrate)
+            currentIndex: getIndexFromValue(baudrateModel, qtRobo.connection.preferences.baudrate)
             property var currentItem: baudrateModel.get(currentIndex)
 
             model:ListModel{
@@ -88,7 +108,7 @@ Dialog{
         }
 
 
-        Text{
+        Label{
             text: "Stopbits:"
         }
 
@@ -96,7 +116,7 @@ Dialog{
             id: stopbitCombobox
             Layout.fillWidth: true
             textRole: "description"
-            currentIndex: getIndexFromValue(stopbitModel, serialConnection.stopbit)
+            currentIndex: getIndexFromValue(stopbitModel, qtRobo.connection.preferences.stopbit)
             property var currentItem: stopbitModel.get(currentIndex)
 
             model: ListModel{
@@ -124,7 +144,7 @@ Dialog{
             }
         }
 
-        Text{
+        Label{
             text: "Parity:"
         }
 
@@ -132,7 +152,7 @@ Dialog{
             id: paritybitCombobox
             Layout.fillWidth: true
             textRole: "description"
-            currentIndex: getIndexFromValue(paritybitModel, serialConnection.paritybit)
+            currentIndex: getIndexFromValue(paritybitModel, qtRobo.connection.preferences.paritybit)
             property var currentItem: paritybitModel.get(currentIndex)
 
             model: ListModel{
@@ -186,8 +206,16 @@ Dialog{
     }
 
     onAccepted: {
-        serialConnection.baudrate = baudrateCombobox.currentItem.value
-        serialConnection.stopbit = stopbitCombobox.currentItem.value
-        serialConnection.paritybit = paritybitCombobox.currentItem.value
+
+        var preferences = {
+            "baudrate": baudrateCombobox.currentItem.value,
+            "stopbit": stopbitCombobox.currentItem.value,
+            "paritybit": paritybitCombobox.currentItem.value,
+            "interfaceName": interfaceModel.get(interfaceCombobox.currentIndex).interfaceName
+        }
+
+        qtRobo.connection.preferences = preferences
+
+        qtRobo.connection.connect()
     }
 }

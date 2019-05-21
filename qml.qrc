@@ -4,7 +4,6 @@
         <file>DraggableButton.qml</file>
         <file>DraggableSlider.qml</file>
         <file>ControlsMenu.qml</file>
-        <file>SerialDeviceMenu.qml</file>
         <file>DraggableSerialDisplay.qml</file>
         <file>EditMenuDialog.qml</file>
         <file>ScaleKnob.qml</file>
@@ -38,5 +37,6 @@
         <file>DebugPopup.qml</file>
         <file>DraggableSpinboxMenu.qml</file>
         <file>DefaultValuesDialog.qml</file>
+        <file>LocalSocketConnectionConfigDialog.qml</file>
     </qresource>
 </RCC>

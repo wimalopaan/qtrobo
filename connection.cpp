@@ -23,6 +23,8 @@ void Connection::write(const QString &eventName){
         request += eventName;
         request += mParser.eventEnd();
 
+        parseDebug("Out", request.toLocal8Bit());
+
         writeImpl(request);
     }
 }
@@ -48,6 +50,20 @@ MessageParser* Connection::messageParser(){
     return &mParser;
 }
 
+void Connection::connect(){
+    if(isConnected() && mHeartbeatEnabled)
+        mHeartbeat.start(mHeartbeatTimeout);
+
+    connectImpl();
+}
+
+void Connection::disconnect(){
+    disconnectImpl();
+
+    if(mHeartbeat.isActive())
+        mHeartbeat.stop();
+}
+
 Connection& Connection::operator=(Connection &other){
     swap(*this, other);
 
@@ -57,7 +73,7 @@ Connection& Connection::operator=(Connection &other){
 void Connection::onReadyRead(){
     if(isConnected()){
         QByteArray dataBuffer = read();
-        //parseDebug("In", dataBuffer);
+        parseDebug("In", dataBuffer);
         mParser.parseData(dataBuffer);
     }
 }

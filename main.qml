@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
+import QtRobo.ConnectionType 1.0
 
 ApplicationWindow {
     id: window
@@ -50,7 +51,7 @@ ApplicationWindow {
             if(pressedButtons & Qt.RightButton){
                 contextMenu.popup()
 
-                deviceMenu.enabled = !qtRobo.connection.isConnected
+                connections.enabled = !qtRobo.connection.isConnected
                 disconnect.enabled = qtRobo.connection.isConnected
             }
             else if(pressedButtons & Qt.LeftButton && GlobalDefinitions.isEditMode){
@@ -157,24 +158,48 @@ ApplicationWindow {
         Menu{
             title: qsTr("&Devices")
 
-            SerialDeviceMenu{
-                id: deviceMenu
-                root: window
-                onOpened: qtRobo.connectionType = ConnectionType.Serial
-                enabled: !qtRobo.connection.isConnected
+            Menu{
+                id: connections
+                title: qsTr("Connection")
+
+                MenuItem{
+                    text: qsTr("Serial")
+
+                    onTriggered: serialConnectionConfigDialog.open()
+
+                    SerialConnectionConfigDialog{
+                        id: serialConnectionConfigDialog
+                        onOpened: qtRobo.connectionType = ConnectionType.Serial
+                        enabled: !qtRobo.connection.isConnected
+                    }
+                }
+
+                MenuItem{
+                    text: qsTr("Local Socket")
+
+                    onTriggered: localSocketConfigDialog.open()
+
+                    LocalSocketConnectionConfigDialog{
+                        id: localSocketConfigDialog
+                        onOpened: qtRobo.connectionType = ConnectionType.Socket
+                        enabled: !qtRobo.connection.isConnected
+                    }
+                }
             }
+
+
 
             MenuItem{
                 id: disconnect
                 text: qsTr("Disconnect")
                 enabled: qtRobo.connection.isConnected
-                onTriggered: qtRobo.disconnect()
+                onTriggered: qtRobo.connection.disconnect()
             }
 
             Connections{
                 target: qtRobo.connection
                 onConnectionStateChanged: {
-                    deviceMenu.enabled = !qtRobo.connection.isConnected
+                    connections.enabled = !qtRobo.connection.isConnected
                     disconnect.enabled = qtRobo.connection.isConnected
                 }
             }
@@ -195,7 +220,7 @@ ApplicationWindow {
 
             MenuItem{
                 text: qsTr("Heartbeat")
-                enabled: !qtRobo.connection.isConnected
+                enabled: qtRobo.connection.isConnected
                 onTriggered: heartbeatSettingsDialog.open()
 
                 HeartbeatSettingsDialog{

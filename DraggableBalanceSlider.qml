@@ -96,11 +96,11 @@ Item{
             color: fontColor
         }
 
-        onValueChanged: serialConnection.writeToSerial(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
+        onValueChanged: qtRobo.connection.write(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
     }
 
     Connections{
-        target: serialConnection
+        target: qtRobo.connection
         onDataChanged:{
             if(eventName === root.eventName && data){
                 var receivedValue = +data  

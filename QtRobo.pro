@@ -14,8 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     connection.cpp \
+    localsocketconnection.cpp \
         main.cpp \
-    pipeconnection.cpp \
     qtrobo.cpp \
     serialconnection.cpp \
     layoutpersist.cpp \
@@ -37,7 +37,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     connection.h \
     enumdefinitions.h \
-    pipeconnection.h \
+    localsocketconnection.h \
     qtrobo.h \
     serialconnection.h \
     layoutpersist.h \

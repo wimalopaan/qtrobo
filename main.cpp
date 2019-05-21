@@ -3,7 +3,6 @@
 #include <QQuickStyle>
 #include <QQmlContext>
 #include <QSerialPort>
-#include "serialconnection.h"
 #include "layoutpersist.h"
 #include "enumdefinitions.h"
 #include "qtrobo.h"
@@ -29,7 +28,6 @@ int main(int argc, char *argv[])
     LayoutPersist layoutPersist;
 
     engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
-    //engine.rootContext()->setContextProperty("serialConnection", &serialConnection);
     engine.rootContext()->setContextProperty("layoutPersist", &layoutPersist);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

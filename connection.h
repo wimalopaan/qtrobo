@@ -20,6 +20,8 @@ class Connection : public QObject
     Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
     Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
     Q_PROPERTY(MessageParser* messageParser READ messageParser NOTIFY messageParserChanged)
+    Q_PROPERTY(QVariantMap preferences MEMBER mPreferences NOTIFY preferencesChanged)
+    Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
 
 public:
     explicit Connection(QObject *parent = nullptr);
@@ -29,15 +31,17 @@ public:
     const QString& data() const;
     const QString& eventName() const;
     MessageParser* messageParser();
+    void enableHeartbeat();
 
     virtual bool isConnected() const = 0;
     virtual QByteArray read() = 0;
 
+
     Q_INVOKABLE void write(const QString &eventName);
     Q_INVOKABLE void write(const QString &eventName, const QVariant &data);
 
-    Q_INVOKABLE virtual void connect(const QVariantMap &preferences) = 0;
-    Q_INVOKABLE virtual void disconnect() = 0;
+    Q_INVOKABLE void connect();
+    Q_INVOKABLE void disconnect();
 
     Connection& operator=(Connection& other);
 
@@ -52,6 +56,8 @@ signals:
     void heartbeatEnabledChanged(bool heartbeatEnabled);
     void connectionStateChanged(bool isConnected);
     void messageParserChanged(const MessageParser *messageParser);
+    void preferencesChanged(const QVariantMap &preferences);
+    void debugChanged(const QString& debug);
 
 public slots:
     void onParsedDataReady(const MessageParser::Event &event);
@@ -65,9 +71,14 @@ protected:
     QTimer mHeartbeat;
     QString mHeartbeatRequest;
     QString mHeartbeatResponse;
+    QVariantMap mPreferences;
     int mHeartbeatTimeout;
     bool mHeartbeatStatus;
     bool mHeartbeatEnabled;
+    QString mDebug;
 
     virtual void writeImpl(const QString &eventName) = 0;
+    virtual void connectImpl() = 0;
+    virtual void disconnectImpl() = 0;
+    virtual void parseDebug(const QString& tag, const QByteArray& data) = 0;
 };
