@@ -165,24 +165,22 @@ ApplicationWindow {
                 MenuItem{
                     text: qsTr("Serial")
 
-                    onTriggered: serialConnectionConfigDialog.open()
+                    onTriggered: {
+                        qtRobo.connectionType = ConnectionType.Serial
+                        connectionConfigDialog.open()
+                    }
 
-                    SerialConnectionConfigDialog{
-                        id: serialConnectionConfigDialog
-                        onOpened: qtRobo.connectionType = ConnectionType.Serial
-                        enabled: !qtRobo.connection.isConnected
+                    ConnectionConfigDialog{
+                        id: connectionConfigDialog
                     }
                 }
 
                 MenuItem{
                     text: qsTr("Local Socket")
 
-                    onTriggered: localSocketConfigDialog.open()
-
-                    LocalSocketConnectionConfigDialog{
-                        id: localSocketConfigDialog
-                        onOpened: qtRobo.connectionType = ConnectionType.Socket
-                        enabled: !qtRobo.connection.isConnected
+                    onTriggered: {
+                        qtRobo.connectionType = ConnectionType.Socket
+                        connectionConfigDialog.open()
                     }
                 }
             }
@@ -205,38 +203,11 @@ ApplicationWindow {
             }
         }
 
-        Menu{
+       /* Menu{
             title: qsTr("S&ettings")
-
-            MenuItem{
-                text: qsTr("Events")
-                onTriggered: eventSettingsDialog.open()
-                enabled: !qtRobo.connection.isConnected
-
-                EventSettingsDialog{
-                    id: eventSettingsDialog
-                }
-            }
-
-            MenuItem{
-                text: qsTr("Heartbeat")
-                enabled: qtRobo.connection.isConnected
-                onTriggered: heartbeatSettingsDialog.open()
-
-                HeartbeatSettingsDialog{
-                    id:heartbeatSettingsDialog
-                }
-            }
-
-            MenuItem{
-                text: qsTr("Default Values")
-                onTriggered: defaultValuesDialog.open()
-
-                DefaultValuesDialog{
-                    id: defaultValuesDialog
-                }
-            }
         }
+
+        */
     }
 
     header: RowLayout{

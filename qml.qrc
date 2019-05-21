@@ -14,16 +14,16 @@
         <file>DraggableIndicatorButton.qml</file>
         <file>DraggableBalanceSlider.qml</file>
         <file>EditableTab.qml</file>
-        <file>SerialConnectionConfigDialog.qml</file>
+        <file>SerialConnectionConfig.qml</file>
         <file>GlobalDefinitions.qml</file>
         <file>qmldir</file>
-        <file>EventSettingsDialog.qml</file>
+        <file>EventSettings.qml</file>
         <file>DraggableDropdown.qml</file>
         <file>DraggableDropdownMenu.qml</file>
         <file>DraggableSliderMenu.qml</file>
         <file>DraggableBalanceSliderMenu.qml</file>
         <file>DraggableSpinbox.qml</file>
-        <file>HeartbeatSettingsDialog.qml</file>
+        <file>HeartbeatSettings.qml</file>
         <file>DraggableImage.qml</file>
         <file>placeholder_image.png</file>
         <file>DraggableImageMenu.qml</file>
@@ -37,6 +37,7 @@
         <file>DebugPopup.qml</file>
         <file>DraggableSpinboxMenu.qml</file>
         <file>DefaultValuesDialog.qml</file>
-        <file>LocalSocketConnectionConfigDialog.qml</file>
+        <file>LocalSocketConnectionConfig.qml</file>
+        <file>ConnectionConfigDialog.qml</file>
     </qresource>
 </RCC>
