@@ -1,3 +1,4 @@
 *.user
+*.pro.user*
 *.autosave
 *.json
