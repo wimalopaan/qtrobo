@@ -20,7 +20,7 @@ void LocalSocketConnection::writeImpl(const QString &eventName){
 }
 
 void LocalSocketConnection::connectImpl(){
-    if(!mPreferences[PREFERENCE_SOCKET_NAME].isNull()){
+    if(!mPreferences[PREFERENCE_SOCKET_NAME].isNull() && !mPreferences[PREFERENCE_SOCKET_NAME].toString().isEmpty()){
         mLocalSocket.setServerName(mPreferences[PREFERENCE_SOCKET_NAME].toString());
         qDebug() << "Connected to server";
         mLocalSocket.open();
