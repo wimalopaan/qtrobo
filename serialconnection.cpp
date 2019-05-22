@@ -9,8 +9,9 @@
 SerialConnection::SerialConnection(QObject *parent) :
     Connection(parent)
 {
-    mSerialPort.setBaudRate(9600);
-    mSerialPort.setStopBits(QSerialPort::TwoStop);
+    mPreferences[SerialConnection::PREFERENCE_BAUDRATE] = static_cast<int>(SerialConnection::DEFAULT_BAUDRATE);
+    mPreferences[SerialConnection::PREFERENCE_STOPBIT] = static_cast<int>(SerialConnection::DEFAULT_STOPBITS);
+    mPreferences[SerialConnection::PREFERENCE_PARITYBIT] = static_cast<int>(SerialConnection::DEFAULT_PARITYBITS);
 
     QObject::connect(&mSerialPort, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
 }
@@ -33,11 +34,11 @@ void SerialConnection::connectImpl(){
             mSerialPort.close();
         }
 
+        mSerialPort.setBaudRate(static_cast<QSerialPort::BaudRate>(mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt()));
+        mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
+        mSerialPort.setParity(static_cast<QSerialPort::Parity>(mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt()));
 
-        mSerialPort.setParity(static_cast<QSerialPort::Parity>(mPreferences["paritybit"].toInt()));
-        mSerialPort.setBaudRate(static_cast<QSerialPort::BaudRate>(mPreferences["baudrate"].toInt()));
-        mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences["stopbit"].toInt()));
-        mSerialPort.setPortName(mPreferences["interfaceName"].toString());
+        mSerialPort.setPortName(mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME].toString());
 
         qDebug() << "Parity:" << mSerialPort.parity() << "\nBaudrate:" << mSerialPort.baudRate() << "\nStopbits:" << mSerialPort.stopBits() << "\nName:" << mSerialPort.portName();
         mSerialPort.open(QIODevice::ReadWrite);

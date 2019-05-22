@@ -1,12 +1,19 @@
 #include "connection.h"
 #include <algorithm>
 
-Connection::Connection(QObject *parent) : QObject(parent)
+Connection::Connection(QObject *parent)
+    : QObject(parent),
+      mHeartbeatTimeout(DEFAULT_HEARTBEAT_TIMEOUT),
+      mHeartbeatRequest(DEFAULT_HEARTBEAT_REQUEST),
+      mHeartbeatResponse(DEFAULT_HEARTBEAT_RESPONSE),
+      mHeartbeatEnabled(DEFAULT_HEARTBEAT_ENABLED)
 {
     QObject::connect(&mParser, &MessageParser::messageParsed, this, &Connection::onParsedDataReady);
     QObject::connect(&mHeartbeat, SIGNAL(timeout()), this, SLOT(onHeartbeatTriggered()));
-    mParser.eventStart('$');
-    mParser.eventValueDivider(':');
+
+    mParser.eventStart(DEFAULT_EVENT_START);
+    mParser.eventValueDivider(DEFAULT_EVENT_VALUE_DIVIDER);
+    mParser.eventEnd(DEFAULT_EVENT_END);
 }
 
 Connection::Connection(const Connection &connection) : Connection(connection.parent())

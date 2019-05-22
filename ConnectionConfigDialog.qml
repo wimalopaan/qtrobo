@@ -44,10 +44,12 @@ Dialog{
         }
 
         StackLayout{
+            id: stackLayout
             Layout.fillWidth: true
             currentIndex: tabBar.currentIndex
 
             Loader{
+                id: connectionConfigLoader
                 source: loadComponentMenu()
             }
 
@@ -78,6 +80,28 @@ Dialog{
     }
 
     onAccepted: {
+        var preferences = {};
 
+        if(Number(qtRobo.connectionType) === ConnectionType.Serial){
+            preferences.serialInterfaceName = connectionConfigLoader.item.interfaceName
+            preferences.serialBaudrate = connectionConfigLoader.item.baudrate.value
+            preferences.serialStopbits = connectionConfigLoader.item.stopbits.value
+            preferences.serialParitybits = connectionConfigLoader.item.paritybits.value
+        }else if(Number(qtRobo.connectionType) === ConnectionType.Socket){
+            preferences.socketName = connectionConfigLoader.item.socketName
+        }
+
+        qtRobo.connection.preferences = preferences
+
+        qtRobo.connection.heartbeatTimeout = heartbeatDialog.heartbeatTimeout
+        qtRobo.connection.heartbeatRequest = heartbeatDialog.heartbeatRequest
+        qtRobo.connection.heartbeatResponse = heartbeatDialog.heartbeatResponse
+        qtRobo.connection.heartbeatEnabled = heartbeatDialog.heartbeatEnabled
+
+        qtRobo.connection.messageParser.eventStart = eventSettingsDialog.eventStart
+        qtRobo.connection.messageParser.eventEnd = eventSettingsDialog.eventEnd
+        qtRobo.connection.messageParser.eventValueDivider = eventSettingsDialog.eventValueDivider
+
+        qtRobo.connection.connect()
     }
 }

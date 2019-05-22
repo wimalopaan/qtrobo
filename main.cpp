@@ -4,7 +4,6 @@
 #include <QQmlContext>
 #include <QSerialPort>
 #include "layoutpersist.h"
-#include "enumdefinitions.h"
 #include "qtrobo.h"
 
 int main(int argc, char *argv[])

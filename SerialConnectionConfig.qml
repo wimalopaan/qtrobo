@@ -10,11 +10,19 @@ GridLayout{
     columns: 2
     rows: 3
 
+    property string interfaceName
+    property alias baudrate: baudrateCombobox.currentItem
+    property alias stopbits: stopbitCombobox.currentItem
+    property alias paritybits: paritybitCombobox.currentItem
+
     Component.onCompleted: {
         var interfaces = qtRobo.connection.serialInterfaces()
 
         for(var i = 0; i < interfaces.length; ++i)
-            interfaceModel.append({'interfaceName': interfaces[i]})
+            interfaceModel.append({'value': interfaces[i]})
+
+        if(interfaces.length > 0)
+            interfaceName = interfaces[0]
     }
 
     function getIndexFromValue(listModel, value){
@@ -34,11 +42,15 @@ GridLayout{
     ComboBox{
         id: interfaceCombobox
         Layout.fillWidth: true
-        textRole: "interfaceName"
+        textRole: "value"
         currentIndex: 0
+
+        property var currentItem: interfaceModel.get(currentIndex)
         model: ListModel{
             id: interfaceModel
         }
+
+        onCurrentIndexChanged: interfaceName = currentItem.value
     }
 
     Label{
@@ -50,7 +62,7 @@ GridLayout{
         id: baudrateCombobox
         Layout.fillWidth: true
         textRole: "description"
-        currentIndex: getIndexFromValue(baudrateModel, qtRobo.connection.preferences.baudrate)
+        currentIndex: getIndexFromValue(baudrateModel, qtRobo.connection.preferences.serialBaudrate)
         property var currentItem: baudrateModel.get(currentIndex)
 
         model:ListModel{
@@ -113,7 +125,7 @@ GridLayout{
         id: stopbitCombobox
         Layout.fillWidth: true
         textRole: "description"
-        currentIndex: getIndexFromValue(stopbitModel, qtRobo.connection.preferences.stopbit)
+        currentIndex: getIndexFromValue(stopbitModel, qtRobo.connection.preferences.serialStopbits)
         property var currentItem: stopbitModel.get(currentIndex)
 
         model: ListModel{
@@ -150,7 +162,7 @@ GridLayout{
         id: paritybitCombobox
         Layout.fillWidth: true
         textRole: "description"
-        currentIndex: getIndexFromValue(paritybitModel, qtRobo.connection.preferences.paritybit)
+        currentIndex: getIndexFromValue(paritybitModel, qtRobo.connection.preferences.serialParitybits)
         property var currentItem: paritybitModel.get(currentIndex)
 
         model: ListModel{

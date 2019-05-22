@@ -38,4 +38,13 @@ public slots:
 
 private:
     QSerialPort mSerialPort;
+
+    static const QSerialPort::BaudRate DEFAULT_BAUDRATE = QSerialPort::BaudRate::Baud9600;
+    static const QSerialPort::StopBits DEFAULT_STOPBITS = QSerialPort::StopBits::OneStop;
+    static const QSerialPort::Parity DEFAULT_PARITYBITS = QSerialPort::Parity::NoParity;
+
+    static inline const QString PREFERENCE_BAUDRATE{"serialBaudrate"};
+    static inline const QString PREFERENCE_STOPBIT{"serialStopbit"};
+    static inline const QString PREFERENCE_PARITYBIT{"serialParitybit"};
+    static inline const QString PREFERENCE_INTERFACE_NAME{"serialInterfaceName"};
 };

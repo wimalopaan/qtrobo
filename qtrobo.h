@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "connection.h"
-#include "enumdefinitions.h"
 
 class QtRobo: public QObject
 {

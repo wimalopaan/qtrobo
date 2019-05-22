@@ -9,6 +9,8 @@ import QSerialPort 0.1
         columns: 2
         rows: 3
 
+        property alias socketName: socketName.text
+
         Label{
             text: "Domain Socket:"
         }

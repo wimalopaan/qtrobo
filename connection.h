@@ -7,6 +7,17 @@
 
 #include "messageparser.h"
 
+namespace ConnectionType{
+    Q_NAMESPACE
+
+    enum class ConnectionType{
+        Serial,
+        Socket
+    };
+
+    Q_ENUM_NS(ConnectionType)
+};
+
 class Connection : public QObject
 {
     Q_OBJECT
@@ -16,7 +27,7 @@ class Connection : public QObject
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY connectionStateChanged)
     Q_PROPERTY(QString heartbeatRequest MEMBER mHeartbeatRequest NOTIFY heartbeatRequestChanged)
     Q_PROPERTY(QString heartbeatResponse MEMBER mHeartbeatResponse NOTIFY heartbeatResponseChanged)
-    Q_PROPERTY(int heartbeatTimeout MEMBER mHeartbeatTimeout NOTIFY heartbeatTimeoutChanged)
+    Q_PROPERTY(uint heartbeatTimeout MEMBER mHeartbeatTimeout NOTIFY heartbeatTimeoutChanged)
     Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
     Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
     Q_PROPERTY(MessageParser* messageParser READ messageParser NOTIFY messageParserChanged)
@@ -52,7 +63,7 @@ signals:
     void heartbeatTriggered(bool heartbeatStatus);
     void heartbeatRequestChanged(const QString &heartbeatRequest);
     void heartbeatResponseChanged(const QString &heartbeatResponse);
-    void heartbeatTimeoutChanged(int heartbeatTimeout);
+    void heartbeatTimeoutChanged(uint heartbeatTimeout);
     void heartbeatEnabledChanged(bool heartbeatEnabled);
     void connectionStateChanged(bool isConnected);
     void messageParserChanged(const MessageParser *messageParser);
@@ -69,11 +80,11 @@ protected:
     MessageParser::Event mEvent;
 
     QTimer mHeartbeat;
+    QVariantMap mPreferences;
+    uint mHeartbeatTimeout;
+    bool mHeartbeatStatus;
     QString mHeartbeatRequest;
     QString mHeartbeatResponse;
-    QVariantMap mPreferences;
-    int mHeartbeatTimeout;
-    bool mHeartbeatStatus;
     bool mHeartbeatEnabled;
     QString mDebug;
 
@@ -81,4 +92,14 @@ protected:
     virtual void connectImpl() = 0;
     virtual void disconnectImpl() = 0;
     virtual void parseDebug(const QString& tag, const QByteArray& data) = 0;
+
+private:
+    static const bool DEFAULT_HEARTBEAT_ENABLED = false;
+    static const uint DEFAULT_HEARTBEAT_TIMEOUT = 500;
+    static inline const QString DEFAULT_HEARTBEAT_REQUEST{"PING"};
+    static inline const QString DEFAULT_HEARTBEAT_RESPONSE{"PONG"};
+
+    static const char DEFAULT_EVENT_START = '$';
+    static const char DEFAULT_EVENT_VALUE_DIVIDER = ':';
+    static const char DEFAULT_EVENT_END = '\n';
 };

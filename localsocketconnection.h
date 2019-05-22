@@ -21,4 +21,6 @@ public:
 
 private:
     QLocalSocket mLocalSocket;
+
+    static inline const QString PREFERENCE_SOCKET_NAME{"socketName"};
 };

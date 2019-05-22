@@ -10,9 +10,9 @@ GridLayout{
     columns: 2
     rows: 3
 
-    property alias eventStart: eventStart.text
-    property alias eventEnd: eventEnd.currentItem
-    property alias eventValueDivider: eventValueDivider.text
+    property var eventStart: eventStart.text.charCodeAt(0)
+    property var eventEnd: eventEnd.currentItem.value.charCodeAt(0)
+    property var eventValueDivider: eventValueDivider.text.charCodeAt(0)
 
     function getIndexFromValue(listModel, value){
         for(var i = 0; i < listModel.count; ++i){

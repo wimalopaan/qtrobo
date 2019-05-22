@@ -20,11 +20,13 @@ void LocalSocketConnection::writeImpl(const QString &eventName){
 }
 
 void LocalSocketConnection::connectImpl(){
-    mLocalSocket.setServerName(mPreferences["socketName"].toString());
-    qDebug() << "Connected to server";
-    mLocalSocket.open();
+    if(!mPreferences[PREFERENCE_SOCKET_NAME].isNull()){
+        mLocalSocket.setServerName(mPreferences[PREFERENCE_SOCKET_NAME].toString());
+        qDebug() << "Connected to server";
+        mLocalSocket.open();
 
-    emit connectionStateChanged(isConnected());
+        emit connectionStateChanged(isConnected());
+    }
 }
 
 void LocalSocketConnection::disconnectImpl(){

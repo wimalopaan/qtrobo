@@ -36,7 +36,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     connection.h \
-    enumdefinitions.h \
     localsocketconnection.h \
     qtrobo.h \
     serialconnection.h \
