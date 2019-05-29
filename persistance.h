@@ -40,4 +40,7 @@ signals:
 private:
     QUrl mFilename;
     QJsonArray mLayout;
+
+    static inline const QString PERSISTANCE_SECTION_SETTINGS{"settings"};
+    static inline const QString PERSISTANCE_SECTION_LAYOUT{"layout"};
 };

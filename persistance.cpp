@@ -34,14 +34,14 @@ void Persistance::restore(){
     if(layoutFile.isOpen() && layoutFile.isReadable()){
         QJsonObject rootObject =  QJsonDocument::fromJson(layoutFile.readAll()).object();
 
-        auto layoutObject = rootObject.find("layout").value();
+        auto layoutObject = rootObject.find(Persistance::PERSISTANCE_SECTION_LAYOUT).value();
 
         if(!layoutObject.isNull() && layoutObject.isArray()){
             mLayout = layoutObject.toArray();
             emit layoutChanged(mLayout);
         }
 
-        auto settingsObject = rootObject.find("settings").value();
+        auto settingsObject = rootObject.find(Persistance::PERSISTANCE_SECTION_SETTINGS).value();
 
         if(!settingsObject.isNull() && settingsObject.isObject())
             emit deserializeConnection(settingsObject.toObject());
@@ -55,8 +55,8 @@ void Persistance::persist(){
 
     emit serializeConnection(connections);
 
-    documentObject.insert("layout", mLayout);
-    documentObject.insert("settings", connections);
+    documentObject.insert(Persistance::PERSISTANCE_SECTION_LAYOUT, mLayout);
+    documentObject.insert(Persistance::PERSISTANCE_SECTION_SETTINGS, connections);
 
     if(isFilenameValid()){
         QFile layoutFile{mFilename.toLocalFile()};

@@ -24,13 +24,13 @@ Persistance * QtRobo::persistance(){
 }
 
 void QtRobo::onPersisting(QJsonObject &data){
-    data.insert("serialport", mConnections[ConnectionType::ConnectionType::Serial]->serialize());
-    data.insert("localsocket", mConnections[ConnectionType::ConnectionType::Socket]->serialize());
+    data.insert(QtRobo::PERSISTANCE_SECTION_SERIAL_PORT, mConnections[ConnectionType::ConnectionType::Serial]->serialize());
+    data.insert(QtRobo::PERSISTANCE_SECTION_LOCAL_SOCKET, mConnections[ConnectionType::ConnectionType::Socket]->serialize());
 }
 
 void QtRobo::onRestoring(QJsonObject data){
-    auto serialPortObject = data.find("serialport").value();
-    auto localSocketObject = data.find("localsocket").value();
+    auto serialPortObject = data.find(QtRobo::PERSISTANCE_SECTION_SERIAL_PORT).value();
+    auto localSocketObject = data.find(QtRobo::PERSISTANCE_SECTION_LOCAL_SOCKET).value();
 
     if(!serialPortObject.isNull() && serialPortObject.isObject())
         mConnections[ConnectionType::ConnectionType::Serial]->deserialize(serialPortObject.toObject());

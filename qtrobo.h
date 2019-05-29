@@ -33,5 +33,8 @@ private:
     std::map<ConnectionType::ConnectionType, std::unique_ptr<Connection>> mConnections;
     ConnectionType::ConnectionType mConnectionType = ConnectionType::ConnectionType::Serial;
     Persistance mPersistance;
+
+    static inline const QString PERSISTANCE_SECTION_SERIAL_PORT{"serialport"};
+    static inline const QString PERSISTANCE_SECTION_LOCAL_SOCKET{"localsocket"};
 };
 
