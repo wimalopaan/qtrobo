@@ -16,9 +16,9 @@ SOURCES += \
     connection.cpp \
     localsocketconnection.cpp \
         main.cpp \
+    persistance.cpp \
     qtrobo.cpp \
     serialconnection.cpp \
-    layoutpersist.cpp \
     messageparser.cpp
 
 RESOURCES += qml.qrc
@@ -37,9 +37,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     connection.h \
     localsocketconnection.h \
+    persistance.h \
     qtrobo.h \
     serialconnection.h \
-    layoutpersist.h \
     messageparser.h
 
 DISTFILES += \

@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.3
 import QSerialPort 0.1
 
     GridLayout{
-        anchors.left: parent.left
-        anchors.right: parent.right
+        Layout.fillWidth: true
+
         columns: 2
         rows: 3
 
@@ -13,6 +13,7 @@ import QSerialPort 0.1
 
         Label{
             text: "Domain Socket:"
+            Layout.fillWidth: true
         }
 
         TextField{

@@ -85,8 +85,8 @@ Dialog{
         if(Number(qtRobo.connectionType) === ConnectionType.Serial){
             preferences.serialInterfaceName = connectionConfigLoader.item.interfaceName
             preferences.serialBaudrate = connectionConfigLoader.item.baudrate.value
-            preferences.serialStopbits = connectionConfigLoader.item.stopbits.value
-            preferences.serialParitybits = connectionConfigLoader.item.paritybits.value
+            preferences.serialStopbit = connectionConfigLoader.item.stopbits.value
+            preferences.serialParitybit = connectionConfigLoader.item.paritybits.value
         }else if(Number(qtRobo.connectionType) === ConnectionType.Socket){
             preferences.socketName = connectionConfigLoader.item.socketName
         }

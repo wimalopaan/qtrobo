@@ -3,7 +3,7 @@
 #include <QQuickStyle>
 #include <QQmlContext>
 #include <QSerialPort>
-#include "layoutpersist.h"
+#include "persistance.h"
 #include "qtrobo.h"
 
 int main(int argc, char *argv[])
@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 
     QtRobo qtRobo;
     QQmlApplicationEngine engine;
-    LayoutPersist layoutPersist;
+    //LayoutPersist layoutPersist;
 
     engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
-    engine.rootContext()->setContextProperty("layoutPersist", &layoutPersist);
+    //engine.rootContext()->setContextProperty("layoutPersist", &layoutPersist);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

@@ -30,7 +30,7 @@ ApplicationWindow {
         target: GlobalDefinitions
         onIsEditModeChanged: setLayoutEdible(GlobalDefinitions.isEditMode)
 
-        onHasLayoutBeenEditedChanged: layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && layoutPersist.isFilenameValid
+        onHasLayoutBeenEditedChanged: layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && qtRobo.persistance.isFilenameValid
 
     }
 
@@ -88,14 +88,14 @@ ApplicationWindow {
                 text: qsTr("&New File")
                 onTriggered: {
                     clearTabBar()
-                    layoutPersist.filename = ""
+                    qtRobo.persistance.filename = ""
                 }
             }
 
             MenuItem{
                 id: layoutSaveMenu
                 text: qsTr("&Save File")
-                enabled: layoutPersist.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
+                enabled: qtRobo.persistance.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
                 onTriggered: saveCurrentChanges()
             }
 
@@ -119,12 +119,12 @@ ApplicationWindow {
 
                     onAccepted: {
                         if(!fileUrl.toString().endsWith(".json"))
-                            layoutPersist.filename = fileUrl + ".json"
+                            qtRobo.persistance.filename = fileUrl + ".json"
                         else
-                            layoutPersist.filename = fileUrl
+                            qtRobo.persistance.filename = fileUrl
 
-                        layoutPersist.layout = window.layoutToArray()
-
+                        qtRobo.persistance.layout = window.layoutToArray()
+                        qtRobo.persistance.persist()
                         GlobalDefinitions.layoutPersisted()
 
                         if(closingWindow)
@@ -147,8 +147,11 @@ ApplicationWindow {
                     folder: shortcuts.home
                     onAccepted: {
                         clearTabBar()
-                        layoutPersist.filename = fileUrl
-                        window.arrayToLayout(layoutPersist.layout)
+                        qtRobo.persistance.filename = fileUrl
+
+                        qtRobo.persistance.restore()
+
+                        window.arrayToLayout(qtRobo.persistance.layout)
                         GlobalDefinitions.layoutPersisted()
                     }
                 }
@@ -202,12 +205,6 @@ ApplicationWindow {
                 }
             }
         }
-
-       /* Menu{
-            title: qsTr("S&ettings")
-        }
-
-        */
     }
 
     header: RowLayout{
@@ -424,12 +421,21 @@ ApplicationWindow {
     }
 
     function layoutToArray(){
-        var objs = []
+
+        var tabs = []
 
         for(var i = 0; i < contentPane.count; ++i){
             var children = contentPane.itemAt(i).children
+
+            var tab = {
+                tabIndex: i,
+                tabName: tabBar.itemAt(i).text,
+                content:[]
+            }
+
             for(var j = 0; j < children.length; ++j){
                 var child = children[j]
+
 
                 var modelEntries = [];
 
@@ -438,9 +444,7 @@ ApplicationWindow {
                         modelEntries.push(child.model.get(modelIndex))
                 }
 
-                var obj = {
-                    layoutTab: i,
-                    layoutTabName: tabBar.itemAt(i).text,
+                var widget = {
                     type: child.componentType,
                     x: child.x,
                     y: child.y,
@@ -461,65 +465,79 @@ ApplicationWindow {
                     numberOfValues: child.numberOfValues
                 }
 
-                objs.push(obj)
+                tab.content.push(widget)
             }
+
+            tabs.push(tab)
         }
 
-        return objs;
+        return tabs;
     }
 
-    function arrayToLayout(layout){
-        for(var i = 0; i < layout.length; ++i){
-            var obj = layout[i]
+    function arrayToLayout(tabs){
+        for(var i = 0; i < tabs.length; ++i){
+            var tab = tabs[i]
 
-            while(obj.layoutTab >= tabBar.count)
+            if(tab.tabIndex > 0)
                 createTab()
 
-            if(tabBar.itemAt(obj.layoutTab))
-                tabBar.itemAt(obj.layoutTab).text = obj.layoutTabName
+            tabBar.itemAt(tab.tabIndex).text = tab.tabName
 
-            var componentFile = GlobalDefinitions.componentName[obj.type]
+            for(var j = 0; j < tab.content.length; ++j){
+                var widget = tab.content[j]
+                var componentFile = GlobalDefinitions.componentName[widget.type]
 
-            if(componentFile){
-                componentFile = componentFile.concat(".qml")
+                if(componentFile){
+                    componentFile = componentFile.concat(".qml")
 
-                var component = Qt.createComponent(componentFile)
+                    var component = Qt.createComponent(componentFile)
 
-                if(component){
-                    var componentObject = component.createObject(contentPane.itemAt(obj.layoutTab),  {x: obj.x, y: obj.y, width: obj.width, height: obj.height, label: obj.label, eventName: obj.eventName})
-                    if(obj.fontColor)
-                        componentObject.fontColor = Qt.rgba(obj.fontColor.r, obj.fontColor.g, obj.fontColor.b, obj.fontColor.a)
-                    if(obj.componentColor)
-                        componentObject.componentColor = Qt.rgba(obj.componentColor.r, obj.componentColor.g, obj.componentColor.b, obj.componentColor.a)
-                    if(obj.orientation)
-                        componentObject.orientation = obj.orientation
-                    if(obj.minimumValue)
-                        componentObject.minimumValue = obj.minimumValue
-                    if(obj.maximumValue)
-                        componentObject.maximumValue = obj.maximumValue
-                    if(obj.showValue)
-                        componentObject.showValue = obj.showValue
-                    if(obj.mappedMinimumValue)
-                        componentObject.mappedMinimumValue = obj.mappedMinimumValue
-                    if(obj.mappedMaximumValue)
-                        componentObject.mappedMaximumValue = obj.mappedMaximumValue
-                    if(obj.numberOfValues)
-                        componentObject.numberOfValues = obj.numberOfValues
-                    if(obj.modelEntries){
-                        componentObject.model.clear()
-                        for(var modelIndex = 0; modelIndex < obj.modelEntries.length; ++modelIndex)
-                            componentObject.model.append(obj.modelEntries[modelIndex])
+                    if(component){
+                        var componentObject = component.createObject(contentPane.itemAt(tab.tabIndex),
+                                                                     {
+                                                                         x: widget.x,
+                                                                         y: widget.y,
+                                                                         width: widget.width,
+                                                                         height: widget.height,
+                                                                         label: widget.label,
+                                                                         eventName: widget.eventName
+                                                                     })
+                        if(widget.fontColor)
+                            componentObject.fontColor = Qt.rgba(widget.fontColor.r, widget.fontColor.g, widget.fontColor.b, widget.fontColor.a)
+                        if(widget.componentColor)
+                            componentObject.componentColor = Qt.rgba(widget.componentColor.r, widget.componentColor.g, widget.componentColor.b, widget.componentColor.a)
+                        if(widget.orientation)
+                            componentObject.orientation = widget.orientation
+                        if(widget.minimumValue)
+                            componentObject.minimumValue = widget.minimumValue
+                        if(widget.maximumValue)
+                            componentObject.maximumValue = widget.maximumValue
+                        if(widget.showValue)
+                            componentObject.showValue = widget.showValue
+                        if(widget.mappedMinimumValue)
+                            componentObject.mappedMinimumValue = widget.mappedMinimumValue
+                        if(widget.mappedMaximumValue)
+                            componentObject.mappedMaximumValue = widget.mappedMaximumValue
+                        if(widget.numberOfValues)
+                            componentObject.numberOfValues = widget.numberOfValues
+                        if(widget.modelEntries){
+                            componentObject.model.clear()
+                            for(var modelIndex = 0; modelIndex < widget.modelEntries.length; ++modelIndex)
+                                componentObject.model.append(widget.modelEntries[modelIndex])
+                        }
+                        if(widget.imageSource)
+                            componentObject.imageSource = widget.imageSource
                     }
-                    if(obj.imageSource)
-                        componentObject.imageSource = obj.imageSource
                 }
             }
         }
     }
 
     function saveCurrentChanges(){
-        if(layoutPersist.isFilenameValid){
-            layoutPersist.layout = window.layoutToArray()
+        if(qtRobo.persistance.isFilenameValid){
+            qtRobo.persistance.layout = window.layoutToArray()
+            qtRobo.persistance.persist()
+
             GlobalDefinitions.layoutPersisted()
         }
     }

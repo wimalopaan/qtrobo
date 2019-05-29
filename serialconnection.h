@@ -32,6 +32,9 @@ public:
 
     Q_INVOKABLE QStringList serialInterfaces();
 
+    QJsonObject serialize() override;
+    void deserialize(const QJsonObject &data) override;
+
 signals:
 
 public slots:

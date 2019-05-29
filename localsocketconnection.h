@@ -19,6 +19,9 @@ public:
 
     void parseDebug(const QString &tag, const QByteArray &data) override;
 
+    QJsonObject serialize() override;
+    void deserialize(const QJsonObject &data) override;
+
 private:
     QLocalSocket mLocalSocket;
 

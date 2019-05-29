@@ -1,5 +1,7 @@
 #include "localsocketconnection.h"
 #include <QDebug>
+#include <QJsonObject>
+#include <algorithm>
 
 LocalSocketConnection::LocalSocketConnection(QObject *parent) : Connection(parent)
 {
@@ -62,4 +64,20 @@ void LocalSocketConnection::parseDebug(const QString& tag, const QByteArray &dat
     }
 
     emit debugChanged(result);
+}
+
+QJsonObject LocalSocketConnection::serialize(){
+    QJsonObject result;
+
+    result.insert(LocalSocketConnection::PREFERENCE_SOCKET_NAME, mPreferences[LocalSocketConnection::PREFERENCE_SOCKET_NAME].toString());
+
+    return result;
+}
+
+void LocalSocketConnection::deserialize(const QJsonObject &data){
+
+    if(!data.value(LocalSocketConnection::PREFERENCE_SOCKET_NAME).isNull())
+        mPreferences[LocalSocketConnection::PREFERENCE_SOCKET_NAME] = data.value(LocalSocketConnection::PREFERENCE_SOCKET_NAME).toString();
+
+    emit preferencesChanged(mPreferences);
 }

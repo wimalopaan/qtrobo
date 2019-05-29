@@ -6,6 +6,7 @@
 #include <QVariantMap>
 
 #include "messageparser.h"
+#include "persistance.h"
 
 namespace ConnectionType{
     Q_NAMESPACE
@@ -18,7 +19,7 @@ namespace ConnectionType{
     Q_ENUM_NS(ConnectionType)
 };
 
-class Connection : public QObject
+class Connection : public QObject, public Persistance::Persistable
 {
     Q_OBJECT
 

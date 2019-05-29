@@ -5,8 +5,7 @@ import QSerialPort 0.1
 
 
 GridLayout{
-    anchors.left: parent.left
-    anchors.right: parent.right
+    Layout.fillWidth: true
     columns: 2
     rows: 3
 
@@ -125,7 +124,7 @@ GridLayout{
         id: stopbitCombobox
         Layout.fillWidth: true
         textRole: "description"
-        currentIndex: getIndexFromValue(stopbitModel, qtRobo.connection.preferences.serialStopbits)
+        currentIndex: getIndexFromValue(stopbitModel, qtRobo.connection.preferences.serialStopbit)
         property var currentItem: stopbitModel.get(currentIndex)
 
         model: ListModel{
@@ -162,7 +161,7 @@ GridLayout{
         id: paritybitCombobox
         Layout.fillWidth: true
         textRole: "description"
-        currentIndex: getIndexFromValue(paritybitModel, qtRobo.connection.preferences.serialParitybits)
+        currentIndex: getIndexFromValue(paritybitModel, qtRobo.connection.preferences.serialParitybit)
         property var currentItem: paritybitModel.get(currentIndex)
 
         model: ListModel{

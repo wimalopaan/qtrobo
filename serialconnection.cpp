@@ -2,7 +2,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QFile>
-#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>
 
 
@@ -38,13 +38,15 @@ void SerialConnection::connectImpl(){
         mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
         mSerialPort.setParity(static_cast<QSerialPort::Parity>(mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt()));
 
+        qDebug() << "Raw Input: " << mPreferences[SerialConnection::PREFERENCE_STOPBIT];
+
         mSerialPort.setPortName(mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME].toString());
 
         qDebug() << "Parity:" << mSerialPort.parity() << "\nBaudrate:" << mSerialPort.baudRate() << "\nStopbits:" << mSerialPort.stopBits() << "\nName:" << mSerialPort.portName();
         mSerialPort.open(QIODevice::ReadWrite);
 
         if(mSerialPort.isOpen() && mHeartbeatEnabled)
-            mHeartbeat.start(mHeartbeatTimeout);
+            mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
 
         emit connectionStateChanged(isConnected());
 
@@ -94,3 +96,34 @@ void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
     emit debugChanged(result);
 }
 
+QJsonObject SerialConnection::serialize(){
+    QJsonObject result;
+
+    result.insert(SerialConnection::PREFERENCE_INTERFACE_NAME, mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME].toString());
+    result.insert(SerialConnection::PREFERENCE_BAUDRATE, mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt());
+    result.insert(SerialConnection::PREFERENCE_STOPBIT, mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt());
+    result.insert(SerialConnection::PREFERENCE_PARITYBIT, mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt());
+
+    return result;
+}
+
+void SerialConnection::deserialize(const QJsonObject &data){
+
+    if(!data.value(SerialConnection::PREFERENCE_INTERFACE_NAME).isNull()){
+        mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME] = data.value(SerialConnection::PREFERENCE_INTERFACE_NAME).toString();
+    }
+
+    if(!data.value(SerialConnection::PREFERENCE_BAUDRATE).isNull()){
+        mPreferences[SerialConnection::PREFERENCE_BAUDRATE] = data.value(SerialConnection::PREFERENCE_BAUDRATE).toInt();
+    }
+
+    if(!data.value(SerialConnection::PREFERENCE_STOPBIT).isNull()){
+        mPreferences[SerialConnection::PREFERENCE_STOPBIT] = data.value(SerialConnection::PREFERENCE_STOPBIT).toInt();
+    }
+
+    if(!data.value(SerialConnection::PREFERENCE_PARITYBIT).isNull()){
+        mPreferences[SerialConnection::PREFERENCE_PARITYBIT] = data.value(SerialConnection::PREFERENCE_PARITYBIT).toInt();
+    }
+
+    emit preferencesChanged(mPreferences);
+}
