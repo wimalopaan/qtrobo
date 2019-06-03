@@ -18,6 +18,7 @@ import QSerialPort 0.1
 
         TextField{
             id: socketName
+            text: qtRobo.connection.preferences.socketName
             Layout.fillWidth: true
         }
    }

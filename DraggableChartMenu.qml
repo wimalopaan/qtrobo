@@ -19,4 +19,28 @@ GridLayout{
         to: 1000
         Layout.fillWidth: true
     }
+
+    RowLayout{
+        Layout.fillWidth: true
+        Label{
+            text: qsTr("Fixed Y Axis:")
+        }
+        CheckBox{
+            id: isFixedCheckbox
+            checked:  component.isFixed
+            onCheckedChanged: component.isFixed = checked
+        }
+
+    }
+
+    SpinBox{
+        editable: true
+        enabled: isFixedCheckbox.checked
+        from: -1000
+        to: 1000
+        value: component.maxYAxis
+        Layout.fillWidth: true
+
+        onValueChanged: component.maxYAxis = value
+    }
 }
