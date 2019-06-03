@@ -7,6 +7,10 @@
 class MessageParser: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(char eventStart READ eventStart WRITE eventStart NOTIFY eventStartChanged)
+    Q_PROPERTY(char eventValueDivider READ eventValueDivider WRITE eventValueDivider NOTIFY eventValueDividerChanged)
+    Q_PROPERTY(char eventEnd READ eventEnd WRITE eventEnd NOTIFY eventEndChanged)
+
 public:
     enum class State{
         START,
@@ -21,6 +25,8 @@ public:
     };
 
     explicit MessageParser(QObject *parent = nullptr);
+    MessageParser(const MessageParser &other);
+    MessageParser(MessageParser &&other);
 
     char eventStart() const;
     void eventStart(char eventStart);
@@ -34,18 +40,25 @@ public:
     void parseData(char byte);
     void parseData(const QByteArray& data);
 
+    MessageParser& operator=(const MessageParser &other);
+    MessageParser& operator=(MessageParser &&other);
+
     friend std::ostream& operator<<(std::ostream& out, const Event& event);
     friend QDebug operator<<(QDebug debug, const Event& event);
+    friend void swap(MessageParser &lhs, MessageParser &rhs);
 
 signals:
     void messageParsed(Event event);
+    void eventStartChanged(char eventStart);
+    void eventValueDividerChanged(char eventValueDivider);
+    void eventEndChanged(char eventEnd);
 
 public slots:
 
 private:
-    MessageParser(const MessageParser&);
+    //MessageParser(const MessageParser&);
 
-    char mEventStart;
+    char mEventStart = '$';
     char mEventValueDivider;
     char mEventEnd;
 

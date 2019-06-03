@@ -82,7 +82,7 @@ Item{
 
     Connections{
         id: connection
-        target: serialConnection
+        target: qtRobo.connection
         onDataChanged: {
             if(eventName && root.eventName === eventName){
                 var parsedVal = parseInt(data)

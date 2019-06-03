@@ -35,7 +35,7 @@ Text{
                 if(root.height < 30)
                     root.height = 30
 
-                GlobalDefinitions.layoutEdited()
+                GlobalDefinitions.projectEdited()
             }
         }
     }

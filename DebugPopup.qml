@@ -20,7 +20,7 @@ Window{
         }
 
         Connections{
-            target: serialConnection
+            target: qtRobo.connection
             onDebugChanged:  {
                 var formattedText = "";
                 if(debug.startsWith("In")){

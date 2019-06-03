@@ -62,7 +62,7 @@ Rectangle {
             }
             onCurrentIndexChanged: {
                 if(eventName && eventName.length > 0)
-                    serialConnection.writeToSerial(eventName, comboBox.currentIndex)
+                    qtRobo.connection.write(eventName, comboBox.currentIndex)
             }
         }
     }

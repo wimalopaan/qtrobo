@@ -53,7 +53,7 @@ Rectangle{
 
             Connections{
                 id: serialListener
-                target: serialConnection
+                target: qtRobo.connection
 
                 onDataChanged: {
                     var newTextLine = "[" + Qt.formatTime(new Date(), "hh:mm:ss")

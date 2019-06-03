@@ -39,10 +39,10 @@ Rectangle{
             onClicked: {
                 if(textinput.text.length > 0){
                     if(eventName && eventName.length > 0){
-                        serialConnection.writeToSerial(eventName, textinput.text)
+                        qtRobo.connection.write(eventName, textinput.text)
                         textinput.clear()
                     }else{
-                        serialConnection.writeToSerial(textinput.text)
+                        qtRobo.connection.write(textinput.text)
                         textinput.clear()
                     }
                 }

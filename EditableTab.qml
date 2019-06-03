@@ -6,7 +6,7 @@ TabButton{
     font.capitalization: Font.MixedCase
     property alias editEnabled: editMouseArea.enabled
 
-    onTextChanged: GlobalDefinitions.layoutEdited()
+    onTextChanged: GlobalDefinitions.projectEdited()
 
     MouseArea{
         id: editMouseArea

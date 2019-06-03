@@ -149,5 +149,5 @@ Dialog{
             return ""
     }
 
-    onAccepted: GlobalDefinitions.layoutEdited()
+    onAccepted: GlobalDefinitions.projectEdited()
 }

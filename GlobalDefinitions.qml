@@ -7,11 +7,11 @@ QtObject{
     property int gridModeStepSize: 20
     property bool hasLayoutBeenEdited: false
 
-    function layoutEdited(){
+    function projectEdited(){
         hasLayoutBeenEdited = true
     }
 
-    function layoutPersisted(){
+    function projectPersisted(){
         hasLayoutBeenEdited = false
     }
 
@@ -74,4 +74,6 @@ QtObject{
         result = result + toMin
         return (result | 0)
     }
+
+
 }

@@ -102,7 +102,7 @@ Rectangle{
 
             onValueChanged: {
                 if(eventName && eventName.length > 0)
-                    serialConnection.writeToSerial(eventName, value)
+                    qtRobo.connection.write(eventName, value)
             }
         }
     }

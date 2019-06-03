@@ -22,7 +22,7 @@ Text{
                 root.height = root.width
                 root.width = rootHeight
 
-                GlobalDefinitions.layoutEdited()
+                GlobalDefinitions.projectEdited()
             }
         }
     }

@@ -58,7 +58,7 @@ Item {
     }
 
     Connections{
-        target: serialConnection
+        target: qtRobo.connection
         onDataChanged:{
             if(eventName === root.eventName){
                  enableLED = !!+data

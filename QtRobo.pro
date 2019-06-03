@@ -13,9 +13,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    connection.cpp \
+    localsocketconnection.cpp \
         main.cpp \
+    persistance.cpp \
+    qtrobo.cpp \
     serialconnection.cpp \
-    layoutpersist.cpp \
     messageparser.cpp
 
 RESOURCES += qml.qrc
@@ -32,8 +35,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    connection.h \
+    localsocketconnection.h \
+    persistance.h \
+    qtrobo.h \
     serialconnection.h \
-    layoutpersist.h \
     messageparser.h
 
 DISTFILES += \

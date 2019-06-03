@@ -46,10 +46,10 @@ Item{
             }
         }
 
-        onTextChanged: GlobalDefinitions.layoutEdited()
+        onTextChanged: GlobalDefinitions.projectEdited()
 
         onPressed:{
-            serialConnection.writeToSerial(eventName)
+            qtRobo.connection.write(eventName)
             isPressed = true
         }
 

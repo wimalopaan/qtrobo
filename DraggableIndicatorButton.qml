@@ -26,7 +26,7 @@ Item{
         property bool isPressed: false
 
         onPressed: {
-            serialConnection.writeToSerial(eventName, +isOn)
+            qtRobo.connection.write(eventName, +isOn)
             isPressed = true
         }
 
@@ -72,7 +72,7 @@ Item{
 
     Connections{
         id: serialConnector
-        target: serialConnection
+        target: qtRobo.connection
         onDataChanged:{
             if(eventName === root.eventName && data){
                 button.isOn = !!+data
