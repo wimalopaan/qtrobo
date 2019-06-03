@@ -14,6 +14,8 @@ Item{
     property var componentType: GlobalDefinitions.ComponentType.Chart
     property alias componentColor: series.color
     property int numberOfValues: 10
+    property alias maxYAxis: yAxis.max
+    property bool isFixed: false
     onNumberOfValuesChanged: {
         while(series.count > numberOfValues)
             series.remove(0)
@@ -33,6 +35,7 @@ Item{
         LineSeries{
             id: series
             useOpenGL: true
+            property int lastYAxisAutoMax
 
             function addValue(y){
 
@@ -45,16 +48,13 @@ Item{
 
                 series.append(0, y)
 
-                if(y > yAxis.max)
-                    yAxis.max = Math.ceil(y)
-            }
-
-            /*onCountChanged: {
-                if(count > xAxis.max + 1){
-                    xAxis.min++;
-                    xAxis.max++;
+                if(y > yAxis.max){
+                    lastYAxisAutoMax = Math.ceil(y)
                 }
-            }*/
+
+                if(!isFixed)
+                    yAxis.max = lastYAxisAutoMax
+            }
 
             axisX: ValueAxis{
                 id: xAxis

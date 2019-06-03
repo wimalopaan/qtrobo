@@ -462,7 +462,9 @@ ApplicationWindow {
                     showValue: child.showValue,
                     modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
                     imageSource: child.imageSource ? child.imageSource.toString() : undefined,
-                    numberOfValues: child.numberOfValues
+                    numberOfValues: child.numberOfValues,
+                    isFixedYAxis: child.isFixed,
+                    fixedYAxisMax: child.maxYAxis
                 }
 
                 tab.content.push(widget)
@@ -527,6 +529,10 @@ ApplicationWindow {
                         }
                         if(widget.imageSource)
                             componentObject.imageSource = widget.imageSource
+                        if(widget.isFixedYAxis)
+                            componentObject.isFixed = widget.isFixedYAxis
+                        if(widget.fixedYAxisMax)
+                            componentObject.maxYAxis = widget.fixedYAxisMax
                     }
                 }
             }
