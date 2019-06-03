@@ -46,7 +46,7 @@ Item{
             }
         }
 
-        onTextChanged: GlobalDefinitions.layoutEdited()
+        onTextChanged: GlobalDefinitions.projectEdited()
 
         onPressed:{
             qtRobo.connection.write(eventName)

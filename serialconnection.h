@@ -18,6 +18,8 @@ class SerialConnection: public Connection
 
 public:
     SerialConnection(QObject *parent = nullptr);
+    SerialConnection(const SerialConnection &other);
+    SerialConnection(SerialConnection &&other);
 
     bool isConnected() const override;
 

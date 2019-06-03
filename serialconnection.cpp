@@ -4,10 +4,11 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QDebug>
+#include <algorithm>
 
 
-SerialConnection::SerialConnection(QObject *parent) :
-    Connection(parent)
+SerialConnection::SerialConnection(QObject *parent)
+    : Connection(parent)
 {
     mPreferences[SerialConnection::PREFERENCE_BAUDRATE] = static_cast<int>(SerialConnection::DEFAULT_BAUDRATE);
     mPreferences[SerialConnection::PREFERENCE_STOPBIT] = static_cast<int>(SerialConnection::DEFAULT_STOPBITS);
@@ -15,6 +16,14 @@ SerialConnection::SerialConnection(QObject *parent) :
 
     QObject::connect(&mSerialPort, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
 }
+
+SerialConnection::SerialConnection(const SerialConnection &other)
+    : SerialConnection(other.parent())
+{}
+
+SerialConnection::SerialConnection(SerialConnection &&other)
+    : SerialConnection(other.parent())
+{}
 
 bool SerialConnection::isConnected() const{
     return mSerialPort.isOpen();

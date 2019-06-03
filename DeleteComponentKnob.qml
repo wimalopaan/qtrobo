@@ -15,7 +15,7 @@ Text{
         acceptedButtons: Qt.LeftButton
         onClicked: {
             root.destroy()
-            GlobalDefinitions.layoutEdited()
+            GlobalDefinitions.projectEdited()
         }
     }
 }

@@ -16,9 +16,10 @@ Connection::Connection(QObject *parent)
     mParser.eventEnd(DEFAULT_EVENT_END);
 }
 
-Connection::Connection(const Connection &connection) : Connection(connection.parent())
+Connection::Connection(Connection &&other)
+    : Connection(other.parent())
 {
-    mEvent = connection.mEvent;
+    swap(other, *this);
 }
 
 Connection::~Connection(){}
@@ -59,7 +60,7 @@ MessageParser* Connection::messageParser(){
 
 void Connection::connect(){
     if(isConnected() && mHeartbeatEnabled)
-        mHeartbeat.start(mHeartbeatTimeout);
+        mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
 
     connectImpl();
 }
@@ -69,12 +70,6 @@ void Connection::disconnect(){
 
     if(mHeartbeat.isActive())
         mHeartbeat.stop();
-}
-
-Connection& Connection::operator=(Connection &other){
-    swap(*this, other);
-
-    return *this;
 }
 
 void Connection::onReadyRead(){
@@ -101,7 +96,25 @@ void Connection::onHeartbeatTriggered(){
     write(mHeartbeatRequest);
 }
 
+Connection&  Connection::operator=(Connection &&other){
+
+    if(&other != this)
+        swap(other, *this);
+
+    return *this;
+}
+
 void swap(Connection &lhs, Connection &rhs){
+
     using std::swap;
+
     swap(lhs.mEvent, rhs.mEvent);
+    swap(lhs.mHeartbeatTimeout, rhs.mHeartbeatTimeout);
+    swap(lhs.mHeartbeatStatus, rhs.mHeartbeatStatus);
+    swap(lhs.mHeartbeatRequest, rhs.mHeartbeatRequest);
+    swap(lhs.mHeartbeatResponse, rhs.mHeartbeatResponse);
+    swap(lhs.mHeartbeatEnabled, rhs.mHeartbeatEnabled);
+    swap(lhs.mDebug, rhs.mDebug);
+    swap(lhs.mParser, rhs.mParser);
+    swap(lhs.mPreferences, rhs.mPreferences);
 }

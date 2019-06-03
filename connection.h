@@ -37,7 +37,7 @@ class Connection : public QObject, public Persistance::Persistable
 
 public:
     explicit Connection(QObject *parent = nullptr);
-    Connection(const Connection &connection);
+    Connection(Connection &&other);
     ~Connection();
 
     const QString& data() const;
@@ -54,7 +54,7 @@ public:
     Q_INVOKABLE void connect();
     Q_INVOKABLE void disconnect();
 
-    Connection& operator=(Connection& other);
+    Connection& operator=(Connection &&other);
 
     friend void swap(Connection& lhs, Connection& rhs);
 

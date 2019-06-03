@@ -103,5 +103,7 @@ Dialog{
         qtRobo.connection.messageParser.eventValueDivider = eventSettingsDialog.eventValueDivider
 
         qtRobo.connection.connect()
+
+        GlobalDefinitions.projectEdited()
     }
 }

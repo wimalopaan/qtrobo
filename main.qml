@@ -34,7 +34,7 @@ ApplicationWindow {
 
     }
 
-    Component.onCompleted: GlobalDefinitions.layoutPersisted()
+    Component.onCompleted: GlobalDefinitions.projectPersisted()
 
     Shortcut{
         sequence: StandardKey.Save
@@ -63,7 +63,7 @@ ApplicationWindow {
                     drag.maximumX = contentPane.width - dragPadding - drag.target.width
                     drag.minimumY = dragPadding
                     drag.maximumY = contentPane.height - dragPadding - drag.target.height
-                    GlobalDefinitions.layoutEdited()
+                    GlobalDefinitions.projectEdited()
                 }
             }
         }
@@ -125,7 +125,7 @@ ApplicationWindow {
 
                         qtRobo.persistance.layout = window.layoutToArray()
                         qtRobo.persistance.persist()
-                        GlobalDefinitions.layoutPersisted()
+                        GlobalDefinitions.projectPersisted()
 
                         if(closingWindow)
                             window.close()
@@ -152,7 +152,7 @@ ApplicationWindow {
                         qtRobo.persistance.restore()
 
                         window.arrayToLayout(qtRobo.persistance.layout)
-                        GlobalDefinitions.layoutPersisted()
+                        GlobalDefinitions.projectPersisted()
                     }
                 }
             }
@@ -359,7 +359,7 @@ ApplicationWindow {
             var component = Qt.createComponent(componentFile)
             component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
 
-            GlobalDefinitions.layoutEdited()
+            GlobalDefinitions.projectEdited()
         }
     }
 
@@ -371,7 +371,7 @@ ApplicationWindow {
         tabPane.Layout.fillWidth = true
         tabPane.Layout.fillHeight = true
 
-        GlobalDefinitions.layoutEdited()
+        GlobalDefinitions.projectEdited()
     }
 
     function destroyTab(){
@@ -382,7 +382,7 @@ ApplicationWindow {
 
             tabBar.removeItem(tabBar.count - 1)
 
-            GlobalDefinitions.layoutEdited()
+            GlobalDefinitions.projectEdited()
         }
     }
 
@@ -538,7 +538,7 @@ ApplicationWindow {
             qtRobo.persistance.layout = window.layoutToArray()
             qtRobo.persistance.persist()
 
-            GlobalDefinitions.layoutPersisted()
+            GlobalDefinitions.projectPersisted()
         }
     }
 }

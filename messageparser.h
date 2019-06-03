@@ -25,6 +25,8 @@ public:
     };
 
     explicit MessageParser(QObject *parent = nullptr);
+    MessageParser(const MessageParser &other);
+    MessageParser(MessageParser &&other);
 
     char eventStart() const;
     void eventStart(char eventStart);
@@ -38,8 +40,12 @@ public:
     void parseData(char byte);
     void parseData(const QByteArray& data);
 
+    MessageParser& operator=(const MessageParser &other);
+    MessageParser& operator=(MessageParser &&other);
+
     friend std::ostream& operator<<(std::ostream& out, const Event& event);
     friend QDebug operator<<(QDebug debug, const Event& event);
+    friend void swap(MessageParser &lhs, MessageParser &rhs);
 
 signals:
     void messageParsed(Event event);
@@ -50,7 +56,7 @@ signals:
 public slots:
 
 private:
-    MessageParser(const MessageParser&);
+    //MessageParser(const MessageParser&);
 
     char mEventStart = '$';
     char mEventValueDivider;
