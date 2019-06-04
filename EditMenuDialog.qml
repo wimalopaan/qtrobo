@@ -145,6 +145,8 @@ Dialog{
             return "DraggableChartMenu.qml"
         else if(component instanceof DraggableSpinbox)
             return "DraggableSpinboxMenu.qml"
+        else if(component instanceof DraggablePotentiometer)
+            return "DraggablePotentiometerMenu.qml"
         else
             return ""
     }

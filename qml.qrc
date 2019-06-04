@@ -39,5 +39,7 @@
         <file>DefaultValuesDialog.qml</file>
         <file>LocalSocketConnectionConfig.qml</file>
         <file>ConnectionConfigDialog.qml</file>
+        <file>DraggablePotentiometer.qml</file>
+        <file>DraggablePotentiometerMenu.qml</file>
     </qresource>
 </RCC>

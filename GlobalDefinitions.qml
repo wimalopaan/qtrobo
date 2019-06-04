@@ -28,7 +28,8 @@ QtObject{
         TextInput,
         CircularGauge,
         LinearGauge,
-        Chart
+        Chart,
+        Potentiometer
     }
 
     property var componentName: [
@@ -44,7 +45,8 @@ QtObject{
         "DraggableTextInput",
         "DraggableCircularGauge",
         "DraggableLinearGauge",
-        "DraggableChart"
+        "DraggableChart",
+        "DraggablePotentiometer"
     ]
 
     property var componentDisplayName: [
@@ -60,7 +62,8 @@ QtObject{
         "Text Input",
         "Circular Gauge",
         "Linear Gauge",
-        "Chart"
+        "Chart",
+        "Potentiometer"
     ]
 
     function getDisplayName(componentType){

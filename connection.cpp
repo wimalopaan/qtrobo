@@ -30,7 +30,6 @@ void Connection::write(const QString &eventName){
         request += mParser.eventStart();
         request += eventName;
         request += mParser.eventEnd();
-
         parseDebug("Out", request.toLocal8Bit());
 
         writeImpl(request);

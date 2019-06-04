@@ -72,8 +72,9 @@ void MessageParser::parseData(char byte){
             mCurrentState = State::START;
             emit messageParsed(mCurrentEvent);
         }
-        else if(QChar::isLetterOrNumber(static_cast<uint>(byte)))
+        else if(QChar::isLetterOrNumber(static_cast<uint>(byte)) || byte == '-')
             mCurrentEvent.value.append(byte);
+
         break;
     }
 }
