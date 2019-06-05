@@ -12,7 +12,6 @@ Prio 2:
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Slider-Koppelelement 
 * stabiles JSON-Dateiformat
-(* Drehknopf / Poti)
 * JavaScript-Integration für Berechnungen
 * Localization
 
@@ -53,6 +52,7 @@ Erledigt:
 * senden an eine pipe/local-socket: Pfadname
 * Umbau Heartbeat (UI) / Event Settings
 * Graph-Anzeige (über Anzahl der Werte), Anzahl der dargestellten x-Werte einstellbar, y-Skalierung [auto/fest]
+(* Drehknopf / Poti)
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
