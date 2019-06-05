@@ -30,7 +30,7 @@ public:
     void connectImpl() override;
     void disconnectImpl() override;
 
-    void parseDebug(const QString &tag, const QByteArray &data) override;
+    void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data) override;
 
     Q_INVOKABLE QStringList serialInterfaces();
 

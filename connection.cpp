@@ -30,7 +30,7 @@ void Connection::write(const QString &eventName){
         request += mParser.eventStart();
         request += eventName;
         request += mParser.eventEnd();
-        parseDebug("Out", request.toLocal8Bit());
+        parseDebug(DebugInfoDirection::DebugInfoDirection::Out, request.toLocal8Bit());
 
         writeImpl(request);
     }
@@ -74,7 +74,7 @@ void Connection::disconnect(){
 void Connection::onReadyRead(){
     if(isConnected()){
         QByteArray dataBuffer = read();
-        parseDebug("In", dataBuffer);
+        parseDebug(DebugInfoDirection::DebugInfoDirection::In, dataBuffer);
         mParser.parseData(dataBuffer);
     }
 }

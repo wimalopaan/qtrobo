@@ -43,9 +43,8 @@ bool LocalSocketConnection::isConnected() const{
     return mLocalSocket.isOpen();
 }
 
-void LocalSocketConnection::parseDebug(const QString& tag, const QByteArray &data){
-    QString result = tag;
-    result.append("\u27A1");
+void LocalSocketConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
+    QString result;
 
     for(char byte : data){
         switch(byte){
@@ -63,7 +62,7 @@ void LocalSocketConnection::parseDebug(const QString& tag, const QByteArray &dat
         }
     }
 
-    emit debugChanged(result);
+    emit debugChanged(direction, result);
 }
 
 QJsonObject LocalSocketConnection::serialize(){

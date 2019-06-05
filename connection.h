@@ -19,6 +19,17 @@ namespace ConnectionType{
     Q_ENUM_NS(ConnectionType)
 };
 
+namespace DebugInfoDirection{
+    Q_NAMESPACE
+
+    enum class DebugInfoDirection{
+        In,
+        Out
+    };
+
+    Q_ENUM_NS(DebugInfoDirection)
+};
+
 class Connection : public QObject, public Persistance::Persistable
 {
     Q_OBJECT
@@ -68,7 +79,7 @@ signals:
     void connectionStateChanged(bool isConnected);
     void messageParserChanged(const MessageParser *messageParser);
     void preferencesChanged(const QVariantMap &preferences);
-    void debugChanged(const QString& debug);
+    void debugChanged(DebugInfoDirection::DebugInfoDirection direction, const QString& debug);
 
 public slots:
     void onParsedDataReady(const MessageParser::Event &event);
@@ -91,7 +102,7 @@ protected:
     virtual void writeImpl(const QString &eventName) = 0;
     virtual void connectImpl() = 0;
     virtual void disconnectImpl() = 0;
-    virtual void parseDebug(const QString& tag, const QByteArray& data) = 0;
+    virtual void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray& data) = 0;
 
 private:
     static const bool DEFAULT_HEARTBEAT_ENABLED = false;

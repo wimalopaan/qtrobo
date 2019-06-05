@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableMetaObject(ConnectionType::staticMetaObject, "QtRobo.ConnectionType", 1, 0, "ConnectionType", "Error: only enums");
     qRegisterMetaType<ConnectionType::ConnectionType>("ConnectionType");
 
+    qmlRegisterUncreatableMetaObject(DebugInfoDirection::staticMetaObject, "QtRobo.DebugInfoDirection", 1, 0, "DebugInfoDirection", "Error: only enums");
+    qRegisterMetaType<DebugInfoDirection::DebugInfoDirection>("DebugInfoDirection");
+
     QtRobo qtRobo;
     QQmlApplicationEngine engine;
 

@@ -8,7 +8,6 @@ Prio 1:
 
 Prio 2:
 
-* Überarbeiten der Darstellung der Debug Informationen
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Slider-Koppelelement 
 * stabiles JSON-Dateiformat
@@ -53,6 +52,7 @@ Erledigt:
 * Umbau Heartbeat (UI) / Event Settings
 * Graph-Anzeige (über Anzahl der Werte), Anzahl der dargestellten x-Werte einstellbar, y-Skalierung [auto/fest]
 (* Drehknopf / Poti)
+* Überarbeiten der Darstellung der Debug Informationen
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)

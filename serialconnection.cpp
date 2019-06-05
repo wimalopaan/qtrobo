@@ -79,9 +79,8 @@ QByteArray SerialConnection::read(){
     return mSerialPort.readAll();
 }
 
-void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
-    QString result = tag;
-    result.append("\u27A1");
+void SerialConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
+    QString result;
 
     for(char byte : data){
         switch(byte){
@@ -99,7 +98,7 @@ void SerialConnection::parseDebug(const QString& tag, const QByteArray &data){
         }
     }
 
-    emit debugChanged(result);
+    emit debugChanged(direction, result);
 }
 
 QJsonObject SerialConnection::serialize(){
