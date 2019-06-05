@@ -35,6 +35,15 @@ Item{
         property var scaleFactor: (root.width < root.height ? root.width / 100 : root.height / 100)
 
         Label{
+            anchors.bottom: parent.top
+            anchors.bottomMargin: 20 * parent.scaleFactor
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.label
+            color: root.fontColor
+            font.pointSize: 12
+        }
+
+        Label{
             anchors.centerIn: parent
             text: parent.value
             visible: parent.pressed
@@ -54,14 +63,26 @@ Item{
             background: Rectangle{
                 anchors.fill: parent
                 anchors.margins: 8 * potentiometer.scaleFactor
-                color: root.componentColor
                 radius: (width < height ? width: height) * 0.5
+
+                color: "darkgray"
+                Rectangle{
+                    anchors.fill: parent
+                    anchors.margins: 1 * potentiometer.scaleFactor
+                    gradient: Gradient{
+                        GradientStop{position: 0.0; color: root.componentColor}
+                        GradientStop{position: 1.0; color: Qt.rgba(root.componentColor.r, root.componentColor.g, root.componentColor.b, 0.5)}
+                    }
+
+                    radius: (width < height ? width: height) * 0.5
+                }
             }
 
             labelInset: -10 * potentiometer.scaleFactor
             tickmarkLabel: Label{
                 text: styleData.value
                 font.pointSize: 6 * potentiometer.scaleFactor
+                color:  root.fontColor
             }
 
             labelStepSize: Math.abs(parent.maximumValue - parent.minimumValue) / 10
