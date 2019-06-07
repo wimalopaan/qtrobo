@@ -13,6 +13,8 @@ Rectangle{
     property alias enabled: layout.enabled
     property var componentType: GlobalDefinitions.ComponentType.TextInput
     property bool edible: true
+    property string initialValue: ""
+
     onEdibleChanged: enabled = !edible
 
     GridLayout{
@@ -46,6 +48,14 @@ Rectangle{
                         textinput.clear()
                     }
                 }
+            }
+        }
+
+        Connections{
+            target: qtRobo.connection
+            onConnectionStateChanged: {
+                if(isConnected)
+                    textinput.text = root.initialValue
             }
         }
     }

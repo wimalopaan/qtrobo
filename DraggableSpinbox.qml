@@ -18,6 +18,8 @@ Rectangle{
     property alias minimumValue: spinbox.from
     property alias maximumValue: spinbox.to
     property bool edible: true
+    property int initialValue: 0
+
     onEdibleChanged: enabled = !edible
 
     ColumnLayout{
@@ -103,6 +105,14 @@ Rectangle{
             onValueChanged: {
                 if(eventName && eventName.length > 0)
                     qtRobo.connection.write(eventName, value)
+            }
+        }
+
+        Connections{
+            target: qtRobo.connection
+            onConnectionStateChanged:{
+                if(isConnected)
+                    spinbox.value = root.initialValue
             }
         }
     }

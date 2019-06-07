@@ -14,6 +14,8 @@ Item{
     property color componentColor: "lightgray"
     property color fontColor: "black"
     property bool edible: true
+    property bool initialValue: false
+
     onEdibleChanged: enabled = !edible
 
     Button{
@@ -78,6 +80,12 @@ Item{
                 button.isOn = !!+data
             }
         }
+
+        onConnectionStateChanged:{
+            if(isConnected)
+                button.isOn = root.initialValue
+        }
+
         Component.onDestruction: serialConnector.target = null
     }
 

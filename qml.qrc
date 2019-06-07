@@ -36,10 +36,11 @@
         <file>bug_logo.png</file>
         <file>DebugPopup.qml</file>
         <file>DraggableSpinboxMenu.qml</file>
-        <file>DefaultValuesDialog.qml</file>
         <file>LocalSocketConnectionConfig.qml</file>
         <file>ConnectionConfigDialog.qml</file>
         <file>DraggablePotentiometer.qml</file>
         <file>DraggablePotentiometerMenu.qml</file>
+        <file>DraggableIndicatorButtonMenu.qml</file>
+        <file>DraggableTextInputMenu.qml</file>
     </qresource>
 </RCC>

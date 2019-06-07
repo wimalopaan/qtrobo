@@ -22,6 +22,8 @@ Item{
     property bool edible: true
     property color fontColor: "gray"
     property color componentColor: "lightgray"
+    property int initialValue: 0
+
     onEdibleChanged: enabled = !edible
 
     Dial{
@@ -103,6 +105,11 @@ Item{
                     var receivedValue = +data
                     potentiometer.value = GlobalDefinitions.mapToValueRange(receivedValue, root.mappedMinimumValue, root.mappedMaximumValue, root.minimumValue, root.maximumValue)
                 }
+            }
+
+            onConnectionStateChanged:{
+                if(isConnected)
+                    potentiometer.value = root.initialValue
             }
 
             Component.onDestruction: connection.target = null

@@ -12,6 +12,22 @@ GridLayout{
 
     Label{
         Layout.fillWidth: true
+        text: qsTr("Initial Value:")
+    }
+
+    SpinBox{
+        id: initialValue
+        Layout.fillWidth: true
+        from: rangeValidator.bottom
+        to: rangeValidator.top
+        value: component.initialValue
+        editable: true
+        onValueChanged: component.initialValue = value
+
+    }
+
+    Label{
+        Layout.fillWidth: true
         text: qsTr("Min Value:")
     }
 

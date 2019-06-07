@@ -21,6 +21,8 @@ Item{
     property bool edible: true
     property int mappedMinimumValue: slider.from
     property int mappedMaximumValue: slider.to
+    property int initialValue: 0
+
     onEdibleChanged: enabled = !edible
 
     Slider{
@@ -87,6 +89,11 @@ Item{
                 var receivedValue = +data
                 slider.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, slider.from, slider.to)
             }
+        }
+
+        onConnectionStateChanged:{
+            if(isConnected)
+                slider.value = root.initialValue
         }
     }
 

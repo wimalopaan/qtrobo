@@ -4,8 +4,6 @@ Bugs:
 
 Prio 1:
 
-* Defaultwerte: nach dem Starten werden die Elemente auf diesen initial-Wert gesetzt
-
 Prio 2:
 
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
@@ -53,6 +51,7 @@ Erledigt:
 * Graph-Anzeige (über Anzahl der Werte), Anzahl der dargestellten x-Werte einstellbar, y-Skalierung [auto/fest]
 (* Drehknopf / Poti)
 * Überarbeiten der Darstellung der Debug Informationen
+* Defaultwerte: nach dem Starten werden die Elemente auf diesen initial-Wert gesetzt
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
