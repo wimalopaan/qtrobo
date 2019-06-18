@@ -21,6 +21,8 @@ public:
     };
 
     Persistance(QObject *parent = nullptr);
+    Persistance(const Persistance &other) = delete;
+    Persistance(Persistance &&other) = delete;
     ~Persistance();
 
     Q_INVOKABLE void persist();
@@ -30,6 +32,9 @@ public:
     void filename(const QUrl& filename);
 
     bool isFilenameValid() const;
+
+    Persistance& operator=(const Persistance &other) = delete;
+    Persistance& operator=(Persistance &&other) = delete;
 
 signals:
     void layoutChanged(const QJsonArray &layout);

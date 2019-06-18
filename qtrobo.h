@@ -16,10 +16,16 @@ class QtRobo: public QObject
 
 public:
     explicit QtRobo(QObject *parent = nullptr);
+    QtRobo(const QtRobo &other) = delete;
+    QtRobo(QtRobo &&other) = delete;
+
     ~QtRobo();
 
     Connection * connection();
     Persistance * persistance();
+
+    QtRobo& operator=(const QtRobo &other) = delete;
+    QtRobo& operator=(QtRobo &&other) = delete;
 
 signals:
     void connectionChanged();
