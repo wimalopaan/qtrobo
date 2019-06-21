@@ -6,7 +6,6 @@ Prio 1:
 
 Prio 2:
 
-* Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Slider-Koppelelement 
 * stabiles JSON-Dateiformat
 * JavaScript-Integration für Berechnungen
@@ -52,6 +51,7 @@ Erledigt:
 (* Drehknopf / Poti)
 * Überarbeiten der Darstellung der Debug Informationen
 * Defaultwerte: nach dem Starten werden die Elemente auf diesen initial-Wert gesetzt
+* Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
