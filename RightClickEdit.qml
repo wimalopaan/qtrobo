@@ -5,7 +5,7 @@ MouseArea{
     anchors.fill: parent
     acceptedButtons: Qt.RightButton
     onClicked:{
-        var editPopupComponent = Qt.createComponent("EditMenuDialog.qml")
+        var editPopupComponent = Qt.createComponent("EditMenuDialog.qml")       
         var editPopup = editPopupComponent.createObject(root,  {component: root})
         editPopup.open()
     }

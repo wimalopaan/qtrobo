@@ -9,9 +9,40 @@ GridLayout{
         id: rangeValidator
     }
 
+
+    RowLayout{
+        Layout.fillWidth: true
+        Layout.columnSpan: 2
+
+        RadioButton{
+            id: sliderRadioButton
+            text: qsTr("Normal")
+            Layout.fillWidth: true
+            checked: !component.isBalanced
+
+            onCheckedChanged: {
+                if(checked)
+                    component.isBalanced = false;
+            }
+        }
+
+        RadioButton{
+            id: balancedSliderRadioButton
+            Layout.fillWidth: true
+            text: qsTr("Balanced")
+            checked: component.isBalanced
+
+            onCheckedChanged: {
+                if(checked)
+                    component.isBalanced = true;
+            }
+        }
+    }
+
     Label{
         Layout.fillWidth: true
         text: qsTr("Initial Value:")
+        enabled: !component.isBalanced
     }
 
     SpinBox{
@@ -22,6 +53,7 @@ GridLayout{
         value: component.initialValue
         editable: true
         onValueChanged: component.initialValue = value
+        enabled: !component.isBalanced
     }
 
     Label{

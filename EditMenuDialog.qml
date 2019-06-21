@@ -128,8 +128,6 @@ Dialog{
         }
         Keys.onReturnPressed: root.accept()
     }
-
-
     function loadComponentMenu(component){
         if(component instanceof DraggableDropdown)
             return "DraggableDropdownMenu.qml"

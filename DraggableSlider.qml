@@ -22,6 +22,13 @@ Item{
     property int mappedMinimumValue: slider.from
     property int mappedMaximumValue: slider.to
     property int initialValue: 0
+    property bool isBalanced: false
+
+    onIsBalancedChanged: {
+        markedBackgroundLoader.sourceComponent =  isBalanced ? balancedMarkedBackground : normalMarkedBackground
+        if(isBalanced)
+            sliderValueAnimation.start()
+    }
 
     onEdibleChanged: enabled = !edible
 
@@ -51,12 +58,34 @@ Item{
             radius: 2
             color: "lightgray"
 
-            Rectangle{
-                x: slider.orientation === Qt.Horizontal ? parent.x + parent.width / 2 : (parent.width - width) / 2
-                y: slider.orientation === Qt.Horizontal ? (parent.height - height) / 2 : parent.y + parent.height / 2
-                width: slider.orientation === Qt.Horizontal ? 2 : 20
-                height: slider.orientation === Qt.Horizontal ? 20 : 2
-                color: componentColor
+            Loader{
+                id: markedBackgroundLoader
+                sourceComponent: normalMarkedBackground
+                Component{
+                    id: normalMarkedBackground
+
+                    Rectangle{
+                        width: slider.orientation === Qt.Horizontal ? slider.handle.x - slider.x : 4
+                        x: slider.orientation === Qt.Horizontal ? slider.x : 0
+                        y: slider.orientation !== Qt.Horizontal ? slider.handle.y : 0
+                        height: slider.orientation === Qt.Horizontal ? 4 : slider.height - slider.handle.y
+                        color: componentColor
+                    }
+                }
+
+                Component{
+                    id: balancedMarkedBackground
+                    Rectangle {
+                        id: markedBackground
+                        property int middle: slider.orientation === Qt.Horizontal ? slider.x + slider.width * 0.5 : slider.y + slider.height * 0.5
+                        width: slider.orientation === Qt.Horizontal ? (slider.visualPosition > 0.5 ? slider.handle.x - middle : middle - slider.handle.x - slider.x) : 4
+                        x: slider.orientation === Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.x : 0
+                        y: slider.orientation !== Qt.Horizontal ? slider.visualPosition > 0.5 ? middle : slider.handle.y : 0
+                        height: slider.orientation === Qt.Horizontal ? 4 : (slider.visualPosition > 0.5 ? slider.handle.y - middle : middle - slider.handle.y)
+                        radius: 2
+                        color: componentColor
+                    }
+                }
             }
         }
 
@@ -79,6 +108,20 @@ Item{
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
+        onPressedChanged: {
+            if(isBalanced && !pressed)
+                sliderValueAnimation.start()
+        }
+
+        NumberAnimation {
+            id: sliderValueAnimation
+            target: slider
+            property: "value"
+            to: slider.from + ((slider.to - slider.from) / 2)
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+
         onValueChanged: qtRobo.connection.write(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
     }
 
@@ -92,7 +135,7 @@ Item{
         }
 
         onConnectionStateChanged:{
-            if(isConnected)
+            if(isConnected && !isBalanced)
                 slider.value = root.initialValue
         }
     }

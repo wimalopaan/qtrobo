@@ -465,7 +465,8 @@ ApplicationWindow {
                     numberOfValues: child.numberOfValues,
                     isFixedYAxis: child.isFixed,
                     fixedYAxisMax: child.maxYAxis,
-                    initialValue: child.initialValue
+                    initialValue: child.initialValue,
+                    isBalanced: child.isBalanced
                 }
 
                 tab.content.push(widget)
@@ -536,6 +537,8 @@ ApplicationWindow {
                             componentObject.maxYAxis = widget.fixedYAxisMax
                         if(widget.initialValue)
                             componentObject.initialValue = widget.initialValue
+                        if(widget.isBalanced)
+                            componentObject.isBalanced = widget.isBalanced
                     }
                 }
             }
