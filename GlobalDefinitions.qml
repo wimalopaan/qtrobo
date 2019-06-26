@@ -50,20 +50,20 @@ QtObject{
     ]
 
     property var componentDisplayName: [
-        "Button",
-        "Indicator Button",
-        "Slider",
+        qsTr("Button"),
+        qsTr("Indicator Button"),
+        qsTr("Slider"),
         //"Balance Slider",
-        "Dropdown",
-        "LED",
-        "Serial Display",
-        "Spinbox",
-        "Image",
-        "Text Input",
-        "Circular Gauge",
-        "Linear Gauge",
-        "Chart",
-        "Potentiometer"
+        qsTr("Dropdown"),
+        qsTr("LED"),
+        qsTr("Serial Display"),
+        qsTr("Spinbox"),
+        qsTr("Image"),
+        qsTr("Text Input"),
+        qsTr("Circular Gauge"),
+        qsTr("Linear Gauge"),
+        qsTr("Chart"),
+        qsTr("Potentiometer")
     ]
 
     function getDisplayName(componentType){

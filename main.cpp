@@ -3,6 +3,9 @@
 #include <QQuickStyle>
 #include <QQmlContext>
 #include <QSerialPort>
+#include <QLocale>
+#include <QDebug>
+
 #include "qtrobo.h"
 
 int main(int argc, char *argv[])
@@ -17,6 +20,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("QtRobo");
 
     qmlRegisterType<QSerialPort>("QSerialPort", 0, 1, "QSerialPort");
+    qmlRegisterUncreatableType<QLocale>("QLocale", 0, 1, "QLocale", "Error: only enum definitions used");
 
     qmlRegisterUncreatableMetaObject(ConnectionType::staticMetaObject, "QtRobo.ConnectionType", 1, 0, "ConnectionType", "Error: only enums");
     qRegisterMetaType<ConnectionType::ConnectionType>("ConnectionType");

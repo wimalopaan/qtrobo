@@ -12,7 +12,7 @@ import QSerialPort 0.1
         property alias socketName: socketName.text
 
         Label{
-            text: "Domain Socket:"
+            text: qsTr("Domain Socket:")
             Layout.fillWidth: true
         }
 

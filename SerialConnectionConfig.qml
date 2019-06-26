@@ -34,7 +34,7 @@ GridLayout{
     }
 
     Label{
-        text: "Interface:"
+        text: qsTr("Interface:")
         Layout.fillWidth: true
     }
 
@@ -53,7 +53,7 @@ GridLayout{
     }
 
     Label{
-        text: "Baudrate:"
+        text: qsTr("Baudrate:")
         Layout.fillWidth: true
     }
 
@@ -116,7 +116,7 @@ GridLayout{
 
 
     Label{
-        text: "Stopbits:"
+        text: qsTr("Stopbits:")
         Layout.fillWidth: true
     }
 
@@ -153,7 +153,7 @@ GridLayout{
     }
 
     Label{
-        text: "Parity:"
+        text: qsTr("Parity:")
         Layout.fillWidth: true
     }
 

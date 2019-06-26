@@ -231,7 +231,7 @@ ApplicationWindow {
             Layout.fillWidth: true
 
             EditableTab{
-                text: ("Layout")
+                text: qsTr("Layout")
             }
         }
 
@@ -263,18 +263,18 @@ ApplicationWindow {
             Text{
                 id: connectionStatus
                 Layout.alignment: Layout.Center
-                text: connectionStatus.text = "Serial Port: " + (qtRobo.connection.isConnected ? "Connected"  : "Not connected")
+                text: connectionStatus.text = qsTr("connection status:") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
             }
 
             Connections{
                 target: qtRobo.connection
-                onConnectionStateChanged: connectionStatus.text = "Serial Port: " + (qtRobo.connection.isConnected ? "Connected" : "Not connected")
+                onConnectionStateChanged: connectionStatus.text = qsTr("connection status:") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
             }
 
             Text{
                 id: keepAlive
                 Layout.alignment: Layout.Center
-                text: "Hardware response: "
+                text: qsTr("hardware response:")
                 visible: qtRobo.connection.heartbeatEnabled
 
                 Rectangle{
@@ -306,7 +306,7 @@ ApplicationWindow {
 
 
         Text{
-            text: "Status: " + (GlobalDefinitions.hasLayoutBeenEdited ? "Unsaved changes" : "Saved")
+            text: qsTr("project status:") + (GlobalDefinitions.hasLayoutBeenEdited ? qsTr("unsaved changes") : qsTr("saved"))
             Layout.alignment: Layout.Center
         }
     }
@@ -335,12 +335,12 @@ ApplicationWindow {
         }
 
         MenuItem{
-            text: qsTr(GlobalDefinitions.isEditMode ? "Control Mode" : "Edit Mode")
+            text: GlobalDefinitions.isEditMode ? qsTr("Control Mode") : qsTr("Edit Mode")
             onTriggered: GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
         }
 
         MenuItem{
-            text: qsTr(GlobalDefinitions.isGridMode ? "Floating Positioning" : "Grid Positioning")
+            text: GlobalDefinitions.isGridMode ? qsTr("Floating Positioning") : qsTr("Grid Positioning")
             enabled: GlobalDefinitions.isEditMode
             onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
         }

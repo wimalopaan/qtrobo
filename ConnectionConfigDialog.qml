@@ -28,17 +28,17 @@ Dialog{
             id: tabBar
             Layout.fillWidth: true
             TabButton{
-                text: "Connection"
+                text: qsTr("Connection")
                 font.capitalization: Font.MixedCase
             }
 
             TabButton{
-                text: "Heartbeat"
+                text: qsTr("Heartbeat")
                 font.capitalization: Font.MixedCase
             }
 
             TabButton{
-                text: "Events"
+                text: qsTr("Events")
                 font.capitalization: Font.MixedCase
             }
         }
@@ -67,13 +67,13 @@ Dialog{
 
     footer: RowLayout{
         Button{
-            text: "OK"
+            text: qsTr("OK")
             Layout.alignment: Qt.AlignCenter
             onClicked:  root.accept()
         }
 
         Button{
-            text: "Cancel"
+            text: qsTr("Cancel")
             Layout.alignment: Qt.AlignCenter
             onClicked: root.reject()
         }

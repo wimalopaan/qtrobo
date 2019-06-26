@@ -21,6 +21,10 @@ SOURCES += \
     serialconnection.cpp \
     messageparser.cpp
 
+lupdate_only{
+    SOURCES += *.qml
+}
+
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -45,3 +49,6 @@ HEADERS += \
 DISTFILES += \
     todo.txt \
     placeholder_image.png
+
+TRANSLATIONS += i18n/de-DE.ts \
+    i18n/en-EN.ts

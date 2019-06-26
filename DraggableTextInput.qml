@@ -37,7 +37,7 @@ Rectangle{
         }
 
         Button{
-            text: "Send"
+            text: qsTr("Send")
             onClicked: {
                 if(textinput.text.length > 0){
                     if(eventName && eventName.length > 0){

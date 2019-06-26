@@ -8,7 +8,7 @@ GridLayout{
 
     Label{
         Layout.fillWidth: true
-        text: "Entries:"
+        text: tsTr("Entries:")
     }
 
     ComboBox{
@@ -20,7 +20,7 @@ GridLayout{
 
     Label{
         Layout.fillWidth: true
-        text: "Edit current:"
+        text: qsTr("Edit current:")
     }
 
     TextField{

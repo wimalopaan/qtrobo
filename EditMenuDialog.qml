@@ -18,7 +18,7 @@ Dialog{
             id: tabBar
             Layout.fillWidth: true
             TabButton{
-                text: "General"
+                text: qsTr("General")
                 font.capitalization: Font.MixedCase
             }
             TabButton{
@@ -39,7 +39,7 @@ Dialog{
                 Layout.fillWidth: true
                 Label{
                     Layout.fillWidth: true
-                    text: "Control Name:"
+                    text: qsTr("Control Name:")
                     enabled: component.label !== undefined
                 }
 
@@ -53,7 +53,7 @@ Dialog{
 
                 Label{
                     Layout.fillWidth: true
-                    text: "Event Name:"
+                    text: qsTr("Event Name:")
                     enabled: component.eventName !== undefined
                 }
 
@@ -67,7 +67,7 @@ Dialog{
 
                 Label{
                     Layout.fillWidth: true
-                    text: "Font Color:"
+                    text: qsTr("Font Color:")
                     enabled: component.fontColor !== undefined
                 }
 
@@ -94,7 +94,7 @@ Dialog{
 
                 Label{
                     Layout.fillWidth: true
-                    text: "Component Color:"
+                    text: qsTr("Component Color:")
                     enabled: component.componentColor !== undefined
                 }
 
