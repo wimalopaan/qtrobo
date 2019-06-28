@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2 as SpecialDialogs
 Dialog{
     id: root
     focus: true
-    implicitWidth: 350
+    implicitWidth: 400
     closePolicy: Qt.CloseOnPressOutside
     title: qsTr("Control Preferences")
 
@@ -21,6 +21,12 @@ Dialog{
                 text: qsTr("General")
                 font.capitalization: Font.MixedCase
             }
+
+            TabButton{
+                text: qsTr("Output Script")
+                font.capitalization: Font.MixedCase
+            }
+
             TabButton{
                 text: GlobalDefinitions.getDisplayName(component.componentType)
                 font.capitalization: Font.MixedCase
@@ -117,6 +123,23 @@ Dialog{
                                 component.componentColor = color
                         }
                     }
+                }
+            }
+
+            ScrollView{
+                id: scrollView
+                Layout.fillWidth: true
+                anchors.margins: 10
+                contentWidth: width
+                focus: true
+
+                TextArea{
+                    id: debugTextArea
+                    readOnly: false
+                    focus: true
+                    text: component.inputScript
+
+                    onTextChanged: component.outputScript = text
                 }
             }
 

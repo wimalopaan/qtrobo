@@ -9,6 +9,7 @@
 
 #include "persistance.h"
 #include "connection.h"
+#include "javascriptparser.h"
 
 class QtRobo: public QObject
 {

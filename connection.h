@@ -7,6 +7,7 @@
 
 #include "messageparser.h"
 #include "persistance.h"
+#include "javascriptparser.h"
 
 namespace ConnectionType{
     Q_NAMESPACE
@@ -43,6 +44,7 @@ class Connection : public QObject, public Persistance::Persistable
     Q_PROPERTY(bool heartbeatStatus MEMBER mHeartbeatStatus NOTIFY heartbeatTriggered)
     Q_PROPERTY(bool heartbeatEnabled MEMBER mHeartbeatEnabled NOTIFY heartbeatEnabledChanged)
     Q_PROPERTY(MessageParser* messageParser READ messageParser NOTIFY messageParserChanged)
+    Q_PROPERTY(JavaScriptParser* javascriptParser READ javascriptParser NOTIFY javascriptParserChanged)
     Q_PROPERTY(QVariantMap preferences MEMBER mPreferences NOTIFY preferencesChanged)
     Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
 
@@ -55,6 +57,7 @@ public:
     const QString& data() const;
     const QString& eventName() const;
     MessageParser* messageParser();
+    JavaScriptParser* javascriptParser();
     void enableHeartbeat();
 
     virtual bool isConnected() const = 0;
@@ -80,6 +83,7 @@ signals:
     void heartbeatEnabledChanged(bool heartbeatEnabled);
     void connectionStateChanged(bool isConnected);
     void messageParserChanged(const MessageParser *messageParser);
+    void javascriptParserChanged(const JavaScriptParser &jsonScriptParser);
     void preferencesChanged(const QVariantMap &preferences);
     void debugChanged(DebugInfoDirection::DebugInfoDirection direction, const QString& debug);
 
@@ -91,6 +95,7 @@ public slots:
 protected:
     MessageParser mParser;
     MessageParser::Event mEvent;
+    JavaScriptParser mJavaScriptParser;
 
     QTimer mHeartbeat;
     QVariantMap mPreferences;

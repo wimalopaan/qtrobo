@@ -1,4 +1,4 @@
-QT += qml quick serialport quickcontrols2 charts
+QT += qml quick serialport quickcontrols2 charts script
 CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     connection.cpp \
+    javascriptparser.cpp \
     localsocketconnection.cpp \
         main.cpp \
     persistance.cpp \
@@ -40,6 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     connection.h \
+    javascriptparser.h \
     localsocketconnection.h \
     persistance.h \
     qtrobo.h \

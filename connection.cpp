@@ -37,6 +37,7 @@ void Connection::write(const QString &eventName){
 }
 
 void Connection::write(const QString &eventName, const QVariant &data){
+
     QString request;
     request += eventName;
     request += mParser.eventValueDivider();
@@ -55,6 +56,10 @@ const QString& Connection::data() const{
 
 MessageParser* Connection::messageParser(){
     return &mParser;
+}
+
+JavaScriptParser* Connection::javascriptParser(){
+    return &mJavaScriptParser;
 }
 
 void Connection::connect(){

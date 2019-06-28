@@ -23,6 +23,8 @@ Item{
     property int mappedMaximumValue: slider.to
     property int initialValue: 0
     property bool isBalanced: false
+    property string inputScript
+    property string outputScript
 
     onIsBalancedChanged: {
         markedBackgroundLoader.sourceComponent =  isBalanced ? balancedMarkedBackground : normalMarkedBackground
@@ -122,7 +124,19 @@ Item{
             easing.type: Easing.InOutQuad
         }
 
-        onValueChanged: qtRobo.connection.write(eventName, GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue))
+        onValueChanged: {
+            console.log("Output Script: " + outputScript)
+            var modifiedEvent = eventName
+            var modifiedData = GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue)
+            if(outputScript){
+                var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                if(result.value)
+                    modifiedData = result.value
+                if(result.event)
+                    modifiedEvent = result.event
+            }
+            qtRobo.connection.write(modifiedEvent, modifiedData)
+        }
     }
 
     Connections{
