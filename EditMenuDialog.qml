@@ -133,8 +133,46 @@ Dialog{
                 anchors.margins: 10
                 contentWidth: width
                 focus: true
+                background: Rectangle{
+                    anchors.fill: parent
+                    anchors.margins: -5
+                    color: "lightgray"
+                    border.width: 2
+                    border.color: "gray"
 
-                TextArea{
+                    Text{
+                        text: "🛈"
+                        font.pointSize: 14
+                        anchors.horizontalCenter: parent.right
+                        anchors.bottom: parent.top
+
+                        MouseArea{
+
+                            anchors.fill: parent
+
+                            onClicked: infoPopup.open()
+
+                            Popup{
+                                id: infoPopup
+                                x: parent.mouseX
+                                y: parent.mouseY
+                                width: 350
+
+                                TextArea{
+                                    anchors.fill: parent
+                                    textFormat: "RichText"
+
+                                    text: "<h3>Information</h3><p>Javascript based output modification.</p><p>Global input / output variables are:</p><b>value</b>: string<br><b>event</b>: string"
+
+                                }
+
+                                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                            }
+                        }
+                    }
+                }
+
+                TextArea{    
                     id: debugTextArea
                     readOnly: false
                     focus: true
