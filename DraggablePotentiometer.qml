@@ -23,6 +23,7 @@ Item{
     property color fontColor: "gray"
     property color componentColor: "lightgray"
     property int initialValue: 0
+    property string outputScript
 
     onEdibleChanged: enabled = !edible
 
@@ -93,8 +94,18 @@ Item{
         }
 
         onValueChanged: {
-            if(eventName && pressed)
-                qtRobo.connection.write(eventName,  GlobalDefinitions.mapToValueRange(potentiometer.value, root.minimumValue, root.maximumValue, root.mappedMinimumValue, root.mappedMaximumValue))
+            if(eventName && pressed){
+                var modifiedEvent = eventName
+                var modifiedData = GlobalDefinitions.mapToValueRange(potentiometer.value, root.minimumValue, root.maximumValue, root.mappedMinimumValue, root.mappedMaximumValue)
+                if(outputScript){
+                    var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                    if(result.value)
+                        modifiedData = result.value
+                    if(result.event)
+                        modifiedEvent = result.event
+                }
+                qtRobo.connection.write(modifiedEvent, modifiedData)
+            }
         }
 
         Connections{

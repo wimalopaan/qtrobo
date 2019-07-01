@@ -13,6 +13,7 @@ Item{
     property alias componentColor: buttonBackground.color
     property color fontColor: "black"
     property bool edible: true
+    property string outputScript
     onEdibleChanged: enabled = !edible
 
     Button{
@@ -49,12 +50,23 @@ Item{
         onTextChanged: GlobalDefinitions.projectEdited()
 
         onPressed:{
-            qtRobo.connection.write(eventName)
+            var modifiedEvent = eventName
+            var modifiedData = null
+            if(outputScript){
+                var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                if(result.value)
+                    modifiedData = result.value
+                if(result.event)
+                    modifiedEvent = result.event
+            }
+            if(modifiedData)
+                qtRobo.connection.write(modifiedEvent, modifiedData)
+            else
+                qtRobo.connection.write(modifiedEvent)
             isPressed = true
         }
 
         onReleased: isPressed = false
-
     }
 
     DeleteComponentKnob{

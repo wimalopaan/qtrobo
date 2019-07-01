@@ -125,7 +125,6 @@ Item{
         }
 
         onValueChanged: {
-            console.log("Output Script: " + outputScript)
             var modifiedEvent = eventName
             var modifiedData = GlobalDefinitions.mapToValueRange(slider.value, slider.from, slider.to, mappedMinimumValue, mappedMaximumValue)
             if(outputScript){

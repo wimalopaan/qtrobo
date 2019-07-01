@@ -18,6 +18,7 @@ Rectangle {
     property color componentColor: "lightgray"
     property color fontColor: "black"
     property bool edible: true
+    property string outputScript
     onEdibleChanged: enabled = !edible
 
     ColumnLayout{
@@ -61,8 +62,18 @@ Rectangle {
                 }
             }
             onCurrentIndexChanged: {
-                if(eventName && eventName.length > 0)
-                    qtRobo.connection.write(eventName, comboBox.currentIndex)
+                if(eventName && eventName.length > 0){
+                    var modifiedEvent = eventName
+                    var modifiedData = comboBox.currentIndex
+                    if(outputScript){
+                        var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                        if(result.value)
+                            modifiedData = result.value
+                        if(result.event)
+                            modifiedEvent = result.event
+                    }
+                    qtRobo.connection.write(modifiedEvent, modifiedData)
+                }
             }
         }
     }

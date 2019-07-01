@@ -25,6 +25,7 @@ Dialog{
             TabButton{
                 text: qsTr("Output Script")
                 font.capitalization: Font.MixedCase
+                enabled: component.hasOwnProperty('outputScript')
             }
 
             TabButton{
@@ -137,7 +138,7 @@ Dialog{
                     id: debugTextArea
                     readOnly: false
                     focus: true
-                    text: component.inputScript
+                    text: component.outputScript ? component.outputScript : ""
 
                     onTextChanged: component.outputScript = text
                 }
@@ -156,8 +157,6 @@ Dialog{
             return "DraggableDropdownMenu.qml"
         else if(component instanceof DraggableSlider)
             return "DraggableSliderMenu.qml"
-        else if(component instanceof DraggableBalanceSlider)
-            return "DraggableBalanceSliderMenu.qml"
         else if(component instanceof DraggableImage)
             return "DraggableImageMenu.qml"
         else if(component instanceof DraggableCircularGauge || component instanceof DraggableLinearGauge)

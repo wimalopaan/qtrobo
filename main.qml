@@ -188,8 +188,6 @@ ApplicationWindow {
                 }
             }
 
-
-
             MenuItem{
                 id: disconnect
                 text: qsTr("Disconnect")
@@ -466,7 +464,8 @@ ApplicationWindow {
                     isFixedYAxis: child.isFixed,
                     fixedYAxisMax: child.maxYAxis,
                     initialValue: child.initialValue,
-                    isBalanced: child.isBalanced
+                    isBalanced: child.isBalanced,
+                    outputScript: child.outputScript
                 }
 
                 tab.content.push(widget)
@@ -539,6 +538,8 @@ ApplicationWindow {
                             componentObject.initialValue = widget.initialValue
                         if(widget.isBalanced)
                             componentObject.isBalanced = widget.isBalanced
+                        if(widget.outputScript)
+                            componentObject.outputScript = widget.outputScript
                     }
                 }
             }

@@ -19,6 +19,7 @@ Rectangle{
     property alias maximumValue: spinbox.to
     property bool edible: true
     property int initialValue: 0
+    property string outputScript: ""
 
     onEdibleChanged: enabled = !edible
 
@@ -103,8 +104,18 @@ Rectangle{
             }
 
             onValueChanged: {
-                if(eventName && eventName.length > 0)
-                    qtRobo.connection.write(eventName, value)
+                if(eventName && eventName.length > 0){
+                    var modifiedEvent = eventName
+                    var modifiedData = value
+                    if(outputScript){
+                        var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                        if(result.value)
+                            modifiedData = result.value
+                        if(result.event)
+                            modifiedEvent = result.event
+                    }
+                    qtRobo.connection.write(modifiedEvent, modifiedData)
+                }
             }
         }
 
