@@ -7,8 +7,6 @@ Prio 1:
 Prio 2:
 
 * Slider-Koppelelement 
-* stabiles JSON-Dateiformat
-* JavaScript-Integration für Berechnungen
 
 Erledigt:
 
@@ -52,6 +50,8 @@ Erledigt:
 * Defaultwerte: nach dem Starten werden die Elemente auf diesen initial-Wert gesetzt
 * Vereinheitlichen der beiden Slider: mit der Möglichkeit eines Umschaltbuttons zwischen beiden Arten zur Laufzeit
 * Localization
+* stabiles JSON-Dateiformat
+* JavaScript-Integration für Berechnungen
 
 Verworfen:
 * half-duplex möglich (receive-after-send?)
