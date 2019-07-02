@@ -443,7 +443,7 @@ ApplicationWindow {
                 }
 
                 var widget = {
-                    type: child.componentType,
+                    componentType: child.componentType,
                     x: child.x,
                     y: child.y,
                     orientation: child.orientation,
@@ -488,7 +488,7 @@ ApplicationWindow {
 
             for(var j = 0; j < tab.content.length; ++j){
                 var widget = tab.content[j]
-                var componentFile = GlobalDefinitions.componentName[widget.type]
+                var componentFile = GlobalDefinitions.componentName[widget.componentType]
 
                 if(componentFile){
                     componentFile = componentFile.concat(".qml")
