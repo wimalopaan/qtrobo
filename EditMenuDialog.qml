@@ -6,14 +6,14 @@ import QtQuick.Dialogs 1.2 as SpecialDialogs
 Dialog{
     id: root
     focus: true
-    implicitWidth: 400
+    implicitWidth: 500
     closePolicy: Qt.CloseOnPressOutside
     title: qsTr("Control Preferences")
 
     property var component
 
     contentItem: ColumnLayout{
-        spacing: 50
+        spacing: 10
         TabBar{
             id: tabBar
             Layout.fillWidth: true
@@ -26,6 +26,12 @@ Dialog{
                 text: qsTr("Output Script")
                 font.capitalization: Font.MixedCase
                 enabled: component.hasOwnProperty('outputScript')
+            }
+
+            TabButton{
+                text: qsTr("Input Script")
+                font.capitalization: Font.MixedCase
+                enabled: component.hasOwnProperty('inputScript')
             }
 
             TabButton{
@@ -128,7 +134,7 @@ Dialog{
             }
 
             ScrollView{
-                id: scrollView
+                id: outputScriptScrollView
                 Layout.fillWidth: true
                 anchors.margins: 10
                 contentWidth: width
@@ -150,10 +156,10 @@ Dialog{
 
                             anchors.fill: parent
 
-                            onClicked: infoPopup.open()
+                            onClicked: outputScriptInfoPopup.open()
 
                             Popup{
-                                id: infoPopup
+                                id: outputScriptInfoPopup
                                 x: parent.mouseX
                                 y: parent.mouseY
                                 width: 350
@@ -172,13 +178,68 @@ Dialog{
                     }
                 }
 
-                TextArea{    
-                    id: debugTextArea
+                TextArea{
+                    id: outputScriptTextArea
                     readOnly: false
                     focus: true
                     text: component.outputScript ? component.outputScript : ""
 
                     onTextChanged: component.outputScript = text
+                }
+            }
+
+            ScrollView{
+                id: inputScriptScrollView
+                Layout.fillWidth: true
+                anchors.margins: 10
+                contentWidth: width
+                focus: true
+                background: Rectangle{
+                    anchors.fill: parent
+                    anchors.margins: -5
+                    color: "lightgray"
+                    border.width: 2
+                    border.color: "gray"
+
+                    Text{
+                        text: "🛈"
+                        font.pointSize: 14
+                        anchors.horizontalCenter: parent.right
+                        anchors.bottom: parent.top
+
+                        MouseArea{
+
+                            anchors.fill: parent
+
+                            onClicked: inputScriptInfoPopup.open()
+
+                            Popup{
+                                id: inputScriptInfoPopup
+                                x: parent.mouseX
+                                y: parent.mouseY
+                                width: 350
+
+                                TextArea{
+                                    anchors.fill: parent
+                                    textFormat: "RichText"
+
+                                    text: "<h3>Information</h3><p>Javascript based output modification.</p><p>Global input / output variables are:</p><b>value</b>: string<br>"
+
+                                }
+
+                                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                            }
+                        }
+                    }
+                }
+
+                TextArea{
+                    id: inputScriptTextArea
+                    readOnly: false
+                    focus: true
+                    text: component.inputScript ? component.inputScript : ""
+
+                    onTextChanged: component.inputScript = text
                 }
             }
 

@@ -22,7 +22,8 @@ Item{
     property color fontColor: "black"
     property color componentColor: "black"
     property bool edible: true
-    property bool mapToUnsigned: false
+    property string inputScript
+
     onEdibleChanged: enabled = !edible
 
     GridLayout{
@@ -82,7 +83,15 @@ Item{
             onDataChanged:{
                 if(eventName === root.eventName && data){
                     var receivedValue = +data
-                    gauge.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
+
+
+                    if(!isNaN(receivedValue)){
+                        var result = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
+                        result = qtRobo.connection.javascriptParser.runScript(eventName, parsedVal, outputScript)
+                        if(result.value)
+                            parsedVal = result.value
+                        gauge.value = result
+                    }
                 }
             }
 

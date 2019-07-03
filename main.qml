@@ -219,9 +219,7 @@ ApplicationWindow {
                     if(debugWindow)
                         debugWindow.show()
                 }
-
             }
-
         }
 
         TabBar{
@@ -261,12 +259,12 @@ ApplicationWindow {
             Text{
                 id: connectionStatus
                 Layout.alignment: Layout.Center
-                text: connectionStatus.text = qsTr("connection status:") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
+                text: connectionStatus.text = qsTr("connection status: ") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
             }
 
             Connections{
                 target: qtRobo.connection
-                onConnectionStateChanged: connectionStatus.text = qsTr("connection status:") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
+                onConnectionStateChanged: connectionStatus.text = qsTr("connection status: ") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
             }
 
             Text{
@@ -304,7 +302,7 @@ ApplicationWindow {
 
 
         Text{
-            text: qsTr("project status:") + (GlobalDefinitions.hasLayoutBeenEdited ? qsTr("unsaved changes") : qsTr("saved"))
+            text: qsTr("project status: ") + (GlobalDefinitions.hasLayoutBeenEdited ? qsTr("unsaved changes") : qsTr("saved"))
             Layout.alignment: Layout.Center
         }
     }
@@ -465,7 +463,8 @@ ApplicationWindow {
                     fixedYAxisMax: child.maxYAxis,
                     initialValue: child.initialValue,
                     isBalanced: child.isBalanced,
-                    outputScript: child.outputScript
+                    outputScript: child.outputScript,
+                    inputScript: child.inputScript
                 }
 
                 tab.content.push(widget)
@@ -540,6 +539,8 @@ ApplicationWindow {
                             componentObject.isBalanced = widget.isBalanced
                         if(widget.outputScript)
                             componentObject.outputScript = widget.outputScript
+                        if(widget.inputScript)
+                            componentObject.inputScript = widget.inputScript
                     }
                 }
             }

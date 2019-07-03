@@ -16,6 +16,8 @@ Item{
     property int numberOfValues: 10
     property alias maxYAxis: yAxis.max
     property bool isFixed: false
+    property string inputScript
+
     onNumberOfValuesChanged: {
         while(series.count > numberOfValues)
             series.remove(0)
@@ -86,8 +88,12 @@ Item{
         onDataChanged: {
             if(eventName && root.eventName === eventName){
                 var parsedVal = parseInt(data)
-                if(!isNaN(parsedVal))
+                if(!isNaN(parsedVal)){
+                    var result = qtRobo.connection.javascriptParser.runScript(eventName, parsedVal, outputScript)
+                    if(result.value)
+                        parsedVal = result.value
                     series.addValue(parsedVal)
+                }
             }
         }
 
