@@ -8,7 +8,7 @@ GridLayout{
 
     Label{
         Layout.fillWidth: true
-        text: tsTr("Entries:")
+        text: qsTr("Entries:")
     }
 
     ComboBox{

@@ -87,12 +87,14 @@ Item{
         target: qtRobo.connection
         onDataChanged: {
             if(eventName && root.eventName === eventName){
-                var parsedVal = parseInt(data)
-                if(!isNaN(parsedVal)){
-                    var result = qtRobo.connection.javascriptParser.runScript(eventName, parsedVal, outputScript)
-                    if(result.value)
-                        parsedVal = result.value
-                    series.addValue(parsedVal)
+                var parsedValue = parseInt(data)
+                if(!isNaN(parsedValue)){
+                    if(outputScript){
+                        var result = qtRobo.connection.javascriptParser.runScript(eventName, parsedValue, outputScript)
+                        if(result.value)
+                            parsedValue = result.value
+                    }
+                    series.addValue(parsedValue)
                 }
             }
         }

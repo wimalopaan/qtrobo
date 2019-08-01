@@ -15,10 +15,6 @@ public:
 
     Q_INVOKABLE QVariantMap runScript(const QString &eventName, const QString &value, QString script);
 
-signals:
-    void inputScriptChanged();
-    void outputScriptChanged();
-
 public slots:
 
 private:

@@ -22,7 +22,7 @@ Item{
     property color fontColor: "black"
     property color componentColor: "black"
     property bool edible: true
-    property string inputScript
+    property string outputScript
 
     onEdibleChanged: enabled = !edible
 
@@ -97,15 +97,17 @@ Item{
             target: qtRobo.connection
             onDataChanged:{
                 if(eventName === root.eventName && data){
-                    var receivedValue = +data
-                    if(!isNaN(receivedValue)){
-                        var result = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
-                        result = qtRobo.connection.javascriptParser.runScript(eventName, parsedVal, outputScript)
+                    var parsedValue = parseInt(data)
+                    if(!isNaN(parsedValue)){
+                        var result = GlobalDefinitions.mapToValueRange(parsedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
 
-                        if(result.value)
-                            parsedVal = result.value
+                        if(outputScript){
+                            result = qtRobo.connection.javascriptParser.runScript(eventName, parsedValue, outputScript)
 
-                        gauge.value = result
+                            if(result.value)
+                                parsedValue = result.value
+                        }
+                        gauge.value = parsedValue
                     }
 
                 }

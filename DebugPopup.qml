@@ -32,7 +32,6 @@ Window{
                 formattedText = formattedText.concat(direction)
                 formattedText = formattedText.concat("</td><td>" + debugText + "</td></tr>")
 
-                //formattedText = formattedText.concat(debugTextArea.contentBuffer)
                 formattedText = formattedText.concat("</table>")
 
                 return formattedText
