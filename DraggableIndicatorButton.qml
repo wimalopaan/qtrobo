@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.13
 import QtQuick.Controls 2.4
 import QtGraphicalEffects 1.12
 
@@ -15,6 +15,7 @@ Item{
     property color fontColor: "black"
     property bool edible: true
     property bool initialValue: false
+    property string shortcut
 
     onEdibleChanged: enabled = !edible
 
@@ -70,6 +71,13 @@ Item{
             }
 
         }
+
+        PropertyAnimation{id: changeAnimation; duration: 100; target: button; property:"isPressed"; from: true; to: false}
+        Shortcut{
+            sequence: shortcut
+            onActivated: qtRobo.connection.write(eventName, +isOn)
+        }
+
     }
 
     Connections{

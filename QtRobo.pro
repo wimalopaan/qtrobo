@@ -49,6 +49,7 @@ HEADERS += \
     messageparser.h
 
 DISTFILES += \
+    DraggableButtonMenu.qml \
     todo.txt \
     placeholder_image.png
 

@@ -40,5 +40,7 @@
         <file>DraggablePotentiometerMenu.qml</file>
         <file>DraggableIndicatorButtonMenu.qml</file>
         <file>DraggableTextInputMenu.qml</file>
+        <file>ShortcutInput.qml</file>
+        <file>DraggableButtonMenu.qml</file>
     </qresource>
 </RCC>

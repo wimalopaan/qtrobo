@@ -24,6 +24,8 @@ Item{
     property color componentColor: "lightgray"
     property int initialValue: 0
     property string outputScript
+    property string decreaseShortcut
+    property string increaseShortcut
 
     onEdibleChanged: enabled = !edible
 
@@ -36,6 +38,22 @@ Item{
         stepSize: 1
 
         property var scaleFactor: (root.width < root.height ? root.width / 100 : root.height / 100)
+
+        Shortcut{
+            sequence: decreaseShortcut
+            onActivated: {
+                if(potentiometer.value - potentiometer.stepSize > minimumValue)
+                        potentiometer.value = potentiometer.value - potentiometer.stepSize
+            }
+        }
+
+        Shortcut{
+            sequence: increaseShortcut
+            onActivated: {
+                if(potentiometer.value + potentiometer.stepSize < maximumValue)
+                        potentiometer.value = potentiometer.value + potentiometer.stepSize
+            }
+        }
 
         Label{
             anchors.bottom: parent.top
