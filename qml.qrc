@@ -42,5 +42,6 @@
         <file>DraggableTextInputMenu.qml</file>
         <file>ShortcutInput.qml</file>
         <file>DraggableButtonMenu.qml</file>
+        <file>TabRenameDialog.qml</file>
     </qresource>
 </RCC>

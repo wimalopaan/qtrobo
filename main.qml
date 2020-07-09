@@ -227,6 +227,19 @@ ApplicationWindow {
                 enabled: GlobalDefinitions.isEditMode
                 onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
             }
+
+            MenuItem{
+                text: qsTr("Tab Names")
+                enabled: GlobalDefinitions.isEditMode
+                onTriggered: {
+                    tabRenameDialog.tabBar = tabBar
+                    tabRenameDialog.open()
+                }
+
+                TabRenameDialog{
+                    id: tabRenameDialog
+                }
+            }
         }
     }
 
@@ -257,8 +270,8 @@ ApplicationWindow {
 
         TabBar{
             id: tabBar
-            Layout.fillWidth: true
 
+            Layout.fillWidth: true
             EditableTab{
                 text: qsTr("Layout")
             }
@@ -328,7 +341,7 @@ ApplicationWindow {
                     Connections{
                         target: qtRobo.connection
                         function onHeartbeatTriggered() {
-                            heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
+                            heartbeatStatus ? heartbeatLEDColorAnimation.start() : (heartbeatStatusLED.color = "darkred")
                             setLayoutEnabled(heartbeatStatus)
                         }
                     }
