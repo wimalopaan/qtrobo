@@ -28,10 +28,13 @@ ApplicationWindow {
 
     Connections{
         target: GlobalDefinitions
-        onIsEditModeChanged: setLayoutEdible(GlobalDefinitions.isEditMode)
+        function onIsEditModeChanged(){
+            setLayoutEdible(GlobalDefinitions.isEditMode)
+        }
 
-        onHasLayoutBeenEditedChanged: layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && qtRobo.persistance.isFilenameValid
-
+        function onHasLayoutBeenEditedChanged(){
+            layoutSaveMenu.enabled = GlobalDefinitions.hasLayoutBeenEdited && qtRobo.persistance.isFilenameValid
+        }
     }
 
     Component.onCompleted: GlobalDefinitions.projectPersisted()
@@ -197,7 +200,7 @@ ApplicationWindow {
 
             Connections{
                 target: qtRobo.connection
-                onConnectionStateChanged: {
+                function onConnectionStateChanged() {
                     connections.enabled = !qtRobo.connection.isConnected
                     disconnect.enabled = qtRobo.connection.isConnected
                 }
@@ -294,7 +297,9 @@ ApplicationWindow {
 
             Connections{
                 target: qtRobo.connection
-                onConnectionStateChanged: connectionStatus.text = qsTr("connection status: ") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
+                function onConnectionStateChanged(){
+                    connectionStatus.text = qsTr("connection status: ") + (qtRobo.connection.isConnected ? qsTr("connected")  : qsTr("not connected"))
+                }
             }
 
             Text{
@@ -322,7 +327,7 @@ ApplicationWindow {
 
                     Connections{
                         target: qtRobo.connection
-                        onHeartbeatTriggered: {
+                        function onHeartbeatTriggered() {
                             heartbeatStatus ? heartbeatLEDColorAnimation.start() : heartbeatStatusLED.color = "darkred"
                             setLayoutEnabled(heartbeatStatus)
                         }
