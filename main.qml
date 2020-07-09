@@ -203,11 +203,41 @@ ApplicationWindow {
                 }
             }
         }
+
+        Menu{
+            title: qsTr("&Context")
+
+            ControlsMenu{
+                widgetX: window.width / 2
+                widgetY: window.height / 2
+                enabled: GlobalDefinitions.isEditMode
+                root: window
+            }
+
+            MenuItem{
+                text: GlobalDefinitions.isEditMode ? qsTr("Control Mode") : qsTr("Edit Mode")
+                onTriggered: GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
+            }
+
+            MenuItem{
+                text: GlobalDefinitions.isGridMode ? qsTr("Floating Positioning") : qsTr("Grid Positioning")
+                enabled: GlobalDefinitions.isEditMode
+                onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
+            }
+        }
     }
 
     header: RowLayout{
         spacing: 2
         width: parent.width
+
+        Button{
+            Layout.fillHeight: true
+            text: !GlobalDefinitions.isEditMode ? "✏" : "🕹"
+            font.pointSize: !GlobalDefinitions.isEditMode ? 18 : 14
+            font.bold: true
+            onClicked: GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
+        }
 
         Button{
             Layout.fillHeight: true
@@ -353,7 +383,8 @@ ApplicationWindow {
         if(componentFile){
             componentFile = componentFile.concat(".qml")
             var component = Qt.createComponent(componentFile)
-            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y:y})
+            console.log(component.width)
+            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x - component.width / 2, y:y - component.height / 2})
 
             GlobalDefinitions.projectEdited()
         }
