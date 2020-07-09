@@ -251,6 +251,7 @@ Dialog{
         }
         Keys.onReturnPressed: root.accept()
     }
+
     function loadComponentMenu(component){
         if(component instanceof DraggableDropdown)
             return "DraggableDropdownMenu.qml"
@@ -266,6 +267,8 @@ Dialog{
             return "DraggableSpinboxMenu.qml"
         else if(component instanceof DraggablePotentiometer)
             return "DraggablePotentiometerMenu.qml"
+        else if(component instanceof DraggableButton)
+            return "DraggableButtonMenu.qml"
         else if(component instanceof DraggableIndicatorButton)
             return "DraggableIndicatorButtonMenu.qml"
         else if(component instanceof DraggableTextInput)

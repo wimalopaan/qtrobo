@@ -14,6 +14,8 @@ Item{
     property color fontColor: "black"
     property bool edible: true
     property string outputScript
+    property string shortcut
+
     onEdibleChanged: enabled = !edible
 
     Button{
@@ -24,6 +26,30 @@ Item{
         font.pointSize: 12
 
         property bool isPressed: false
+        onIsPressedChanged:{
+            var modifiedEvent = eventName
+            var modifiedData = null
+            if(outputScript){
+                var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
+                if(result.value)
+                    modifiedData = result.value
+                if(result.event)
+                    modifiedEvent = result.event
+            }
+            if(modifiedData)
+                qtRobo.connection.write(modifiedEvent, modifiedData)
+            else
+                qtRobo.connection.write(modifiedEvent)
+        }
+
+        PropertyAnimation{id: changeAnimation; duration: 100; target: button; property:"isPressed"; from: true; to: false}
+        Shortcut{
+            sequence: shortcut
+            onActivated: {
+                button.isPressed = true
+                changeAnimation.running = true
+            }
+        }
 
         contentItem: Text{
             text: parent.text
@@ -49,23 +75,7 @@ Item{
 
         onTextChanged: GlobalDefinitions.projectEdited()
 
-        onPressed:{
-            var modifiedEvent = eventName
-            var modifiedData = null
-            if(outputScript){
-                var result = qtRobo.connection.javascriptParser.runScript(modifiedEvent, modifiedData, outputScript)
-                if(result.value)
-                    modifiedData = result.value
-                if(result.event)
-                    modifiedEvent = result.event
-            }
-            if(modifiedData)
-                qtRobo.connection.write(modifiedEvent, modifiedData)
-            else
-                qtRobo.connection.write(modifiedEvent)
-            isPressed = true
-        }
-
+        onPressed: isPressed = true
         onReleased: isPressed = false
     }
 

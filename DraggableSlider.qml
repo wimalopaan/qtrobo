@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.13
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.3
@@ -25,6 +25,8 @@ Item{
     property bool isBalanced: false
     property string inputScript
     property string outputScript
+    property string decreaseShortcut
+    property string increaseShortcut
 
     onIsBalancedChanged: {
         markedBackgroundLoader.sourceComponent =  isBalanced ? balancedMarkedBackground : normalMarkedBackground
@@ -41,6 +43,22 @@ Item{
         from: 0
         stepSize: 1
         enabled: false
+
+        Shortcut{
+            sequence: decreaseShortcut
+            onActivated: {
+                if(slider.value - slider.stepSize > minimumValue)
+                        slider.value = slider.value - slider.stepSize
+            }
+        }
+
+        Shortcut{
+            sequence: increaseShortcut
+            onActivated: {
+                if(slider.value + slider.stepSize < maximumValue)
+                        slider.value = slider.value + slider.stepSize
+            }
+        }
 
         handle:Rectangle{
             id: handle

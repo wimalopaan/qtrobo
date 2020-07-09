@@ -495,7 +495,10 @@ ApplicationWindow {
                     initialValue: child.initialValue,
                     isBalanced: child.isBalanced,
                     outputScript: child.outputScript,
-                    inputScript: child.inputScript
+                    inputScript: child.inputScript,
+                    shortcut: child.shortcut,
+                    decreaseShortcut: child.decreaseShortcut,
+                    increaseShortcut: child.increaseShortcut
                 }
 
                 tab.content.push(widget)
@@ -572,6 +575,12 @@ ApplicationWindow {
                             componentObject.outputScript = widget.outputScript
                         if(widget.inputScript)
                             componentObject.inputScript = widget.inputScript
+                        if(widget.shortcut)
+                            componentObject.shortcut = widget.shortcut
+                        if(widget.decreaseShortcut)
+                            componentObject.decreaseShortcut = widget.decreaseShortcut
+                        if(widget.increaseShortcut)
+                            componentObject.increaseShortcut = widget.increaseShortcut
                     }
                 }
             }

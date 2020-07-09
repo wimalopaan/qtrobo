@@ -92,4 +92,30 @@ GridLayout{
         editable: true
         onValueChanged: component.mappedMaximumValue = value
     }
+
+    Label{
+        Layout.fillWidth: true
+        text: qsTr("Decrease Shortcut:")
+        enabled: component.shortcut !== undefined
+    }
+
+    ShortcutInput{
+        Layout.fillWidth: true
+        enabled: component.decreaseShortcut !== undefined
+        sequence: component.decreaseShortcut
+        onSequenceChanged: component.decreaseShortcut = sequence
+    }
+
+    Label{
+        Layout.fillWidth: true
+        text: qsTr("Increase Shortcut:")
+        enabled: component.shortcut !== undefined
+    }
+
+    ShortcutInput{
+        Layout.fillWidth: true
+        enabled: component.increaseShortcut !== undefined
+        sequence: component.increaseShortcut
+        onSequenceChanged: component.increaseShortcut = sequence
+    }
 }
