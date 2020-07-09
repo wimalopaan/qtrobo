@@ -4,9 +4,10 @@ Text{
     property var root
     text: "⇲"
     color: "#3F51B5"
+    font.pointSize: 14
     font.bold: true
-    width: 15
-    height: 15
+    width: 30
+    height: 30
     anchors.top: parent.bottom
     anchors.left: parent.right
     visible: enabled

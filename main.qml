@@ -383,8 +383,7 @@ ApplicationWindow {
         if(componentFile){
             componentFile = componentFile.concat(".qml")
             var component = Qt.createComponent(componentFile)
-            console.log(component.width)
-            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x - component.width / 2, y:y - component.height / 2})
+            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y: y})
 
             GlobalDefinitions.projectEdited()
         }

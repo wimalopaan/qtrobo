@@ -5,9 +5,10 @@ Text{
     property var orientation
     text: "↻"
     color: "#3F51B5"
+    font.pointSize: 18
     font.bold: true
-    width: 15
-    height: 15
+    width: 30
+    height: 30
     anchors.top: parent.bottom
     anchors.right: parent.left
     visible: enabled
