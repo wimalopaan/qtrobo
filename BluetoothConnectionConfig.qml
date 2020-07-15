@@ -77,12 +77,7 @@ ColumnLayout{
             enabled: qtRobo.connection.isDiscovering
             text: qsTr("Stop")
             onClicked: qtRobo.connection.stopDiscovery()
-        }
-        Button{
-            text: "test"
-            property int index: 0
-            onClicked: bluetoothServices.append({"key": index++, "name": "tets", "addr":"00:11:22:33:33"})
-        }
+        }     
     }
 
     Label{
