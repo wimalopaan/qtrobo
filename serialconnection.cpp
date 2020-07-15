@@ -53,15 +53,11 @@ void SerialConnection::connectImpl(){
 
         if(mSerialPort.isOpen() && mHeartbeatEnabled)
             mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
-
-        emit connectionStateChanged(isConnected());
-
 }
 
 void SerialConnection::disconnectImpl(){
     if(isConnected())
         mSerialPort.close();
-    emit connectionStateChanged(isConnected());
 }
 
 QStringList SerialConnection::serialInterfaces(){

@@ -14,7 +14,8 @@ namespace ConnectionType{
 
     enum class ConnectionType{
         Serial,
-        Socket
+        Socket,
+        Bluetooth
     };
 
     Q_ENUM_NS(ConnectionType)

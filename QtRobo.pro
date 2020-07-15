@@ -1,4 +1,4 @@
-QT += qml quick serialport quickcontrols2 charts script
+QT += qml quick serialport quickcontrols2 charts script bluetooth
 CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
@@ -17,6 +17,7 @@ android{
 }
 
 SOURCES += \
+    bluetoothconnection.cpp \
     connection.cpp \
     javascriptparser.cpp \
     localsocketconnection.cpp \
@@ -44,6 +45,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    bluetoothconnection.h \
     connection.h \
     javascriptparser.h \
     localsocketconnection.h \

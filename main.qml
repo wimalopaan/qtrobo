@@ -189,6 +189,15 @@ ApplicationWindow {
                         connectionConfigDialog.open()
                     }
                 }
+
+                MenuItem{
+                    text: qsTr("Bluetooth")
+
+                    onTriggered:{
+                        qtRobo.connectionType = ConnectionType.Bluetooth
+                        connectionConfigDialog.open()
+                    }
+                }
             }
 
             MenuItem{

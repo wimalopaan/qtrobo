@@ -1,11 +1,13 @@
 #include "qtrobo.h"
 #include "serialconnection.h"
 #include "localsocketconnection.h"
+#include "bluetoothconnection.h"
 #include <QCoreApplication>
 
 QtRobo::QtRobo(QObject *parent) : QObject(parent){
     mConnections[ConnectionType::ConnectionType::Serial] = std::make_unique<SerialConnection>(this);
     mConnections[ConnectionType::ConnectionType::Socket] = std::make_unique<LocalSocketConnection>(this);
+    mConnections[ConnectionType::ConnectionType::Bluetooth] = std::make_unique<BluetoothConnection>(this);
 
     QObject::connect(&mPersistance, &Persistance::serializeConnection, this, &QtRobo::onPersisting);
     QObject::connect(&mPersistance, &Persistance::deserializeConnection, this, &QtRobo::onRestoring);

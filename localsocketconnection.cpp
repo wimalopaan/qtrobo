@@ -26,16 +26,12 @@ void LocalSocketConnection::connectImpl(){
         mLocalSocket.setServerName(mPreferences[PREFERENCE_SOCKET_NAME].toString());
         qDebug() << "Connected to server";
         mLocalSocket.open();
-
-        emit connectionStateChanged(isConnected());
     }
 }
 
 void LocalSocketConnection::disconnectImpl(){
     if(isConnected())
         mLocalSocket.close();
-
-    emit connectionStateChanged(isConnected());
 }
 
 bool LocalSocketConnection::isConnected() const{

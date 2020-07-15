@@ -17,8 +17,10 @@ Dialog{
         if(Number(qtRobo.connectionType) === ConnectionType.Serial){
             return "SerialConnectionConfig.qml"
         }
-        else
+        else if(Number(qtRobo.connectionType) === ConnectionType.Socket){
             return "LocalSocketConnectionConfig.qml"
+        }else
+            return "BluetoothConnectionConfig.qml"
 
     }
 

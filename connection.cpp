@@ -67,6 +67,7 @@ void Connection::connect(){
         mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
 
     connectImpl();
+    emit connectionStateChanged(isConnected());
 }
 
 void Connection::disconnect(){
@@ -74,6 +75,8 @@ void Connection::disconnect(){
 
     if(mHeartbeat.isActive())
         mHeartbeat.stop();
+
+    emit connectionStateChanged(isConnected());
 }
 
 void Connection::onReadyRead(){

@@ -43,5 +43,6 @@
         <file>ShortcutInput.qml</file>
         <file>DraggableButtonMenu.qml</file>
         <file>TabRenameDialog.qml</file>
+        <file>BluetoothConnectionConfig.qml</file>
     </qresource>
 </RCC>
