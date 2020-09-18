@@ -59,7 +59,7 @@ Item {
 
     Connections{
         target: qtRobo.connection
-        onDataChanged:{
+        function onDataChanged(eventName, data){
             if(eventName === root.eventName){
                  enableLED = !!+data
             }

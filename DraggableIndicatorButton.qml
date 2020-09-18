@@ -83,13 +83,13 @@ Item{
     Connections{
         id: serialConnector
         target: qtRobo.connection
-        onDataChanged:{
+        function onDataChanged(eventName, data){
             if(eventName === root.eventName && data){
                 button.isOn = !!+data
             }
         }
 
-        onConnectionStateChanged:{
+        function onConnectionStateChanged(isConnected){
             if(isConnected)
                 button.isOn = root.initialValue
         }

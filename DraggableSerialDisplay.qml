@@ -55,7 +55,7 @@ Rectangle{
                 id: serialListener
                 target: qtRobo.connection
 
-                onDataChanged: {
+                function onDataChanged(eventName, data){
                     var newTextLine = "[" + Qt.formatTime(new Date(), "hh:mm:ss")
                     newTextLine += "]\t"
                     if(eventName){

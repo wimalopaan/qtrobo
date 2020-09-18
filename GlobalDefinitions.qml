@@ -28,7 +28,8 @@ QtObject{
         CircularGauge,
         LinearGauge,
         Chart,
-        Potentiometer
+        Potentiometer,
+        ButtonGroup
     }
 
     property var componentName: [
@@ -44,7 +45,8 @@ QtObject{
         "DraggableCircularGauge",
         "DraggableLinearGauge",
         "DraggableChart",
-        "DraggablePotentiometer"
+        "DraggablePotentiometer",
+        "DraggableButtonGroup"
     ]
 
     property var componentDisplayName: [
@@ -60,7 +62,8 @@ QtObject{
         qsTr("Circular Gauge"),
         qsTr("Linear Gauge"),
         qsTr("Chart"),
-        qsTr("Potentiometer")
+        qsTr("Potentiometer"),
+        qsTr("Button Group")
     ]
 
     function getDisplayName(componentType){

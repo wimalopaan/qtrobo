@@ -44,5 +44,7 @@
         <file>DraggableButtonMenu.qml</file>
         <file>TabRenameDialog.qml</file>
         <file>BluetoothConnectionConfig.qml</file>
+        <file>DraggableButtonGroup.qml</file>
+        <file>DraggableButtonGroupMenu.qml</file>
     </qresource>
 </RCC>

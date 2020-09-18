@@ -41,7 +41,7 @@ Window{
         Connections{
             id: connection
             target: qtRobo.connection
-            onDebugChanged:  {
+            function onDebugChanged(direction, debug){
 
                 if(direction === DebugInfoDirection.In)
                     debugTextArea.append(debugTextArea.createDebugText("In", debug, root.red))

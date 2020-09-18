@@ -129,14 +129,14 @@ Item{
         Connections{
             id: connection
             target: qtRobo.connection
-            onDataChanged:{
+            function onDataChanged(){
                 if(eventName === root.eventName && data){
                     var receivedValue = +data
                     potentiometer.value = GlobalDefinitions.mapToValueRange(receivedValue, root.mappedMinimumValue, root.mappedMaximumValue, root.minimumValue, root.maximumValue)
                 }
             }
 
-            onConnectionStateChanged:{
+            function onConnectionStateChanged(isConnected){
                 if(isConnected)
                     potentiometer.value = root.initialValue
             }

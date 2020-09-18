@@ -350,7 +350,11 @@ ApplicationWindow {
                     Connections{
                         target: qtRobo.connection
                         function onHeartbeatTriggered() {
-                            heartbeatStatus ? heartbeatLEDColorAnimation.start() : (heartbeatStatusLED.color = "darkred")
+                            if(heartbeatStatusLED)
+                                heartbeatLEDColorAnimation.start()
+                            else
+                                heartbeatStatusLED.color = "darkred"
+
                             setLayoutEnabled(heartbeatStatus)
                         }
                     }
@@ -497,6 +501,18 @@ ApplicationWindow {
                         modelEntries.push(child.model.get(modelIndex))
                 }
 
+                var buttonGroup = []
+
+                if(child.buttonGroup){
+                    for(var index = 0; index < child.buttonGroup.children.length; ++index){
+                        var btn = child.buttonGroup.children[index]
+                        buttonGroup.push({
+                                              eventValue: btn.eventValue,
+                                              text: btn.text
+                                          })
+                    }
+                }
+
                 var widget = {
                     componentType: child.componentType,
                     x: child.x,
@@ -514,6 +530,8 @@ ApplicationWindow {
                     mappedMaximumValue: child.mappedMaximumValue,
                     showValue: child.showValue,
                     modelEntries: modelEntries.length > 0 ? modelEntries : undefined,
+                    buttonGroup: buttonGroup.length > 0 ? buttonGroup : undefined,
+                    highlightOnly: child.highlightOnly,
                     imageSource: child.imageSource ? child.imageSource.toString() : undefined,
                     numberOfValues: child.numberOfValues,
                     isFixedYAxis: child.isFixed,
@@ -587,6 +605,14 @@ ApplicationWindow {
                             for(var modelIndex = 0; modelIndex < widget.modelEntries.length; ++modelIndex)
                                 componentObject.model.append(widget.modelEntries[modelIndex])
                         }
+                        if(widget.buttonGroup){
+                            componentObject.clearButtons()
+                            for(var index = 0; index < widget.buttonGroup.length; ++index){
+                                componentObject.createButton(widget.buttonGroup[index].text, widget.buttonGroup[index].eventValue)
+                            }
+                        }
+                        if(widget.highlightOnly !== undefined)
+                            componentObject.highlightOnly = widget.highlightOnly
                         if(widget.imageSource)
                             componentObject.imageSource = widget.imageSource
                         if(widget.isFixedYAxis)

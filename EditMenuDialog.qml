@@ -245,7 +245,13 @@ Dialog{
 
             Loader{
                 source:loadComponentMenu(component)
-                onLoaded: item.component = component
+                onLoaded: {
+                    item.component = component
+
+                    if(item.loaded){
+                        item.loaded()
+                    }
+                }
                 Layout.fillWidth: true
             }
         }
@@ -273,6 +279,8 @@ Dialog{
             return "DraggableIndicatorButtonMenu.qml"
         else if(component instanceof DraggableTextInput)
             return "DraggableTextInputMenu.qml"
+        else if(component instanceof DraggableButtonGroup)
+            return "DraggableButtonGroupMenu.qml"
         else
             return ""
     }

@@ -53,7 +53,7 @@ Rectangle{
 
         Connections{
             target: qtRobo.connection
-            onConnectionStateChanged: {
+            function onConnectionStateChanged(isConnected){
                 if(isConnected)
                     textinput.text = root.initialValue
             }

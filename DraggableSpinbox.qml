@@ -121,7 +121,7 @@ Rectangle{
 
         Connections{
             target: qtRobo.connection
-            onConnectionStateChanged:{
+            function onConnectionStateChanged(isConnected){
                 if(isConnected)
                     spinbox.value = root.initialValue
             }

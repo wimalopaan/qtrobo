@@ -95,7 +95,7 @@ Item{
         Connections{
             id: connection
             target: qtRobo.connection
-            onDataChanged:{
+            function onDataChanged(eventName, data){
                 if(eventName === root.eventName && data){
                     var parsedValue = parseInt(data)
                     if(!isNaN(parsedValue)){

@@ -17,7 +17,6 @@ Dialog{
         listModel.clear()
         for(var i = 0; i < tabBar.count; ++i){
             listModel.append({"tabId": i})
-            console.log("Tabs " + i)
         }
     }
 

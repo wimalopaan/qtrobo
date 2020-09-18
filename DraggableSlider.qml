@@ -158,14 +158,14 @@ Item{
 
     Connections{
         target: qtRobo.connection
-        onDataChanged:{
+        function onDataChanged(eventName, data){
             if(eventName === root.eventName && data){
                 var receivedValue = +data
                 slider.value = GlobalDefinitions.mapToValueRange(receivedValue, mappedMinimumValue, mappedMaximumValue, slider.from, slider.to)
             }
         }
 
-        onConnectionStateChanged:{
+        function onConnectionStateChanged(isConnected){
             if(isConnected && !isBalanced)
                 slider.value = root.initialValue
         }
