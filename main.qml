@@ -279,10 +279,17 @@ ApplicationWindow {
 
         TabBar{
             id: tabBar
-
+            property string eventName
             Layout.fillWidth: true
             EditableTab{
                 text: qsTr("Layout")
+            }
+
+            onCurrentIndexChanged: {
+                var eventValue = tabBar.itemAt(currentIndex).eventValue
+                if(eventName && eventValue){
+                    qtRobo.connection.write(eventName, eventValue)
+                }
             }
         }
 
@@ -487,6 +494,8 @@ ApplicationWindow {
             var tab = {
                 tabIndex: i,
                 tabName: tabBar.itemAt(i).text,
+                eventName: tabBar.eventName,
+                eventValue: tabBar.itemAt(i).eventValue,
                 content:[]
             }
 
@@ -563,8 +572,15 @@ ApplicationWindow {
 
             tabBar.itemAt(tab.tabIndex).text = tab.tabName
 
+            if(!tabBar.eventName && tab.eventName)
+                tabBar.eventName = tab.eventName
+
+            if(tab.eventValue)
+                tabBar.itemAt(tab.tabIndex).eventValue = tab.eventValue
+
             for(var j = 0; j < tab.content.length; ++j){
                 var widget = tab.content[j]
+
                 var componentFile = GlobalDefinitions.componentName[widget.componentType]
 
                 if(componentFile){
@@ -632,7 +648,7 @@ ApplicationWindow {
                         if(widget.decreaseShortcut)
                             componentObject.decreaseShortcut = widget.decreaseShortcut
                         if(widget.increaseShortcut)
-                            componentObject.increaseShortcut = widget.increaseShortcut
+                            componentObject.increaseShortcut = widget.increaseShortcut         
                     }
                 }
             }

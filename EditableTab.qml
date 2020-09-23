@@ -5,6 +5,7 @@ TabButton{
     text: qsTr("New Tab")
     font.capitalization: Font.MixedCase
     property alias editEnabled: editMouseArea.enabled
+    property string eventValue
 
     onTextChanged: GlobalDefinitions.projectEdited()
 
