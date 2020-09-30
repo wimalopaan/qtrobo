@@ -1,0 +1,5 @@
+== Abstrakt
+Bei der Entwicklung von Projekten auf Basis von Microcontrollern stellt das Testen der implementierten Funktionen meist einen größeren Aufwand dar. Hierzu werden Hardware-Komponenten zur Ein- und Ausgabe heran gezogen. Alternativ können entsprechende Funktionstests auch über eine 
+serielle Schnittstelle vom Entwicklerrechner aus erfolgen. Auch in diesem Szenario wird oft auf einfache Software zurückgegriffen, mit der rohe 
+ASCII oder Hexadezimale Daten gesendet und entsprechend als Text dargestellt werden können. 
+Dem gegenüber stehen Programme wie RoboRemo <<roboremo>>, die es ermöglichen, auf einfache Art und Weise eine selbstdefinierte UI zu erzeugen, mit der entsprechend Embedded Devices getestet werden können.

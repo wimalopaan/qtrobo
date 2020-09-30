@@ -1,0 +1,25 @@
+= QtRobo Dokumentation: Programmiertechniken für Embedded Systems
+:author: Andreas M. Brunnet, B.Sc.
+:email: andreas.brunnet@hs-kl.de
+:listing-caption: Beispiel
+:figure-caption: Abbildung
+:imagesdir: images/
+:project: QtRobo
+:toc-title: Inhaltsverzeichnis
+:title-page:
+:toc: 
+
+include::abstract.adoc[]
+
+include::functionality.adoc[]
+
+include::implementation.adoc[]
+
+include::android_built.adoc[]
+
+<<<
+[bibliography]
+== Bibliografie
+- [[[roboremo, 1]]] RoboRemo, https://www.roboremo.com/
+- [[[qt_framework, 2]]] Qt Framework, https://www.qt.io/
+- [[[qml_documentation, 3]]] QML Dokumentation, https://doc.qt.io/qt-5/qtqml-index.html

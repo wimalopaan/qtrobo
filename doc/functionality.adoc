@@ -1,0 +1,51 @@
+== Funktionalitäten
+In diesem Abschnitt wird zum einen auf die Funktionalitäten sowie auch die Implementierungsdetails der Anwendung eingegangen. 
+Beim Start von {project} findet man ein leeres Default Layout vor (siehe <<qtrobo_default_layout>>). 
+
+.Default Layout
+[[qtrobo_default_layout, Abb. {counter:fig}]]
+image::qtrobo_empty_project.png[width=500, align="center"]
+
+Mit einem Rechtsklick in das leere Layout öffnet sich das Kontextmenü (siehe <<qtrobo_context_menu>>). Über dieses Menü können die gewünschten Widgets ausgewählt und dem aktuell aktiven Layout hinzugefügt werden. Diese werden an der Stelle des Rechtsklick platziert. 
+Widgets können nur im Editiermodus geändert werden. In diesem Modus können die Widgets nicht bedient werden.
+Die Positionierung der Widgets kann entweder mit oder ohne Einrastfunktion erfolgen. 
+
+.Kontext Menü
+[[qtrobo_context_menu, Abb. {counter:fig}]]
+image::qtrobo_context_menu.png[width=500, align="center"]
+
+Nachdem ein Widget dem Layout hinzugefügt wurde, kann es über die Manipulatoren an den Ecken gelöscht, gedreht oder skaliert werden (siehe <<qtrobo_widgets_editmode>>). Über Drag and Drop lässt sich ein Widget im Layout verschieben. 
+
+.Widgets im Editiermodus
+[[qtrobo_widgets_editmode, Abb. {counter:fig}]]
+image::qtrobo_widgets_editmode.png[width=250, align="center"]
+
+Die Eigenschaften eines Widgets können über dessen Kontextmenü geändert werden. Dies öffnet sich mit einem Rechtsklick auf das Widget (siehe <<qtrobo_widget_context_menu>>).
+
+.Widget Kontextmenü
+[[qtrobo_widget_context_menu, Abb. {counter:fig}]]
+image::qtrobo_widget_context_menu.png[width=500, align="center"]
+
+Das Widget Kontextmenü besitzt vier Reiter. Der erste Reiter _Allgemein_ definiert Eigenschaften, die jedes Widget besitzt. Der zweite Reiter definiert das Ausgabescript. Mit diesem lassen sich Wert und Eventname, die beim Aktivieren eines Widget gesendet werden über entsprechenden Javascript-Code manipulieren. 
+Reiter drei funktioniert identisch zum zweiten. Jedoch können hier die eingehenden Werte, vor ihrer Darstellung durch das entsprechende Widget, manipuliert werden. 
+Der letzte Reiter ist spezifisch für jedes Widget. Beispielsweise können dort für ein Dropdown-Widget neue Elemente zur Selektion angelegt werden. 
+
+Weitere Layouts können über die _+_-Schaltfläche, rechts neben dem Layout-Titel hinzugefügt werden (siehe Abb. <<qtrobo_default_layout>>). Mit der _-_-Schaltfläche wird ein Layout gelöscht. Hierbei werden Layouts von rechts solange gelöscht, bis nur noch eines vorhanden ist. Der Name eines Layout kann über einen Rechtsklick auf den Layout-Titel geändert werden. 
+
+Links neben den Layout-Reitern befindet sich die Schaltfläche zum Öffnen des Debug-Fensters (siehe <<qtrobo_default_layout>>). Das Debug-Fenster zeigt eingehende und ausgehende Nachrichten an, bevor diese durch den Nachrichtenparser laufen (siehe <<qtrobo_debug_window>>).
+
+.Debug Fenster
+[[qtrobo_debug_window, Abb. {counter:fig}]]
+image::qtrobo_debug_window.png[width=500, align="center"]
+
+Über den Menüpunkt _Geräte_ kann eine Verbindung entweder über einen seriellen Port oder über einen lokalen Socket hergestellt werden. Nach der Auswahl der Verbindungsart öffnet sich das Konfigurationsfenster der Verbindung (siehe <<qtrobo_connection_config_window>>).
+
+.Verbindungskonfiguration
+[[qtrobo_connection_config_window, Abb. {counter:fig}]]
+image::qtrobo_connection_config_window.png[width=800, align="center"]
+
+Zum einen können die verbindungsspezifischen Eigenschaften eingestellt werden. Des weiteren kann der Heartbeat konfiguriert werden. Dieser sendet periodisch eine Nachricht an den verbundenen Microcontroller / Middleware und zeig im unteren Teil des Hauptfensters an, wenn eine Antwort erscheint. Hierbei leuchtet eine Anzeige auf, die bei jeder erhaltenen Nachricht hellgrün aufleuchtet und allmählich in einen Rotton übergeht. 
+Auch kann konfiguriert werden, wie die Nachrichten, die QtRobo sendet und empfängt, aufgebaut sind. Das bedeutet, welches Start-, Trenn- und Endesymbol genutzt werden soll. 
+Über das _Geräte_-Menu kann die Verbindung auch wieder unterbrochen werden. 
+
+Der Menüpunkt _Datei_ ist identisch zu anderen Applikationen. Es lässt sich ein neues Projekt anlegen, ein bestehendes öffnen, ein geöffnetes oder neues speichern. 

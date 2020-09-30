@@ -1,0 +1,412 @@
+== Implementierung
+_{project}_ ist in C++ implementiert. In großem Umfang wird hierbei das QT Framework <<qt_framework>> eingesetzt. So werden, wenn möglich, die vom Framework angebotenen Klassen 
+genutzt. Die UI und die entsprechende Logik zur Interaktion, wie dem Drag and Drop Mechanismus, sind in QML implementiert. QML bietet die Möglichkeit, im Vergleich zu
+anderen UI Frameworks, relativ einfach auch eigene UI Elemente zu definieren.
+Zusätzlich zum Qt Core werden noch folgende Abhängigkeiten verwendet.
+
+* Serial Port
+* Quick Controls 2
+* Charts
+* Scripts
+
+=== Frontend
+Das Frontend besteht aus QML-Modulen. Bei QML handelt es sich um eine deklarative Sprache zur Entwicklung von grafischen Oberflächen. Stark in QML integriert ist JavaScript. Entsprechend mächtig und flexibel können UI-Elemente erstellt werden. Jedoch verfügt QML über keine Vererbung oder ähnliche Mechanik, was zu starker Codeduplikation führen kann. Dies findet sich auch in den implementierten Widgets (siehe Absch. <<Widgets>>) wieder. 
+
+Um auf Funktionen des Backends zuzugreifen, kann das globale Feld _qtRobo_, welches in der Main des Backends registriert wurde (siehe Bsp. <<qtrobo_backend_register>>), genutzt werden (siehe Bsp. <<qtrobo_backend_qml_access>>). 
+
+.Beispielhafter Zugriff auf Backend-Funktionen
+[[qtrobo_backend_qml_access, Bsp. {counter:listing}]]
+----
+qtRobo.connection.write()
+qtRobo.connection.javascriptParser.runScript()
+qtRobo.connection.heartbeatEnabled = false
+----
+
+[[sec_main_qml]]
+==== main.qml
+Als Einstiegspunkt der UI liefert das _main_-Modul das _ApplicationWindow_ als Wurzel der UI. Neben dem Layout der Applikation, findet sich in der _main_, wie auch in allen 
+anderen Modulen, ein hohes Maß an Darstellungslogik. 
+
+===== rootMouseArea
+Das Drag and Drop von Widgets, aber auch der Aufruf des Kontextmenüs ist mit Hilfe einer _MouseArea_ implementiert, die sich über die gesamte Größe des Layout-Bereichs des Projektes erstreckt. 
+Zum Öffnen der Kontextmenüs wird lediglich das entsprechende Mausevent innerhalb dieser _MouseArea_ abgefangen und geöffnet. QML besitzt bereits einen Drag and Drop Mechanismus. Dieser ist in jeder _MouseArea_ verfügbar und stellt sich wie in Bsp. <<qml_drag_and_drop>> zu sehen dar.
+
+.QML Drag and Drop Mechanik
+[[qml_drag_and_drop, Bsp. {counter:listing}]]
+----
+drag.target = myTarget
+drag.axis = Drag.XAndYAxis
+drag.minimumX = minX
+drag.maximumX = maxX
+drag.minimumY = minY
+drag.maximumY = maxY
+----
+
+So wird zum Verschieben die gewünschte Komponente als _target_ des _drag_-Objektes gesetzt. Danach kann über _axis_ bestimmt werden, welche Axen betroffen sind. Das bedeutet, ob ein Objekt nur horizonal, nur vertikal oder in beide Richtungen verschoben werden kann. Der Bereich, indem das Objekt bewegt werden kann, wird mit den entsprechenden Minimum- und Maximum-Feldern für jeweils die X- und Y-Achse restriktiert. 
+Damit ein Objekt wieder loggelassen wird, wird im _Release_-Event der Maus das _target_ auf _undefined_ gesetzt und das ursprünglich zugewiesene Objekt somit wieder freigelassen. 
+
+Die Funktionalität des Ausrichtens von Widgets anhand eines Rasters ist über das _PositionChanged_ Event implementiert. Hierbei werden die X/Y-Koordinaten des Widgets, welche vom _drag_-Objekt implizit gesetzt werden, nachträglich explizit neu gesetzt. Es wird eine in der _GlobalDefinitions_ (siehe Absch. <<GlobalDefinitions>>) gesetzte Konstante 
+Modulo mit dem aktuellen Koordinatenwert genommen und das Resultat nochmals von diesem Koordinatenwert abgezogen. Dieser Endwert entspricht dem schrittweisen Bewegen eines Widgets. 
+
+===== layoutToArray()
+Zum Persistieren des Layouts eines Projektes bietet es sich durch die Integration von JavaScript in QML an, die Serialisierung der Layout-Informationen in QML selbst zu tätigen. Die Funktion liefert ein Array an Json-Objekten zurück. Dieses Array ist wie in Bsp. <<qtrobo_json_structure>> illustriert aufgebaut. Es wird über jedes Tab iteriert. Die Informationen über das Tab werden in einem Json-Objekt abgelegt. Danach wird über die Kinder des Tabs, also die Widgets, iteriert. Die Informationen der Widgets werden wiederum in einem Json-Objekt abgelegt und danach dem Arrayfeld _content_ des Tab-Json-Objektes hinzugefügt. Am Ende wird das Tab-Objekt dem Tab-Array beigefügt. 
+Nicht jedes Widget besitzt alle aufgelisteten Felder. Jedoch ist dies bei der Serialisierung irrelevant, da nicht vorhandene Felder den Wert _undefined_ haben und einem 
+Json-Objekt nicht hinzugefügt werden. 
+
+===== arrayToLayout()
+Zum Laden des Layouts wird ein Tab-Array vom Backend übergeben. Es wird auch hier über die Tabs iteriert, wobei zum Default-Tab eines leeren Projektes jeweils so viele Tabs wie nötig zusätzlich erstellt werden. Danach wird über die Konstanten der _GlobalDefinitions_ die entsprechenden Widgets erstellt und die Felder, die das Widget besitzt, initialisiert. Ähnlich wie bei der _layoutToArray()_-Funktion kann hier ausgenutzt werden, das nicht vorhandene Felder _undefined_ sind und als _false_ evaluiert werden. 
+
+==== GlobalDefinitions
+Das Modul dient als Utility-Objekt und wird als Singleton erstellt. Es sind Felder und Funktionen definiert, die im gesamten Frontend verwendet werden.
+Unter anderem die Funktionen zum Setzen des _hasLayoutBeenEdited_ Feldes, welches dafür genutzt wird, bei Änderungem am Projekt einen Speicherdialog anzuzeigen, wenn die Applikation ohne explizites Speichern geschlossen wird. 
+
+Auch sind die verfügbaren Widgets definiert. Das Enum _ComponentType_ dient der Identifizierung während der Serialisierung und Deserialisierung. Das Array _componentName_ hält die Namen der Widget-Implementierungsdateien und das Array _componentDisplayName_ die im Kontextmenü der UI angezeigten Namen der Widgets. 
+Es ist zu beachten, dass die Reihenfolge der Elemente dieser drei Strukturen identisch sein muss, da über die Indezes des Enums auf die Arrays zugegriffen wird. 
+
+Zuletzt ist die Funktionen _mapToValueRange_ definiert, die einen Eingabewert von einem Ursprungswertebereich in einen Zielwertebereich konvertiert. Diese wird von Widgets wie dem _Slider_ verwendet.
+
+==== Widgets
+Ein Widget besitzt mindestens mindestens die Felder:
+* eventName
+* label
+* componentType
+* componentColor
+* fontColor
+
+Diese Felder werden vom Widget-Kontextmenü im Allgemeinen Reiter verwendet und sind nicht optional. Soll einem Widget ein Script für die Ausgabe oder Eingabe bereitgestellt werden, so sind entsprechend der Verwendung das Feld _outputScript_ und/oder _inputScript_ hinzuzufügen. 
+Die Reiter im Kontextmenü werden ausgegraut, sofern die Felder nicht vorhanden sind. 
+
+Zusätzlich kann ein Widget noch ein dediziertes Menü besitzen. Dieses wird im vierten Reiter des Widget-Kontextmenüs, sofern vorhanden, dargestellt. 
+
+===== Widget-Kontextmenü
+Das Widget-Kontextmenü besitzt als Wurzelobjekt ein Layout-Objekt, wie dem _GridLayout_. Zudem muss das Feld _var component_ im Wurzelobjekt definiert sein. Über dieses Feld kann auf das Widget und dessen Felder zugegriffen werden. 
+
+Zum Laden eines Menüs wird die Funktion _loadComponentMenu()_ des _EditMenuDialog_-Moduls verwendet. Dort muss für ein neues Menü, ein entsprechender Eintrag erfolgen. 
+
+Das Laden des Modul selbst erfolgt über das _Loader_-Objekt im _EditMenuDialog_-Modul. Dieses _Loader_-Objekt wird in einigen Menüs zum dynamischen Laden von Modulen verwendet. 
+
+==== Widget Manipulatoren
+Diese befinden sich an den Ecken eines Widgets. Derzeit sind folgende Manipulatoren vorhanden: 
+
+* Widget löschen
+* Widget skalieren
+* Widget drehen
+* Widget Kontextmenü
+
+Um einen Manipulator in ein Widget zu integrieren, muss lediglich der Manipulator im Wurzelobjekt des Widgets deklariert werden (siehe Bsp. <<qtrobo_widget_manipulator>>).
+
+.Widget Manipulator
+[[qtrobo_widget_manipulator]]
+----
+DeleteComponentKnob{
+    root: myWidgetRoot
+    enabled: myWidgetRoot.enabled
+}
+----
+
+==== DebugPopup
+Das DebugPopup oder einfach Debugfenster nutzt zur Darstellung der Informationen das _TextArea_-Objekt. Dieses hat die Möglichkeit _RichText_, also formattierten Text darzustellen. Hierzu steht eine Teilmenge des HTML-Sprachumfangs zur Verfügung. In der Funktion _createDebugText()_ wird mit Hilfe einer HTML Tabelle ein Eintrag für die _TextArea_ erzeugt. 
+
+=== Backend
+Die grundlegende Struktur des Backends ist in Abb. <<qtrobo_backend_overview>> dargestellt. Eine detaillierte Erläuterung erfolgt in den entsprechenden Sektionen.
+
+.Übersicht Backend
+[[qtrobo_backend_overview, Abb. {counter:fig}]]
+[plantuml, classes_overview_backend, png]
+....
+class QtRobo{
+    -std::map<ConnectionType::ConnectionType, std::unique_ptr<Connection>> mConnections
+    -ConnectionType::ConnectionType mConnectionType
+    -Persistance mPersistance
+    -QTranslator mTranslator
+    -QLocale::Language mLanguage
+    -static inline const QString LANGUAGE_DIRECTORY_NAME
+    -static inline const QString PERSISTANCE_SECTION_SERIAL_PORT
+    -static inline const QString PERSISTANCE_SECTION_LOCAL_SOCKET
+
+    +Connection* connection()
+    +Persistance* persistance()
+    +void language(const QLocale::Language &language)
+    +QLocale::Language language()
+}
+
+class Connection{
+    +enum ConnectionType
+    +enum DebugInfoDirection
+
+    #MessageParser mParser
+    #MessageParser::Event mEvent
+    #JavaScriptParser mJavaScriptParser
+    #QTimer mHeartbeat
+    #QVariantMap mPreferences
+    #uint mHeartbeatTimeout
+    #bool mHeartbeatStatus
+    #QString mHeartbeatRequest
+    #QString mHeartbeatResponse
+    #bool mHeartbeatEnabled
+    #QString mDebug
+    -static const bool DEFAULT_HEARTBEAT_ENABLED
+    -static const uint DEFAULT_HEARTBEAT_TIMEOUT
+    -static inline const QString DEFAULT_HEARTBEAT_REQUEST
+    -static inline const QString DEFAULT_HEARTBEAT_RESPONSE
+    -static const char DEFAULT_EVENT_START
+    -static const char DEFAULT_EVENT_VALUE_DIVIDER
+    -static const char DEFAULT_EVENT_END
+    
+    +QString& data()
+    +QString& eventName()
+    +MessageParser* messageParser()
+    +JavaScriptParser* javascriptParser()
+    +void enableHeartbeat()
+    +void isConnected()
+    +QByteArray read()
+    +void write(const QString &eventName)
+    +void write(const QString &eventName, const QVariant &data)
+    +void connect()
+    +void disconnect()
+    +void swap(Connection& lhs, Connection &rhs)
+    #void writeImpl(const QString &eventName)
+    #void connectImpl()
+    #void disconnectImpl()
+    #void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data)
+}
+
+class LocalSocketConnection{
+    -QLocalSocket mLocalSocket
+    -static inline const QString PREFERENCE_SOCKET_NAME
+
+    +QByteArray read()
+    +void writeImpl()
+    +void connectImpl()
+    +void disconnectImpl()
+    +bool isConnected()
+    +void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data)
+    +QJsonObject serialize()
+    +void deserialize(const QJsonObject &data)
+}
+
+class SerialConnection{
+    -QSerialPort mSerialPort
+    -static const QSerialPort::BaudRate DEFAULT_BAUDRATE
+    -static const QSerialPort::StopBits DEFAULT_STOPBITS
+    -static const QSerialPort::Parity DEFAULT_PARITYBITS
+    -static inline const QString PREFERENCE_BAUDRATE
+    -static inline const QString PREFERENCE_STOPBIT
+    -static inline const QString PREFERENCE_PARITYBIT
+    -static inline const QString PREFERENCE_INTERFACE_NAME
+
+    +QByteArray read()
+    +void writeImpl()
+    +void connectImpl()
+    +void disconnectImpl()
+    +bool isConnected()
+    +void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data)
+    +QJsonObject serialize()
+    +void deserialize(const QJsonObject &data)
+    +QStringList serialInterfaces()
+}
+
+class JavascriptParser{
+    -QScriptEngine mScriptEngine
+
+    +QVariantMap runScript(const QString &eventName, const QString &value, QString script)
+}
+
+class Persistance{
+    -QUrl mFilename
+    -QJsonArray mLayout
+    -static inline const QString PERSISTANCE_SECTION_SETTINGS
+    -static inline const QString PERSISTANCE_SECTION_LAYOUT
+
+    +void persist()
+    +void restore()
+    +QUrl filename()
+    +void filename(const QUrl &filename)
+    +bool isFilenameValid()
+}
+
+class MessageParser{
+    enum State
+    enum Event
+
+    -char mEventStart
+    -char mEventValueDivider
+    -char mEventEnd
+    -State mCurrentState
+    -Event mCurrentEvent
+
+    +char eventStart()
+    +void eventStart(char eventStart)
+    +char eventValueDivider()
+    +void eventValueDivider(char eventValueDivider)
+    +char eventEnd()
+    +void eventEnd(char eventEnd)
+    +void parseData(char byte)
+    +void parseData(const QByteArray &data)
+}
+
+QtRobo "1" *-- "many" Connection : contains
+Connection *-- MessageParser
+Connection <|-- LocalSocketConnection
+Connection <|-- SerialConnection
+QtRobo *-- Persistance
+....
+
+==== Main
+Die _main_ Fun dient der Initialisierung der Applikation. So wird unter anderem der Theme _Material_ gesetzt. Des weiteren wird die Klassen _QSerialPort_ als auch _QLocale_ für eine Verwendung in QML als Typen registriert (fgl. <<qtrobo_main_type_register>>). 
+
+.Typregistrierung
+[[qtrobo_main_type_register, Bsp. {counter:listing}]]
+----
+qmlRegisterType<MyType>("Type", Major, Minor, "QML Type Name");
+qmlRegisterUncreatableType<MyUncreatableType>("Type", Major, Minor, "QML Type Name", "Why not creatable");
+----
+
+Zusätzlich werden die in der Klasse _Connection_ (siehe Absch. <<Connection>>) befindlichen Enums zur Verwendung im Frontend registriert. 
+
+Zuletzt wird das Backend _QtRobo_ zur Nutzung im Frontend bereitgestellt (fgl. <<qtrobo_backend_register>>). 
+
+.QtRobo Registrierung
+[[qtrobo_backend_register, Bsp. {counter:listing}]]
+----
+engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
+----
+
+Im Anschluss wird die Einstiegsdatei des Frontends _main.qml_ (siehe Absch. <<sec_main_qml>>) geladen und der Event Loop gestartet.
+
+==== QtRobo
+_QtRobo_ ist die Hauptklasse des Backends. Jegliche Kommunikation zwischen Frontend und Backend erfolgt hierüber. 
+In einer Map werden alle möglichen Verbindungstypen (derzeit Seriell und Local Socket) als _std::unique_ptr_ gehalten, um das Speichermanagment zu automatisieren. 
+Die aktuell ausgewählte Verbindung wird als Enum-Member gehalten. Über die Methode _connection()_ wird danach ein roher Pointer an QML übergeben, da QT keine 
+Smartpointer an das QML Frontend verfügbar machen kann. Da auch die _Persistance_ Klasse zum Speichern und Laden von Projekten in QML verfügbar sein muss (siehe Absch. <<Frontend>>), wird auch diese als roher Pointer an das Frontend übergeben. 
+Verfügbar werden Member oder Getter-/Setter-Methoden über das _Q_PROPERTY_ Makro (fgl. <<qt_q_property>>). 
+
+.QT Q_PROPERTY
+[[qt_q_property, Bsp. {counter:listing}]]
+----
+Q_PROPERTY(Typ qmlName READ getterMethod WRITE setterMethod NOTIFY changeSignal)
+Q_PROPERTY(Typ qmlName MEMBER classMember NOTIFY changeSignal)
+----
+
+Einzelne Methoden, die in QML nutzbar sein sollen, werden mit dem Makro _Q_INVOKABLE_ entsprechend registriert (fgl. <<qt_q_invokable>>).
+
+.QT Q_INVOKABLE
+[[qt_q_invokable, Bsp. {counter:listing}]]
+----
+Q_INVOKABLE void restore();
+----
+
+Bei einem Speicher- oder Ladevorgang emittiert die Klasse _Persistance_ die Signale _serializeConnection_ bzw. _deserializeConnection_. Diese sind wiederum mit den Slots 
+_onPersisting_ bzw. _onRestoring_ der _QtRobo_ Klasse verbunden. Innerhalb dieser Slots werden die entsprechenden Methoden der abstrakten Klasse _Connection_ zur Serialisierung und Deserialisierung aufgerufen. 
+
+Die Klasse ist auch für das Laden der korrekten Übersetzung zuständig. Hierzu wird bei der Initialisierung die Systemsprache genommen und versucht, die korrespondierende 
+Übersetzung zu laden. Ist keine Übersetzung verfügbar, wird auf die Default-Übersetzung (englisch) zurückgegriffen. 
+
+==== Übersetzungseinheiten
+Übersetzungen werden mit Hilfe Tools _QT Linguist_ erstellt. Dazu werden zuerst eventuell neu hinzugekommene übersetzbare Strings (siehe <<Frontend>>) zuerst ermittelt (fgl. <<qt_lupdate>>).
+
+.Update der Übersetzungseinheiten
+[[qt_lupdate, Bsp. {counter:listing}]]
+----
+lupdate QtRobo.pro
+----
+
+Danach können über _QT Linguist_ die Übersetzungen mit der Endung _.ts_ (XML Format) bearbeitet werden. Damit die Applikation die Übersetzungen laden kann, müssen diese noch in das entsprechende Arbeitsformat _.qm_ (Binärformat) gebracht werden (fgl. <<qt_lrelease>>).
+
+.Erzeugen der Übersetzungseinheiten für QT
+[[qt_lrelease, Bsp. {counter:listing}]]
+----
+lrelease de-DE.ts
+lrelease en-EN.ts
+----
+
+==== Connection
+Die _Connection_ Klasse ist abstrakt und definiert die gemeinsamen Schnittstellen einer jeden spezifischen Verbindung. Die Klasse hält den JavaScriptParser (siehe Absch. <<JavaScriptParser>>), der vom Frontend genutzt wird. 
+Auch ist der Heartbeat-Mechanismus in dieser Klasse implementiert. Der Heartbeat baut hierbei auf dem _QTimer_ auf und wird, sofern aktiviert, bei einem Verbindungsaufbau über die _connect()_ Methode gestartet. Nach Ablauf des definierten Intervals sendet der _QTimer_ ein _timeout()_ Signal aus, welches vom Slot _onHeartbeatTriggered()_ aufgefangen wird. Dieser Slot emittet den aktuellen Heartbeat-Status und setzt diesen danach auf _false_. Zuletzt wird eine neue Anfrage an den verbundenen Microcontroller / Middleware gesendet. Der Status des Heartbeat wird nur dann auf _true_ gesetzt, wenn eine entsprechende Rückmeldung kam und diese der zuvor definierten Antwort entspricht. 
+Deaktiviert wird der _QTimer_ über die _disconnect()_ Methode. 
+
+Die _Connection_-Klasse abstrahiert so viele Aufgaben wie möglich, sodass die Implementierungen lediglich folgende Methode zu implementieren haben. 
+
+* bool isConnected()
+* QByteArray read()
+* void writeImpl(const QString &eventName)
+* void connectImpl()
+* void disconnectImpl()
+* void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data)
+
+Bei den Implementierungen handelt es sich dabei um die spezifischen Anforderungen, die die einzelnen Verbindungsarten besitzen. Also wie eine Verbindung aufgebaut wird oder überprüft wird, ob noch verbunden ist. 
+Die _parseDebug()_-Methode stellt dem Debug Fenster des Frontends die nötigen Informationenen bereit. Da diese eventuell von der jeweiligen Implementierung einer Verbindung abhängig sind, existiert hierfür keine allgmeine Implementierung in der _Connection_-Klasse.
+Um verbindungsspezifische Konfigurationen in allgemeiner Weise zu halten, wurde hierfür auf die Datenstruktur _QVariantMap_ zurückgegriffen. Diese ist auch mit dem QML-Frontend kompatibel. Um die Korrektheit der gesetzten Felder dieser Map hat sich jede Implementierung der _Connection_ selbst zu kümmern. 
+Generell werden hierzu die entsprechenden Konfigurationspunkte als Konstanten definiert und dienen danach als _Key_ der Map. 
+
+Derzeit ist die Struktur der Verbindungsimplementierungen wie in Abb. <<qtrobo_backend_overview>> aufgebaut. Eine Besonderheit besitzt die Implementierung der seriellen Verbindung _SerialConnection_. Da der Nutzer im Frontend die Möglichkeit besitzt, von allen verfügbaren seriellen Schnittstellen des Rechners auszuwählen, wurde speziell in dieser Klasse eine zusätzliche Methode _serialInterfaces()_ angelegt. Diese gibt eine Liste an Schnittstellenbezeichnungen zurück. 
+
+==== Persistance
+Die Klasse realisiert das Speichern und Laden von Projekten. Dazu gehört auch das Überprüfen, Anlegen und Laden der Projektdatei. Zur Vereinheitlichung der Aufrufe für das Persistieren, existiert die abstrakte Unterklasse _Perstistable_. Diese ist von zu persistierenden Klassen zu implementieren. 
+Die erzeugte Struktur der Projektdatei ist in Bsp. <<qtrobo_json_structure>> dargestellt.
+
+.QtRobo Projektdatei Struktur
+[[qtrobo_json_structure, Bsp. {counter:listing}]]
+----
+{
+    'settings':{
+        'localsocket': {
+            'socketName': 'mySock.sock'
+        }
+    },
+    'layout':[
+        {
+            'tabName': 'Layout',
+            'tabIndex': 0,
+            'content': [
+                {
+                    'componentType': 2,
+                    'eventName': 'event',
+                    'x': 200,
+                    'y': 100,
+                    'width': 100,
+                    'height': 100,
+                    ...
+                }
+            ]
+        }
+    ]
+}
+----
+
+Die Projektdatei ist in zwei Bereiche unterteilt. _Settings_ und _Layout_. Im _Settings_-Bereich werden jegliche Informationen über die konfigurierten Verbindungen, inklusive 
+Heartbeat und Eventinformationen gespeichert. Im _Layout_-Bereich werden Informationen über die Widgets gespeichert (siehe Absch. <<sec_main_qml>>).
+
+Der Allgemeine Ablauf am Beispiel des Speicherns stellt sie wie in Abb. <<qtrobo_sequence_of_persisting>> zu sehen dar. 
+
+.Ablauf des Speicherns
+[plantuml, sequence_of_persisting, png]
+[[qtrobo_sequence_of_persisting, Abb. {counter:fig}]]
+....
+Frontend -> Persistance: persist()
+Persistance -> QtRobo: emit serializeConnection()
+QtRobo -> Connections: serialize()
+Connections --> Persistance: QJsonObject
+....
+
+==== MessageParser
+Der _MessageParser_ verarbeitet eingehende Nachrichten der aktiven Verbindung. Es werden Nachrichten nur an das Frontend weiter gereicht (siehe <<qtrobo_messageparser_diagram>>), wenn diese den korrekten Aufbau besitzen. Ungültige Zeichen werden je nach Zustand des Parsers entsprechend ignoriert. 
+Verfügbar in QML sind hierbei die Attribute _eventStart_, _eventValueDivider_ und _eventEnd_.
+
+.Parsen von Nachrichten
+[[qtrobo_messageparser_diagram, Abb. {counter:fig}]]
+[plantuml, message_parser_cycle, png]
+....
+[*] --> Start
+Start --> Event: start symbol
+Event --> Value: event value divider
+Event --> Start: end symbol,emit message
+Event --> Event: letter/number,append to message
+Value --> Start: end symbol,emit message
+Value --> Value: letter/number,append to message
+....
+
+==== JavaScriptParser
+Diese Klasse stellt dem Frontend die Methode _runScript(const QString &eventName, const QString &value, QString script) zum Interpretieren von JavaScript-Code zur Verfügung. 
+Zunächst wird das Script auf Korrektheit der Syntax überprüft. Bei korrekter Syntax werden zwei globale Objekte, für den _Eventnamen_ und den _Wert_, in der Script Engine gesetzt. 
+Diese sind im Script verfügbar, können ausgelesen und editiert werden. Nachdem das Script interpretiert wurde, werden die aktuellen Werte der beiden globalen Objekte ausgelesen und in einer _QVariantMap_ zurückgegeben. Das Frontend kann diese dann entsprechend weiter verarbeiten. 
