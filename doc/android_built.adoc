@@ -7,7 +7,7 @@ Hierzu muss zum einen der QT Online Installer für Open Source Zwecke herunterge
 * Qt Charts
 * Qt Script (deprecated)
 
-image::images/TODO
+image::qt_module_selection.png[width=400]
 
 Zum Qt Framework / Creator muss noch (zumindest ist dies die unkomplizierteste Variante) Android Studio installiert werden. Mit Android Studio installieren sich die benötigte Android SDK, Android Build Tools (Gradle etc.) und eine entsprechende Java Version. Diese Komponenten benötigt der QT Creator, um nachfolgend initial das Android Kit zu konfigurieren.
 
@@ -16,6 +16,6 @@ Nach der Installation von Android Studio kann nun im letzten Schritt Android als
 Die Konfiguration findet sich unter `Extras -> Geräte -> Android`.
 Im Normalfall sollte QtCreator in diesem Tab die Konfiguration automatisch anbieten. Es müssen nur die entsprechenden Lizenzvereinbarungen etc. angenommen werden. 
 
-image::images/TODO
+image::qt_creator_android_target.png[width=550]
 
 Danach kann Qt Robo als Projekt im QT Creator geöffnet werden und es sollte ein entsprechendes Target Kit für Android angeboten werden. 
