@@ -28,7 +28,6 @@ Dialog{
     spacing: 10
     ListView{
         id: list
-        //anchors.fill: parent
         Layout.fillWidth: true
         height: 200
         model: listModel
