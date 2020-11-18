@@ -26,7 +26,9 @@ Item{
         font.pointSize: 12
 
         property bool isPressed: false
-        onIsPressedChanged:{
+        onPressed:{
+//            onIsPressedChanged:{
+            isPressed = true
             var modifiedEvent = eventName
             var modifiedData = null
             if(outputScript){
@@ -75,7 +77,7 @@ Item{
 
         onTextChanged: GlobalDefinitions.projectEdited()
 
-        onPressed: isPressed = true
+//        onPressed: isPressed = true
         onReleased: isPressed = false
     }
 
