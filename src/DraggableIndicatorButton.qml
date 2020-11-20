@@ -17,6 +17,16 @@ Item{
     property bool initialValue: false
     property string shortcut
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.initialValue = origin.initialValue
+        root.shortcut = origin.shortcut
+    }
+
     onEdibleChanged: enabled = !edible
 
     Button{

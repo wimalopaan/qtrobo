@@ -24,6 +24,17 @@ Item{
     property bool edible: true
     property string outputScript
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.minimumValue = origin.minimumValue
+        root.maximumValue = origin.maximumValue
+
+    }
+
     onEdibleChanged: enabled = !edible
 
     GridLayout{

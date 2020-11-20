@@ -21,6 +21,17 @@ Rectangle{
     property int initialValue: 0
     property string outputScript: ""
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.minimumValue = origin.minimumValue
+        root.maximumValue = origin.maximumValue
+        root.initialValue = origin.initialValue
+    }
+
     onEdibleChanged: enabled = !edible
 
     ColumnLayout{

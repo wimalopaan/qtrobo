@@ -18,6 +18,17 @@ Item{
     property bool isFixed: false
     property string inputScript
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.numberOfValues = origin.numberOfValues
+        root.maxYAxis = origin.maxYAxis
+        root.isFixed = origin.isFixed
+    }
+
     onNumberOfValuesChanged: {
         while(series.count > numberOfValues)
             series.remove(0)

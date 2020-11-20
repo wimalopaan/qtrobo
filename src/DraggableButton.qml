@@ -81,6 +81,14 @@ Item{
         onReleased: isPressed = false
     }
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+    }
+
     DeleteComponentKnob{
         root: root
         enabled: root.edible

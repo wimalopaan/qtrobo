@@ -15,6 +15,15 @@ Rectangle{
     property bool edible: true
     property string initialValue: ""
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.initialValue = origin.initialValue
+    }
+
     onEdibleChanged: enabled = !edible
 
     GridLayout{

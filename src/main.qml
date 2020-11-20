@@ -16,6 +16,13 @@ ApplicationWindow {
     Material.accent: Material.Indigo
 
     property bool closingWindow: false
+    property var selectedWidget
+
+    onSelectedWidgetChanged: {
+        if(selectedWidget){
+            selectedWidget
+        }
+    }
 
     onClosing: {
         if(GlobalDefinitions.hasLayoutBeenEdited && !closingWindow){
@@ -60,6 +67,7 @@ ApplicationWindow {
             else if(pressedButtons & Qt.LeftButton && GlobalDefinitions.isEditMode){
                 var child = contentPane.currentItem.childAt(mouseX, mouseY)
                 if(child){
+                    selectedWidget = child
                     drag.target = child
                     drag.axis = Drag.XAndYAxis
                     drag.minimumX = dragPadding
@@ -67,6 +75,8 @@ ApplicationWindow {
                     drag.minimumY = dragPadding
                     drag.maximumY = contentPane.height - dragPadding - drag.target.height
                     GlobalDefinitions.projectEdited()
+                }else{
+                    selectedWidget = undefined
                 }
             }
         }
@@ -238,6 +248,18 @@ ApplicationWindow {
             }
 
             MenuItem{
+                text: selectedWidget ? (qsTr("Copy ") + GlobalDefinitions.getDisplayName(selectedWidget.componentType)) : qsTr("Copy")
+                enabled: GlobalDefinitions.isEditMode && selectedWidget !== undefined
+                onTriggered:{
+                    if(selectedWidget){
+                       var component = window.createComponent(selectedWidget.componentType, selectedWidget.x, selectedWidget.y);
+                       if(component)
+                           component.setConfig(selectedWidget);
+                       }
+                }
+            }
+
+            MenuItem{
                 text: qsTr("Tab Names")
                 enabled: GlobalDefinitions.isEditMode
                 onTriggered: {
@@ -357,10 +379,11 @@ ApplicationWindow {
                     Connections{
                         target: qtRobo.connection
                         function onHeartbeatTriggered() {
-                            if(heartbeatStatusLED)
-                                heartbeatLEDColorAnimation.start()
-                            else
-                                heartbeatStatusLED.color = "darkred"
+                            if(heartbeatStatus){
+                                heartbeatLEDColorAnimation.start();
+                            }else{
+                                heartbeatStatusLED.color = "darkred";
+                            }
 
                             setLayoutEnabled(heartbeatStatus)
                         }
@@ -408,6 +431,18 @@ ApplicationWindow {
             enabled: GlobalDefinitions.isEditMode
             onTriggered: GlobalDefinitions.isGridMode = !GlobalDefinitions.isGridMode
         }
+
+        MenuItem{
+            text: selectedWidget ? (qsTr("Copy ") + GlobalDefinitions.getDisplayName(selectedWidget.componentType)) : qsTr("Copy")
+            enabled: GlobalDefinitions.isEditMode && selectedWidget !== undefined
+            onTriggered:{
+                if(selectedWidget){
+                   var component = window.createComponent(selectedWidget.componentType, selectedWidget.x, selectedWidget.y);
+                   if(component)
+                       component.setConfig(selectedWidget);
+                   }
+            }
+        }
     }
 
     function createComponent(componentType, x, y){
@@ -417,14 +452,14 @@ ApplicationWindow {
             y = rootMouseArea.mouseY
 
         var componentFile = GlobalDefinitions.componentName[componentType]
-
+        var obj;
         if(componentFile){
             componentFile = componentFile.concat(".qml")
             var component = Qt.createComponent(componentFile)
-            component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y: y})
-
+            obj = component.createObject(contentPane.itemAt(contentPane.currentIndex),  {x: x, y: y})
             GlobalDefinitions.projectEdited()
         }
+        return obj;
     }
 
     function createTab(){

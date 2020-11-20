@@ -12,6 +12,12 @@ Item{
     property alias imageSource: image.source
     onEdibleChanged: enabled = !edible
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.imageSource = origin.imageSource
+    }
 
     Image{
         id: image

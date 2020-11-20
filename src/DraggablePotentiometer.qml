@@ -27,6 +27,21 @@ Item{
     property string decreaseShortcut
     property string increaseShortcut
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.minimumValue = origin.minimumValue
+        root.maximumValue = origin.maximumValue
+        root.mappedMinimumValue = origin.mappedMinimumValue
+        root.mappedMaximumValue = origin.mappedMaximumValue
+        root.initialValue = origin.initialValue
+        root.decreaseShortcut = origin.decreaseShortcut
+        root.increaseShortcut = origin.increaseShortcut
+    }
+
     onEdibleChanged: enabled = !edible
 
     Dial{

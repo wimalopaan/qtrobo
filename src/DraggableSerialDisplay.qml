@@ -16,6 +16,15 @@ Rectangle{
     property color componentColor: "lightgray"
     property color fontColor: "black"
     property bool edible: true
+
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+    }
+
     onEdibleChanged: enabled = !edible
 
     Label{

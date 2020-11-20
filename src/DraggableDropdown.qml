@@ -21,6 +21,20 @@ Rectangle {
     property string outputScript
     onEdibleChanged: enabled = !edible
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.model.clear()
+        for(var index = 0; index < origin.model.count; ++index){
+            root.model.append({"entry": origin.model.get(index).entry})
+        }
+
+        root.comboBox.currentIndex = 0
+    }
+
     ColumnLayout{
         anchors.fill: parent
         anchors.margins: 2

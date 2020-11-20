@@ -28,6 +28,22 @@ Item{
     property string decreaseShortcut
     property string increaseShortcut
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.componentColor = origin.componentColor
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+        root.minimumValue = origin.minimumValue
+        root.maximumValue = origin.maximumValue
+        root.mappedMinimumValue = origin.mappedMinimumValue
+        root.mappedMaximumValue = origin.mappedMaximumValue
+        root.initialValue = origin.initialValue
+        root.isBalanced = origin.isBalanced
+        root.decreaseShortcut = origin.decreasedShortcut
+        root.increaseShortcut = origin.increasedShortcut
+    }
+
     onIsBalancedChanged: {
         markedBackgroundLoader.sourceComponent =  isBalanced ? balancedMarkedBackground : normalMarkedBackground
         if(isBalanced)
