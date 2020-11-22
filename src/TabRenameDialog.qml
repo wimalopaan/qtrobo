@@ -66,7 +66,7 @@ Dialog{
         }
 
         TextField{
-            text: tabBar.eventName !== undefined ? tabBar.eventName : ""
+            text: tabBar !== undefined ? (tabBar.eventName !== undefined ? tabBar.eventName : "") : ""
             onTextChanged: {
                 GlobalDefinitions.projectEdited()
                 tabBar.eventName = text
