@@ -46,5 +46,7 @@
         <file>BluetoothConnectionConfig.qml</file>
         <file>DraggableButtonGroup.qml</file>
         <file>DraggableButtonGroupMenu.qml</file>
+        <file>DraggableWindrose.qml</file>
+        <file>DraggableWindroseMenu.qml</file>
     </qresource>
 </RCC>

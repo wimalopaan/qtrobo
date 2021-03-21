@@ -49,7 +49,7 @@ GridLayout{
             id: interfaceModel
         }
 
-        onCurrentIndexChanged: interfaceName = currentItem.value
+        onCurrentIndexChanged: if(currentItem) interfaceName = currentItem.value
     }
 
     Label{
