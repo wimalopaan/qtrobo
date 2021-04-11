@@ -57,18 +57,17 @@ void Persistance::persist(){
 
     documentObject.insert(Persistance::PERSISTANCE_SECTION_LAYOUT, mLayout);
     documentObject.insert(Persistance::PERSISTANCE_SECTION_SETTINGS, connections);
-    if(isFilenameValid()){
-        QFile layoutFile{mFilename.toLocalFile()};
-        layoutFile.open(QIODevice::ReadWrite | QIODevice::Truncate);
+    QFile layoutFile{mFilename.toLocalFile()};
+    layoutFile.open(QIODevice::ReadWrite | QIODevice::Truncate);
 
-        if(layoutFile.isOpen() && layoutFile.isWritable()){
-            QJsonDocument document{documentObject};
+    if(layoutFile.isOpen() && layoutFile.isWritable()){
+        QJsonDocument document{documentObject};
 
-            layoutFile.write(document.toJson());
-        }
-
-        layoutFile.close();
+        layoutFile.write(document.toJson());
     }
+
+    layoutFile.close();
+
 }
 
 

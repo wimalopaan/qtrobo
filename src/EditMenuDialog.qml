@@ -281,6 +281,8 @@ Dialog{
             return "DraggableTextInputMenu.qml"
         else if(component instanceof DraggableButtonGroup)
             return "DraggableButtonGroupMenu.qml"
+        else if(component instanceof DraggableWindrose)
+            return "DraggableWindroseMenu.qml"
         else
             return ""
     }

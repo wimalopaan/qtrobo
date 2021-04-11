@@ -586,7 +586,9 @@ ApplicationWindow {
                     inputScript: child.inputScript,
                     shortcut: child.shortcut,
                     decreaseShortcut: child.decreaseShortcut,
-                    increaseShortcut: child.increaseShortcut
+                    increaseShortcut: child.increaseShortcut,
+                    innerNeedleColor: child.innerNeedleColor,
+                    outerNeedleColor: child.outerNeedleColor
                 }
 
                 tab.content.push(widget)
@@ -684,6 +686,10 @@ ApplicationWindow {
                             componentObject.decreaseShortcut = widget.decreaseShortcut
                         if(widget.increaseShortcut)
                             componentObject.increaseShortcut = widget.increaseShortcut         
+                        if(widget.innerNeedleColor)
+                            componentObject.innerNeedleColor = Qt.rgba(widget.innerNeedleColor.r, widget.innerNeedleColor.g, widget.innerNeedleColor.b, widget.innerNeedleColor.a)
+                        if(widget.outerNeedleColor)
+                            componentObject.outerNeedleColor = Qt.rgba(widget.outerNeedleColor.r, widget.outerNeedleColor.g, widget.outerNeedleColor.b, widget.outerNeedleColor.a)
                     }
                 }
             }
@@ -691,7 +697,7 @@ ApplicationWindow {
     }
 
     function saveCurrentChanges(){
-        if(qtRobo.persistance.isFilenameValid){
+        if(qtRobo.persistance.isFilenameValid()){
             qtRobo.persistance.layout = window.layoutToArray()
             qtRobo.persistance.persist()
 

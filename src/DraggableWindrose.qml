@@ -16,9 +16,11 @@ Item{
     property alias enabled: layout.enabled
     property double innerNeedleValue: 0
     property double outerNeedleValue: 0
-    property var componentType: GlobalDefinitions.ComponentType.CircularGauge
+    property var componentType: GlobalDefinitions.ComponentType.Windrose
     property color fontColor: "black"
     property color componentColor: "black"
+    property color innerNeedleColor: "red"
+    property color outerNeedleColor: "orange"
     property bool edible: true
     property string outputScript
 
@@ -34,8 +36,10 @@ Item{
     }
 
     onInnerNeedleValueChanged: innerNeedleAnim.start()
-
     onOuterNeedleValueChanged: outerNeedleAnim.start()
+    onInnerNeedleColorChanged: innerNeedle.requestPaint()
+    onOuterNeedleColorChanged: outerNeedle.requestPaint()
+    onComponentColorChanged: background.requestPaint()
 
     onEdibleChanged: enabled = !edible
 
@@ -75,6 +79,7 @@ Item{
 
                     ctx.moveTo(x_middle + x_outer, y_middle + y_outer);
                     ctx.lineTo(x_middle + x_inner, y_middle + y_inner);
+                    ctx.strokeStyle = componentColor;
                     ctx.stroke();
                 }
             }
@@ -103,7 +108,7 @@ Item{
                     ctx.moveTo(x_middle + x_outer, y_middle + y_outer);
                     ctx.lineTo(x_middle + x_inner, y_middle + y_inner);
                     ctx.lineWidth = 5;
-                    ctx.strokeStyle = '#ff0000';
+                    ctx.strokeStyle = innerNeedleColor;
                     ctx.stroke();
                 }
 
@@ -147,7 +152,7 @@ Item{
                     ctx.moveTo(x_middle + x_outer, y_middle + y_outer);
                     ctx.lineTo(x_middle + x_inner, y_middle + y_inner);
                     ctx.lineWidth = 5;
-                    ctx.strokeStyle = '#ff9900';
+                    ctx.strokeStyle = outerNeedleColor;
                     ctx.stroke();
 
                 }
@@ -176,7 +181,6 @@ Item{
                     var innerNeedlePercentNum = parseInt(nums[2]);
 
                     if(!isNaN(innerNeedleNum) && !isNaN(outerNeedleNum) && !isNaN(innerNeedlePercentNum)){
-                        //var result = GlobalDefinitions.mapToValueRange(parsedValue, mappedMinimumValue, mappedMaximumValue, gauge.minimumValue, gauge.maximumValue)
                         innerNeedle.needlePos = innerNeedleNum;
                         outerNeedle.needlePos = outerNeedleNum;
                         innerNeedle.needleLengthPercent = Math.max(Math.min(innerNeedlePercentNum, 100), 0);
