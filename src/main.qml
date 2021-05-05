@@ -121,7 +121,7 @@ ApplicationWindow {
                     title: qsTr("Save Layout File")
                     sidebarVisible: false
                     selectExisting: false
-                    favoriteFolders: false
+//                    favoriteFolders: false
                     nameFilters: "Layout files (*.json)"
                     folder: shortcuts.home
 
