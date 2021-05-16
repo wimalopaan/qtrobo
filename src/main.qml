@@ -159,7 +159,7 @@ ApplicationWindow {
                     selectExisting: true
                     sidebarVisible: false
                     nameFilters: "Layout files (*.json)"
-                    folder: shortcuts.home
+                    folder: shortcuts.documents
                     onAccepted: {
                         clearTabBar()
                         qtRobo.persistance.filename = fileUrl
