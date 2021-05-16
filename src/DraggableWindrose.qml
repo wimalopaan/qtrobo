@@ -22,7 +22,6 @@ Item{
     property color innerNeedleColor: "red"
     property color outerNeedleColor: "orange"
     property bool edible: true
-    property string outputScript
 
     function setConfig(origin)
     {
@@ -184,13 +183,6 @@ Item{
                         innerNeedle.needlePos = innerNeedleNum;
                         outerNeedle.needlePos = outerNeedleNum;
                         innerNeedle.needleLengthPercent = Math.max(Math.min(innerNeedlePercentNum, 100), 0);
-                        /*if(outputScript){
-                            result = qtRobo.connection.javascriptParser.runScript(eventName, parsedValue, outputScript)
-                            if(result.value)
-                                parsedValue = result.value
-                        }
-                        gauge.value = parsedValue
-                        */
                     }
                 }
             }
