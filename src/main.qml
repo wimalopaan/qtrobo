@@ -123,7 +123,8 @@ ApplicationWindow {
                     sidebarVisible: false
                     selectExisting: false
                     favoriteFolders: false
-                    defaultSuffix: ".json"
+                    defaultSuffix: "json"
+//                    favoriteFolders: false
                     nameFilters: "Layout files (*.json)"
                     folder: shortcuts.documents
 
@@ -137,7 +138,6 @@ ApplicationWindow {
                             qtRobo.persistance.filename = fileUrl + ".json"
                         else
                             qtRobo.persistance.filename = fileUrl
-                        console.log("QML:" + fileUrl);
                         qtRobo.persistance.layout = window.layoutToArray()
                         qtRobo.persistance.persist()
                         GlobalDefinitions.projectPersisted()
