@@ -32,6 +32,7 @@ public:
     void language(const QLocale::Language &language);
     QLocale::Language language();
 
+
     QtRobo& operator=(const QtRobo &other) = delete;
     QtRobo& operator=(QtRobo &&other) = delete;
 

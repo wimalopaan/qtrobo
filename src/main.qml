@@ -116,14 +116,16 @@ ApplicationWindow {
                 text: qsTr("&Save As File")
                 onTriggered: layoutStoreDialog.open()
 
+
                 FileDialog{
                     id: layoutStoreDialog
                     title: qsTr("Save Layout File")
                     sidebarVisible: false
                     selectExisting: false
                     favoriteFolders: false
+                    defaultSuffix: ".json"
                     nameFilters: "Layout files (*.json)"
-                    folder: shortcuts.home
+                    folder: shortcuts.documents
 
                     onRejected: {
                         if(closingWindow)
@@ -135,7 +137,7 @@ ApplicationWindow {
                             qtRobo.persistance.filename = fileUrl + ".json"
                         else
                             qtRobo.persistance.filename = fileUrl
-
+                        console.log("QML:" + fileUrl);
                         qtRobo.persistance.layout = window.layoutToArray()
                         qtRobo.persistance.persist()
                         GlobalDefinitions.projectPersisted()

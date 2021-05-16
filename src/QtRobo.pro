@@ -25,7 +25,9 @@ SOURCES += \
     persistance.cpp \
     qtrobo.cpp \
     serialconnection.cpp \
-    messageparser.cpp
+    messageparser.cpp \
+    util.cpp \
+    util.cpp
 
 lupdate_only{
     SOURCES += *.qml
@@ -52,12 +54,22 @@ HEADERS += \
     persistance.h \
     qtrobo.h \
     serialconnection.h \
-    messageparser.h
+    messageparser.h \
+    util.h
 
 DISTFILES += \
     DraggableButtonMenu.qml \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
     todo.txt \
     placeholder_image.png
 
 TRANSLATIONS += i18n/de-DE.ts \
     i18n/en-EN.ts
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

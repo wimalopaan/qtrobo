@@ -1,3 +1,6 @@
+#include "qtrobo.h"
+#include "util.h"
+
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -6,7 +9,6 @@
 #include <QLocale>
 #include <QDebug>
 
-#include "qtrobo.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,9 +31,11 @@ int main(int argc, char *argv[])
     qRegisterMetaType<DebugInfoDirection::DebugInfoDirection>("DebugInfoDirection");
 
     QtRobo qtRobo;
+    Util util;
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
+    engine.rootContext()->setContextProperty("qrRoboUtil", &util);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
