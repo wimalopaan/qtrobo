@@ -45,11 +45,17 @@ GridLayout{
         currentIndex: 0
 
         property var currentItem: interfaceModel.get(currentIndex)
+
         model: ListModel{
             id: interfaceModel
         }
 
-        onCurrentIndexChanged: if(currentItem) interfaceName = currentItem.value
+        onCurrentIndexChanged: {
+            currentItem = interfaceModel.get(currentIndex);
+
+            if(currentItem)
+                interfaceName = currentItem.value
+        }
     }
 
     Label{
