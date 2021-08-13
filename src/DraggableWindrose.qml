@@ -111,24 +111,24 @@ Item{
                     ctx.stroke();
                 }
 
-                NumberAnimation {
-                    id: innerNeedleAnim
-                    target: innerNeedle
-                    property: "needlePos"
-                    from: innerNeedle.needlePos
-                    to: innerNeedleValue
-                    duration: 500
-                    easing.type: Easing.InOutQuad
-                }
+//                NumberAnimation {
+//                    id: innerNeedleAnim
+//                    target: innerNeedle
+//                    property: "needlePos"
+//                    from: innerNeedle.needlePos
+//                    to: innerNeedleValue
+//                    duration: 50
+//                    easing.type: Easing.InOutQuad
+//                }
 
-                NumberAnimation {
-                    id: needleLengthAnim
-                    target: innerNeedle
-                    property: "needleLengthPercent"
-                    duration: 2000
-                    to: 100
-                    easing.type: Easing.InOutQuad
-                }
+//                NumberAnimation {
+//                    id: needleLengthAnim
+//                    target: innerNeedle
+//                    property: "needleLengthPercent"
+//                    duration: 50
+//                    to: 100
+//                    easing.type: Easing.InOutQuad
+//                }
             }
             Canvas{
                 id: outerNeedle
@@ -157,16 +157,15 @@ Item{
                 }
             }
 
-
-            NumberAnimation {
-                id: outerNeedleAnim
-                target: outerNeedle
-                property: "needlePos"
-                from: outerNeedle.needlePos
-                to: outerNeedleValue
-                duration: 500
-                easing.type: Easing.InOutQuad
-            }
+//            NumberAnimation {
+//                id: outerNeedleAnim
+//                target: outerNeedle
+//                property: "needlePos"
+//                from: outerNeedle.needlePos
+//                to: outerNeedleValue
+//                duration: 50
+//                easing.type: Easing.InOutQuad
+//            }
         }
 
         Connections{
