@@ -98,7 +98,7 @@ Item{
                     const x_middle = width/2;
                     const y_middle = height/2;
                     ctx.moveTo(x_middle, y_middle);
-                    var pos = (2 * Math.PI) * needlePos / 12;
+                    var pos = (2 * Math.PI) * needlePos / 1024 - Math.PI / 2;
                     var x_outer = (x_middle - marker_start) * Math.cos(pos);
                     var y_outer = (y_middle - marker_start) * Math.sin(pos);
                     var x_inner = (x_middle - marker_start - ((x_middle - marker_start) / 100 * needleLengthPercent)) * Math.cos(pos);
@@ -142,7 +142,7 @@ Item{
                     const x_middle = width/2;
                     const y_middle = height/2;
                     ctx.moveTo(x_middle, y_middle);
-                    var pos = (2 * Math.PI) * needlePos / 12;
+                    var pos = (2 * Math.PI) * needlePos / 1024 - Math.PI / 2;
                     var x_outer = x_middle * Math.cos(pos);
                     var y_outer = y_middle * Math.sin(pos);
                     var x_inner = (x_middle - marker_width) * Math.cos(pos);
@@ -182,7 +182,7 @@ Item{
                     if(!isNaN(innerNeedleNum) && !isNaN(outerNeedleNum) && !isNaN(innerNeedlePercentNum)){
                         innerNeedle.needlePos = innerNeedleNum;
                         outerNeedle.needlePos = outerNeedleNum;
-                        innerNeedle.needleLengthPercent = Math.max(Math.min(innerNeedlePercentNum, 100), 0);
+                        innerNeedle.needleLengthPercent = Math.max(Math.min(innerNeedlePercentNum, 1024), 0) / 10.24;
                     }
                 }
             }
