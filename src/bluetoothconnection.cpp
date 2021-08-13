@@ -17,7 +17,7 @@ BluetoothConnection::BluetoothConnection(QObject *parent)
 }
 
 QByteArray BluetoothConnection::read(){
-    parseDebug(DebugInfoDirection::DebugInfoDirection::In, QString{"Test"}.toLocal8Bit());
+//    parseDebug(DebugInfoDirection::DebugInfoDirection::In, QString{"Test"}.toLocal8Bit());
     return mSocket.readAll();
 }
 
