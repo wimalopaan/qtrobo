@@ -31,10 +31,11 @@ void Persistance::filename(const QUrl& filename){
 }
 
 void Persistance::restore(){
+    qDebug() << "R: " << mFilename << mFilename.fileName();
 
     auto layoutFile = [&]()->QFile{
         if(Util::isMobileDevice()){
-            const QString androidFilePath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), mFilename.fileName().split(":").last());
+            const QString androidFilePath = QString("%1/%2%3").arg(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), mFilename.fileName().split(":").last(), ".json");
             return QFile{androidFilePath};
         }else{
             return QFile{mFilename.toLocalFile()};
@@ -43,7 +44,10 @@ void Persistance::restore(){
 
     layoutFile.open(QIODevice::ReadOnly);
 
+    qDebug() << "Android Path(" << layoutFile.isWritable() << "):" << layoutFile.fileName();
+
     if(layoutFile.isOpen() && layoutFile.isReadable()){
+        qDebug() << "Is open";
         QJsonObject rootObject =  QJsonDocument::fromJson(layoutFile.readAll()).object();
 
         auto layoutObject = rootObject.find(Persistance::PERSISTANCE_SECTION_LAYOUT).value();
@@ -62,6 +66,9 @@ void Persistance::restore(){
 
 void Persistance::persist(){
 
+    qDebug() << "R: " << mFilename << mFilename.fileName();
+
+
     QJsonObject documentObject;
     QJsonObject connections;
 
@@ -73,7 +80,7 @@ void Persistance::persist(){
 
     auto layoutFile = [&]()->QFile{
         if(Util::isMobileDevice()){
-            const QString androidFilePath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation), mFilename.fileName().split(":").last());
+            const QString androidFilePath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), mFilename.fileName().split(":").last());
             return QFile{androidFilePath};
         }else{
             return QFile{mFilename.toLocalFile()};
