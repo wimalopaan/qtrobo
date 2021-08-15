@@ -100,7 +100,7 @@ Item{
             if(eventName && root.eventName === eventName){
                 var parsedValue = parseInt(data)
                 if(!isNaN(parsedValue)){
-                    if(outputScript){
+                    if(inputScript){
                         var result = qtRobo.connection.javascriptParser.runScript(eventName, parsedValue, outputScript)
                         if(result.value)
                             parsedValue = result.value

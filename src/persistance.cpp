@@ -35,6 +35,7 @@ void Persistance::restore(){
 
     auto layoutFile = [&]()->QFile{
         if(Util::isMobileDevice()){
+            Util::checkAndRequestPermission();
             const QString androidFilePath = QString("%1/%2%3").arg(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), mFilename.fileName().split(":").last(), ".json");
             return QFile{androidFilePath};
         }else{
@@ -80,6 +81,7 @@ void Persistance::persist(){
 
     auto layoutFile = [&]()->QFile{
         if(Util::isMobileDevice()){
+            Util::checkAndRequestPermission();
             const QString androidFilePath = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation), mFilename.fileName().split(":").last());
             return QFile{androidFilePath};
         }else{
