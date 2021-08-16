@@ -4,6 +4,7 @@
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
+#include <QtAndroidExtras>
 #endif
 
 class Util: public QObject{
@@ -17,11 +18,21 @@ public:
 #endif
 }
 
-    static bool checkAndRequestPermission(){
-        const auto permissionDenied = QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied ||
-                QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied ;
-        if(permissionDenied){
-            QtAndroid::requestPermissionsSync(QStringList() << "android.permission.WRITE_EXTERNAL_STORAGE" << "android.permission.READ_EXTERNAL_STORAGE");
+    static void checkAndRequestPermission(){
+        const auto writePermissionDenied = QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied;
+        const auto readPermissionDenied = QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied ;
+        auto permissionList = QStringList{};
+
+        if(writePermissionDenied){
+            permissionList << "android.permission.WRITE_EXTERNAL_STORAGE";
+        }
+
+        if(readPermissionDenied){
+            permissionList << "android.permission.READ_EXTERNAL_STORAGE";
+        }
+
+        if(!permissionList.isEmpty()){
+            QtAndroid::requestPermissionsSync(permissionList);
         }
     }
 };
