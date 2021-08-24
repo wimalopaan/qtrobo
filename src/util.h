@@ -19,6 +19,7 @@ public:
 }
 
     static void checkAndRequestPermission(){
+#ifdef Q_OS_ANDROID
         const auto writePermissionDenied = QtAndroid::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied;
         const auto readPermissionDenied = QtAndroid::checkPermission("android.permission.READ_EXTERNAL_STORAGE") == QtAndroid::PermissionResult::Denied ;
         auto permissionList = QStringList{};
@@ -34,5 +35,6 @@ public:
         if(!permissionList.isEmpty()){
             QtAndroid::requestPermissionsSync(permissionList);
         }
+#endif
     }
 };
