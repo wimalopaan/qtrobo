@@ -58,14 +58,19 @@ HEADERS += \
     util.h
 
 DISTFILES += \
+    ../../../../Downloads/FNM9MXQIJUCPKBD.jar \
     DraggableButtonMenu.qml \
     android/AndroidManifest.xml \
     android/build.gradle \
+    android/gradle.properties \
     android/gradle/wrapper/gradle-wrapper.jar \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew \
     android/gradlew.bat \
+    android/libs/physicaloidlibrary.jar \
     android/res/values/libs.xml \
+    android/settings.gradle \
+    android/src/SerialConnector.java \
     todo.txt \
     placeholder_image.png
 

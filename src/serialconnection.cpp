@@ -5,6 +5,8 @@
 #include <QJsonObject>
 #include <QDebug>
 #include <algorithm>
+#include <QtAndroidExtras>
+
 
 
 SerialConnection::SerialConnection(QObject *parent)
@@ -42,6 +44,15 @@ void SerialConnection::connectImpl(){
         if(isConnected()){
             mSerialPort.close();
         }
+
+
+
+      QAndroidJniObject o = QAndroidJniObject("SerialConnector");
+      o.setField<jobject>("context",QtAndroid::androidContext().object());
+      o.callObjectMethod<jstring>("setBaudrate");
+
+
+
 
         mSerialPort.setBaudRate(static_cast<QSerialPort::BaudRate>(mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt()));
         mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
