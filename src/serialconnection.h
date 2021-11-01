@@ -7,6 +7,8 @@
 #include <QByteArray>
 #include <QVariantList>
 #include <QTimer>
+#include <QtAndroidExtras>
+
 
 #include "connection.h"
 #include "messageparser.h"
@@ -24,6 +26,7 @@ public:
     bool isConnected() const override;
 
     QByteArray read() override;
+    QThread workerThread;
 
     void writeImpl(const QString &eventName) override;
 
@@ -38,11 +41,14 @@ public:
     void deserialize(const QJsonObject &data) override;
 
 signals:
+    void startListening();
 
 public slots:
 
 private:
     QSerialPort mSerialPort;
+    QAndroidJniObject mSerialConnectionMobile;
+
 
     static const QSerialPort::BaudRate DEFAULT_BAUDRATE = QSerialPort::BaudRate::Baud9600;
     static const QSerialPort::StopBits DEFAULT_STOPBITS = QSerialPort::StopBits::OneStop;

@@ -6,6 +6,10 @@
 #include <QDebug>
 #include <algorithm>
 #include <QtAndroidExtras>
+#include "util.h"
+#include "mobiledata.h"
+
+
 
 
 
@@ -15,8 +19,20 @@ SerialConnection::SerialConnection(QObject *parent)
     mPreferences[SerialConnection::PREFERENCE_BAUDRATE] = static_cast<int>(SerialConnection::DEFAULT_BAUDRATE);
     mPreferences[SerialConnection::PREFERENCE_STOPBIT] = static_cast<int>(SerialConnection::DEFAULT_STOPBITS);
     mPreferences[SerialConnection::PREFERENCE_PARITYBIT] = static_cast<int>(SerialConnection::DEFAULT_PARITYBITS);
+    mSerialConnectionMobile = QAndroidJniObject("SerialConnector");
+    mSerialConnectionMobile.setField<jobject>("context",QtAndroid::androidContext().object());
+    mSerialConnectionMobile.callMethod<jboolean>("initializeConnection");
+
+    MobileData *data = new MobileData(workerThread,mSerialConnectionMobile);
+    data->moveToThread(&workerThread);
+    QObject::connect(this, &SerialConnection::startListening, data, &MobileData::checkDataBuffer);
+    QObject::connect(data, &MobileData::dataToRead, this, &SerialConnection::onReadyRead);
+
+    workerThread.start();
+
 
     QObject::connect(&mSerialPort, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+    emit(startListening());
 }
 
 SerialConnection::SerialConnection(const SerialConnection &other)
@@ -27,8 +43,19 @@ SerialConnection::SerialConnection(SerialConnection &&other)
     : SerialConnection(other.parent())
 {}
 
+
+
 bool SerialConnection::isConnected() const{
-    return mSerialPort.isOpen();
+
+    if (Util::isMobileDevice()){
+        jboolean j = mSerialConnectionMobile.callMethod<jboolean>("isConnected");
+        return j == JNI_TRUE;
+
+    }else{
+      return mSerialPort.isOpen();
+    }
+
+
 }
 
 void SerialConnection::writeImpl(const QString &eventName){
@@ -41,29 +68,33 @@ void SerialConnection::writeImpl(const QString &eventName){
 
 void SerialConnection::connectImpl(){
 
-        if(isConnected()){
-            mSerialPort.close();
+
+        if (Util::isMobileDevice()){
+
+            mSerialConnectionMobile.setField<jint>("baudrate",static_cast<QSerialPort::BaudRate>(mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt()));
+            mSerialConnectionMobile.setField<jint>("stopbits",static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
+            mSerialConnectionMobile.setField<jint>("parity",static_cast<QSerialPort::Parity>(mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt()));
+
+            mSerialConnectionMobile.callObjectMethod<jstring>("requestPermissionAndConnect");
+
+
+        }else{
+            if(isConnected()){
+                mSerialPort.close();
+            }
+
+            mSerialPort.setBaudRate(static_cast<QSerialPort::BaudRate>(mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt()));
+            mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
+            mSerialPort.setParity(static_cast<QSerialPort::Parity>(mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt()));
+            mSerialPort.setPortName(mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME].toString());
+
+            qDebug() << "Parity:" << mSerialPort.parity() << "\nBaudrate:" << mSerialPort.baudRate() << "\nStopbits:" << mSerialPort.stopBits() << "\nName:" << mSerialPort.portName();
+            mSerialPort.open(QIODevice::ReadWrite);
+
+            if(mSerialPort.isOpen() && mHeartbeatEnabled)
+                mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
+
         }
-
-
-
-      QAndroidJniObject o = QAndroidJniObject("SerialConnector");
-      o.setField<jobject>("context",QtAndroid::androidContext().object());
-      o.callObjectMethod<jstring>("setBaudrate");
-
-
-
-
-        mSerialPort.setBaudRate(static_cast<QSerialPort::BaudRate>(mPreferences[SerialConnection::PREFERENCE_BAUDRATE].toInt()));
-        mSerialPort.setStopBits(static_cast<QSerialPort::StopBits>(mPreferences[SerialConnection::PREFERENCE_STOPBIT].toInt()));
-        mSerialPort.setParity(static_cast<QSerialPort::Parity>(mPreferences[SerialConnection::PREFERENCE_PARITYBIT].toInt()));
-        mSerialPort.setPortName(mPreferences[SerialConnection::PREFERENCE_INTERFACE_NAME].toString());
-
-        qDebug() << "Parity:" << mSerialPort.parity() << "\nBaudrate:" << mSerialPort.baudRate() << "\nStopbits:" << mSerialPort.stopBits() << "\nName:" << mSerialPort.portName();
-        mSerialPort.open(QIODevice::ReadWrite);
-
-        if(mSerialPort.isOpen() && mHeartbeatEnabled)
-            mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
 }
 
 void SerialConnection::disconnectImpl(){
@@ -77,13 +108,33 @@ QStringList SerialConnection::serialInterfaces(){
 
     for(auto info : serialPortInfo.availablePorts()){
         portNames << info.portName();
+
+    }
+    if(Util::isMobileDevice()){
+        portNames << "USB OTG";
     }
 
     return portNames;
 }
 
 QByteArray SerialConnection::read(){
-    return mSerialPort.readAll();
+
+    if (Util::isMobileDevice()){
+
+        QAndroidJniObject o = mSerialConnectionMobile.callObjectMethod<jbyteArray>("read");
+        jbyteArray a = o.object<jbyteArray>();
+        QAndroidJniEnvironment env;
+        QByteArray resultArray;
+        jsize len = env->GetArrayLength(a);
+        resultArray.resize(len);
+        env->GetByteArrayRegion(a, 0, len, reinterpret_cast<jbyte*>(resultArray.data()));
+        return resultArray;
+
+    }else{
+        return mSerialPort.readAll();
+    }
+
+
 }
 
 void SerialConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){

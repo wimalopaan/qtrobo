@@ -87,6 +87,7 @@ void Connection::onReadyRead(){
     }
 }
 
+
 void Connection::onParsedDataReady(const MessageParser::Event &event){
     if(mHeartbeatEnabled && event.eventName.contains(mHeartbeatResponse)){
         mHeartbeatStatus = true;

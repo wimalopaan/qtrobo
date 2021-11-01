@@ -22,6 +22,7 @@ SOURCES += \
     javascriptparser.cpp \
     localsocketconnection.cpp \
         main.cpp \
+    mobiledata.cpp \
     persistance.cpp \
     qtrobo.cpp \
     serialconnection.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     connection.h \
     javascriptparser.h \
     localsocketconnection.h \
+    mobiledata.h \
     persistance.h \
     qtrobo.h \
     serialconnection.h \
