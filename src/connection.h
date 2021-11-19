@@ -64,6 +64,7 @@ public:
     virtual bool isConnected() const = 0;
     virtual QByteArray read() = 0;
 
+
     Q_INVOKABLE void write(const QString &eventName);
     Q_INVOKABLE void write(const QString &eventName, const QVariant &data);
 
@@ -99,12 +100,12 @@ protected:
     JavaScriptParser mJavaScriptParser;
 
     QTimer mHeartbeat;
+    bool mHeartbeatEnabled;
     QVariantMap mPreferences;
     uint mHeartbeatTimeout;
     bool mHeartbeatStatus;
     QString mHeartbeatRequest;
     QString mHeartbeatResponse;
-    bool mHeartbeatEnabled;
     QString mDebug;
 
     virtual void writeImpl(const QString &eventName) = 0;

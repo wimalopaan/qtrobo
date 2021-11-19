@@ -22,6 +22,7 @@ SOURCES += \
     javascriptparser.cpp \
     localsocketconnection.cpp \
         main.cpp \
+    mobileconnection.cpp \
     mobiledata.cpp \
     persistance.cpp \
     qtrobo.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     connection.h \
     javascriptparser.h \
     localsocketconnection.h \
+    mobileconnection.h \
     mobiledata.h \
     persistance.h \
     qtrobo.h \
@@ -72,7 +74,12 @@ DISTFILES += \
     android/libs/physicaloidlibrary.jar \
     android/res/values/libs.xml \
     android/settings.gradle \
+    android/src/Connected.java \
+    android/src/Data.java \
+    android/src/Receiver.java \
+    android/src/Sender.java \
     android/src/SerialConnector.java \
+    android/src/UsbBroadcastReceiver.java \
     todo.txt \
     placeholder_image.png
 

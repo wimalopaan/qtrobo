@@ -4,57 +4,55 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import java.util.ArrayList;
+import java.io.*;
+import java.lang.*;
+
+
 import com.physicaloid.lib.usb.driver.uart.ReadLisener;
-
-
 
 
 
 public class SerialConnector {
 
-    Physicaloid mPhysicaloid;
-    Object context;
-    UsbManager usbManager;
-    PendingIntent permissionIntent;
-    ArrayList<byte[]> dataBuffer;
+
+    public Object context;
+
+    private Physicaloid mPhysicaloid;
+    private UsbManager usbManager;
+    private PendingIntent permissionIntent;
+    private Data data;
+    private Sender sender;
+    private Receiver receiver;
+    private int baudrate;
+    private int stopbits;
+    private int parity;
+    private Connected firstConnected;
 
 
-    int baudrate;
-    int stopbits;
-    int parity;
 
-    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
-    private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
-
-            public void onReceive(Context context, Intent intent) {
-
-                for (final UsbDevice usbDevice : usbManager.getDeviceList().values()) {
-                    if (usbManager.hasPermission(usbDevice)) {
-                        connect();
-                    } else {
-                        usbManager.requestPermission(usbDevice, permissionIntent);
-                    }
-               }
-
-              }
-        };
-
-
-    public boolean initializeConnection(){
-       mPhysicaloid = new Physicaloid((Context) context);
-       usbManager = (UsbManager) (((Context)this.context).getSystemService("usb"));
-       permissionIntent = PendingIntent.getBroadcast((Context)this.context, 0, new Intent("com.android.example.USB_PERMISSION"), 0);
-       IntentFilter filter = new IntentFilter("com.android.example.USB_PERMISSION");
-       ((Context)context).registerReceiver(usbReceiver, filter);
-       dataBuffer = new ArrayList<byte[]>();
-       return true;
+    public SerialConnector(){
+        this.data = new Data(new ArrayList<byte[]>());
+        this.sender = new Sender(data);
+        this.receiver = new Receiver(data);
+        this.firstConnected = new Connected();
     }
 
 
-    public String requestPermissionAndConnect(){
+
+
+    public void initializeConnection(){
+       mPhysicaloid = new Physicaloid((Context) context);
+       usbManager = (UsbManager) (((Context)this.context).getSystemService("usb"));
+       permissionIntent = PendingIntent.getBroadcast((Context)this.context, 0, new Intent("com.android.example.USB_PERMISSION"), 0);
+       UsbBroadcastReceiver br = new UsbBroadcastReceiver(this);
+       IntentFilter filter = new IntentFilter("com.android.example.USB_PERMISSION");
+       ((Context)context).registerReceiver(br, filter);
+    }
+
+
+    public void requestPermissionAndConnect(){
         for (final UsbDevice usbDevice : usbManager.getDeviceList().values()) {
             if (usbManager.hasPermission(usbDevice)) {
                 connect();
@@ -62,12 +60,9 @@ public class SerialConnector {
                 usbManager.requestPermission(usbDevice, permissionIntent);
             }
        }
-       return "Success";
-
-
     }
 
-    private void connect(){
+    public void connect(){
         mPhysicaloid.open();
         mPhysicaloid.setBaudrate(baudrate);
         mPhysicaloid.setParity(parity);
@@ -77,24 +72,53 @@ public class SerialConnector {
           public void onRead(int size) {
              byte[] buf = new byte[size];
              mPhysicaloid.read(buf, size);
-             dataBuffer.add(buf);
+             sender.addData(buf);
           }
        });
     }
 
-    public byte[] read(){
-        byte[] result = dataBuffer.get(0);
-        dataBuffer.remove(0);
-        return result;
+    public void setBaudrate(int baudrate){
+        this.baudrate = baudrate;
+    }
+
+    public void setParity(int parity){
+        this.parity = parity;
+    }
+
+    public void setStopbits(int stopbits){
+        this.stopbits= stopbits;
     }
 
     public boolean readyRead(){
-        return !dataBuffer.isEmpty();
+        boolean ready = receiver.readyRead();
+        return ready;
     }
+
+    public byte[] read(){
+        return data.readData();
+    }
+
+
+    public void sendData(byte[] data){
+        mPhysicaloid.write(data,data.length);
+    }
+
 
     public boolean isConnected(){
         return mPhysicaloid.isOpened();
-
     }
 
+    public boolean hasConnected(){
+        return firstConnected.hasConnected();
+    }
+
+    public Connected getFirstConnected(){
+        return this.firstConnected;
+    }
+
+    public void disconnect(){
+        mPhysicaloid.close();
+    }
 }
+
+

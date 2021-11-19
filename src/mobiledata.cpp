@@ -1,17 +1,26 @@
+#ifdef Q_OS_ANDROID
+
 #include "mobiledata.h"
 #include "QtDebug"
+#include "messageparser.h"
 
-MobileData::MobileData(QThread &thread,QAndroidJniObject &serialData):thread{thread},serialData{serialData}
+
+MobileData::MobileData(MessageParser& mParser,QAndroidJniObject& mSerialConnectionMobile):mParser{mParser},mSerialConnectionMobile{mSerialConnectionMobile}
 {
 }
 
-
-void MobileData::checkDataBuffer(){
+void MobileData ::run(){
     while(true){
-       if (serialData.callMethod<jboolean>("readyRead")== JNI_TRUE){
-           emit dataToRead();
-       }
-       thread.msleep(10);
+        readyRead();
     }
-
 }
+
+
+void MobileData::readyRead(){
+        qDebug() << "called";
+        mSerialConnectionMobile.callMethod<jboolean>("readyRead");
+        emit dataToRead();
+}
+
+#endif
+

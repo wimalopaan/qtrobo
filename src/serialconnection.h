@@ -7,8 +7,10 @@
 #include <QByteArray>
 #include <QVariantList>
 #include <QTimer>
-#include <QtAndroidExtras>
 
+#ifdef Q_OS_ANDROID
+    #include <QtAndroidExtras>
+#endif
 
 #include "connection.h"
 #include "messageparser.h"
@@ -26,12 +28,14 @@ public:
     bool isConnected() const override;
 
     QByteArray read() override;
-    QThread workerThread;
 
     void writeImpl(const QString &eventName) override;
 
+    void startHeartbeat();
+
     void connectImpl() override;
     void disconnectImpl() override;
+    void writeDataMobile(const int arrayLength, const char* dataBytes);
 
     void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data) override;
 
@@ -47,7 +51,9 @@ public slots:
 
 private:
     QSerialPort mSerialPort;
+#ifdef Q_OS_ANDROID
     QAndroidJniObject mSerialConnectionMobile;
+#endif
 
 
     static const QSerialPort::BaudRate DEFAULT_BAUDRATE = QSerialPort::BaudRate::Baud9600;

@@ -1,5 +1,7 @@
 #include "connection.h"
 #include <algorithm>
+#include <QFile>
+#include <QTextStream>
 
 Connection::Connection(QObject *parent)
     : QObject(parent),
@@ -63,10 +65,12 @@ JavaScriptParser* Connection::javascriptParser(){
 }
 
 void Connection::connect(){
+
+    connectImpl();
+
     if(isConnected() && mHeartbeatEnabled)
         mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
 
-    connectImpl();
     emit connectionStateChanged(isConnected());
 }
 

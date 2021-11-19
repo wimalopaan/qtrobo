@@ -1,25 +1,32 @@
+#ifdef Q_OS_ANDROID
 #pragma once
 #include <QObject>
 #include <QThread>
 #include <QtAndroidExtras>
+#include "messageparser.h"
+#include "connection.h"
 
 
 
-class MobileData : public QObject
+
+class MobileData :  public QThread
 {
     Q_OBJECT
+
 public:
-    QThread &thread;
-    QAndroidJniObject serialData;
+    MessageParser& mParser;
+    QAndroidJniObject& mSerialConnectionMobile;
 
-    MobileData(QThread &thread, QAndroidJniObject &serialData);
+    MobileData(MessageParser& mParser, QAndroidJniObject& mSerialConnectionMobile);
 
-public slots:
-   void checkDataBuffer();
+    void run();
+    void readyRead();
+
+    signals:
+        void dataToRead();
 
 
-signals:
-    void dataToRead();
 };
 
+#endif
 
