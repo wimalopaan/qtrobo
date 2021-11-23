@@ -1,10 +1,12 @@
-#ifdef Q_OS_ANDROID
 #pragma once
 #include <QObject>
 #include <QThread>
-#include <QtAndroidExtras>
 #include "messageparser.h"
 #include "connection.h"
+
+#ifdef Q_OS_ANDROID
+    #include <QtAndroidExtras>
+#endif
 
 
 
@@ -15,9 +17,11 @@ class MobileData :  public QThread
 
 public:
     MessageParser& mParser;
+#ifdef Q_OS_ANDROID
     QAndroidJniObject& mSerialConnectionMobile;
 
     MobileData(MessageParser& mParser, QAndroidJniObject& mSerialConnectionMobile);
+#endif
 
     void run();
     void readyRead();
@@ -28,5 +32,5 @@ public:
 
 };
 
-#endif
+
 
