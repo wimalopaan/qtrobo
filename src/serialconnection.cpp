@@ -38,6 +38,9 @@ SerialConnection::SerialConnection(QObject *parent)
         connection->start();
         data->start();
         QObject::connect(data,&MobileData::dataToRead, this, &SerialConnection::onReadyRead);
+        QObject::connect(this,&SerialConnection::connectedFromJava, this, &SerialConnection::startHeartbeat);
+
+
 #endif
 
     }
@@ -133,6 +136,11 @@ void SerialConnection::connectImpl(){
 
 void SerialConnection::startHeartbeat(){
     if (mHeartbeatEnabled){
+        QFile file("/storage/emulated/0/heartbeat.txt");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out << "I am in startHeartbeat";
+        file.close();
         mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
     }
 }

@@ -46,6 +46,7 @@ public:
 
 signals:
     void startListening();
+    void connectedFromJava();
 
 public slots:
 

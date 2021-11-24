@@ -10,7 +10,7 @@ void MobileConnection::run(){
 #ifdef Q_OS_ANDROID
     while (true) {
         mSerialConnectionMobile.callMethod<jboolean>("hasConnected");
-        mSerialConnection.startHeartbeat();
+        emit mSerialConnection.connectedFromJava();
         emit mSerialConnection.connectionStateChanged(mSerialConnection.isConnected());
         break;
     }
