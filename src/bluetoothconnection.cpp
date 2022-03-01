@@ -1,4 +1,9 @@
 #include "bluetoothconnection.h"
+#include "debugmessagelist.h"
+
+
+extern DebugMessageList debugMessageList;
+
 
 BluetoothConnection::BluetoothConnection(QObject *parent)
     :
@@ -17,7 +22,7 @@ BluetoothConnection::BluetoothConnection(QObject *parent)
 }
 
 QByteArray BluetoothConnection::read(){
-//    parseDebug(DebugInfoDirection::DebugInfoDirection::In, QString{"Test"}.toLocal8Bit());
+    parseDebug(DebugInfoDirection::DebugInfoDirection::In, QString{""}.toLocal8Bit());
     return mSocket.readAll();
 }
 
@@ -31,7 +36,7 @@ void BluetoothConnection::writeImpl(const QString &eventName){
 }
 
 void BluetoothConnection::connectImpl(){
-    mServiceDiscoveryAgent.stop();
+    //mServiceDiscoveryAgent.stop();
     emit isDiscoveringChanged(isDiscovering());
     if(mActiveServiceIndex < mServices.length())
         mSocket.connectToService(mServices.at(mActiveServiceIndex));
@@ -48,23 +53,31 @@ bool BluetoothConnection::isConnected() const{
 void BluetoothConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
     QString result;
 
-    for(char byte : data){
-        switch(byte){
-            case '\n':
-                result.append("\\n");
-                break;
-            case '\r':
-                result.append("\\r");
-                break;
-            case '\0':
-                result.append("\\0");
-                break;
-            default:
-                result.append(byte);
+//    for(char byte : data){
+//        switch(byte){
+//            case '\n':
+//                result.append("\\n");
+//                break;
+//            case '\r':
+//                result.append("\\r");
+//                break;
+//            case '\0':
+//                result.append("\\0");
+//                break;
+//            default:
+//                result.append(byte);
+//        }
+//    }
+
+
+    for (char byte: data){
+        mDebug.append(byte);
+        if (byte == '\n'){
+           debugMessageList.appendItem(mDebug);
+           mDebug = "";
         }
     }
 
-    emit debugChanged(direction, result);
 }
 
 QJsonObject BluetoothConnection::serialize(){
@@ -109,6 +122,7 @@ void BluetoothConnection::addEntry(){
     info.setDevice(devInfo);
     mServices.append(info);
     emit servicesChanged(mServices);
+
 }
 
 bool BluetoothConnection::isDiscovering() const{

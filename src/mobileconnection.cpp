@@ -12,7 +12,7 @@ void MobileConnection::run(){
         mSerialConnectionMobile.callMethod<jboolean>("hasConnected");
         emit mSerialConnection.connectedFromJava();
         emit mSerialConnection.connectionStateChanged(mSerialConnection.isConnected());
-        break;
+        mSerialConnectionMobile.callMethod<jboolean>("hasDisconnected");
     }
 #endif
 }

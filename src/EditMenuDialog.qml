@@ -283,6 +283,8 @@ Dialog{
             return "DraggableButtonGroupMenu.qml"
         else if(component instanceof DraggableWindrose)
             return "DraggableWindroseMenu.qml"
+        else if(component instanceof DraggableSpeedbar || component instanceof DraggableCircularSpeedbar)
+            return "DraggableSpeedbarMenu.qml"
         else
             return ""
     }

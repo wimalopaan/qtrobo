@@ -48,5 +48,10 @@
         <file>DraggableButtonGroupMenu.qml</file>
         <file>DraggableWindrose.qml</file>
         <file>DraggableWindroseMenu.qml</file>
+        <file>DraggableSpeedbar.qml</file>
+        <file>DraggableSpeedbarMenu.qml</file>
+        <file>DraggableCircularSpeedbar.qml</file>
+        <file>ArcItem.qml</file>
+        <file>RectangleItem.qml</file>
     </qresource>
 </RCC>

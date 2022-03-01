@@ -16,7 +16,6 @@ public:
     QAndroidJniObject& mSerialConnectionMobile;
 #endif
     SerialConnection& mSerialConnection;
-
     void run();
 };
 

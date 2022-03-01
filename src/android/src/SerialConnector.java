@@ -112,12 +112,17 @@ public class SerialConnector {
         return firstConnected.hasConnected();
     }
 
+    public boolean hasDisconnected(){
+        return firstConnected.hasDisconnected();
+    }
+
     public Connected getFirstConnected(){
         return this.firstConnected;
     }
 
     public void disconnect(){
         mPhysicaloid.close();
+        firstConnected.disconnect();
     }
 }
 

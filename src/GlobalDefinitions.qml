@@ -6,6 +6,8 @@ QtObject{
     property bool isEditMode: true
     property int gridModeStepSize: 20
     property bool hasLayoutBeenEdited: false
+    property bool recording: false
+    property bool isShowingDebugWindow:false
 
     function projectEdited(){
         hasLayoutBeenEdited = true
@@ -13,6 +15,14 @@ QtObject{
 
     function projectPersisted(){
         hasLayoutBeenEdited = false
+    }
+
+    function invertRecording(){
+        recording = !recording
+    }
+
+    function invertDebugWindow(){
+        isShowingDebugWindow = !isShowingDebugWindow;
     }
 
     enum ComponentType{
@@ -30,7 +40,11 @@ QtObject{
         Chart,
         Potentiometer,
         ButtonGroup,
+        CircularSpeedbar,
+        Speedbar,
         Windrose
+
+
     }
 
     property var componentName: [
@@ -48,7 +62,10 @@ QtObject{
         "DraggableChart",
         "DraggablePotentiometer",
         "DraggableButtonGroup",
+        "DraggableCircularSpeedbar",
+        "DraggableSpeedbar",
         "DraggableWindrose"
+
     ]
 
     property var componentDisplayName: [
@@ -66,7 +83,10 @@ QtObject{
         qsTr("Chart"),
         qsTr("Potentiometer"),
         qsTr("Button Group"),
-        qsTr("Windrose")
+        qsTr("Circular Speedbar"),
+        qsTr("Speedbar"),
+        qsTr("Windrose"),
+
     ]
 
     function getDisplayName(componentType){

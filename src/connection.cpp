@@ -2,6 +2,14 @@
 #include <algorithm>
 #include <QFile>
 #include <QTextStream>
+#include <iostream>
+#include "debugmessagelist.h"
+
+
+
+
+
+
 
 Connection::Connection(QObject *parent)
     : QObject(parent),
@@ -16,7 +24,11 @@ Connection::Connection(QObject *parent)
     mParser.eventStart(DEFAULT_EVENT_START);
     mParser.eventValueDivider(DEFAULT_EVENT_VALUE_DIVIDER);
     mParser.eventEnd(DEFAULT_EVENT_END);
+
+
 }
+
+
 
 Connection::Connection(Connection &&other)
     : Connection(other.parent())
@@ -33,10 +45,11 @@ void Connection::write(const QString &eventName){
         request += eventName;
         request += mParser.eventEnd();
         parseDebug(DebugInfoDirection::DebugInfoDirection::Out, request.toLocal8Bit());
-
         writeImpl(request);
     }
 }
+
+
 
 void Connection::write(const QString &eventName, const QVariant &data){
 
@@ -126,7 +139,9 @@ void swap(Connection &lhs, Connection &rhs){
     swap(lhs.mHeartbeatRequest, rhs.mHeartbeatRequest);
     swap(lhs.mHeartbeatResponse, rhs.mHeartbeatResponse);
     swap(lhs.mHeartbeatEnabled, rhs.mHeartbeatEnabled);
-    swap(lhs.mDebug, rhs.mDebug);
     swap(lhs.mParser, rhs.mParser);
     swap(lhs.mPreferences, rhs.mPreferences);
 }
+
+
+

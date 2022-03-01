@@ -19,6 +19,8 @@ android{
 SOURCES += \
     bluetoothconnection.cpp \
     connection.cpp \
+    debugmessagelist.cpp \
+    debugmessagemodel.cpp \
     javascriptparser.cpp \
     localsocketconnection.cpp \
         main.cpp \
@@ -29,7 +31,6 @@ SOURCES += \
     serialconnection.cpp \
     messageparser.cpp \
     util.cpp \
-    util.cpp
 
 lupdate_only{
     SOURCES += *.qml
@@ -38,7 +39,7 @@ lupdate_only{
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH +=
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -51,6 +52,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     bluetoothconnection.h \
     connection.h \
+    debugmessagelist.h \
+    debugmessagemodel.h \
     javascriptparser.h \
     localsocketconnection.h \
     mobileconnection.h \
@@ -63,7 +66,12 @@ HEADERS += \
 
 DISTFILES += \
     ../../../../Downloads/FNM9MXQIJUCPKBD.jar \
+    ComponentsModel.qml \
     DraggableButtonMenu.qml \
+    DraggableCircularSpeedbar.qml \
+    DraggableSpeedbar.qml \
+    DraggableSpeedbar.qml \
+    DraggableSpeedbarMenu.qml \
     android/AndroidManifest.xml \
     android/build.gradle \
     android/gradle.properties \

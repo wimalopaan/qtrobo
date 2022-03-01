@@ -1,5 +1,7 @@
 #include "qtrobo.h"
 #include "util.h"
+#include "debugmessagemodel.h"
+#include "debugmessagelist.h"
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
@@ -9,12 +11,20 @@
 #include <QLocale>
 #include <QDebug>
 
+DebugMessageList debugMessageList{};
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app{argc, argv};
+
+    qmlRegisterType<DebugMessageModel>("DebugMessage",1,0,"DebugMessageModel");
+    qmlRegisterUncreatableType<DebugMessageList>("DebugMessage",1,0,"DebugMessageList",
+       QStringLiteral("DebugMessageList should not be created in QML"));
+
+
+
 
     QQuickStyle::setStyle("Material");
     QCoreApplication::setOrganizationName("hskl");
@@ -34,6 +44,7 @@ int main(int argc, char *argv[])
     Util util;
     QQmlApplicationEngine engine;
 
+    engine.rootContext()->setContextProperty("debugMessageList", &debugMessageList);
     engine.rootContext()->setContextProperty("qtRobo", &qtRobo);
     engine.rootContext()->setContextProperty("qrRoboUtil", &util);
 

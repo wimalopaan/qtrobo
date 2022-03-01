@@ -1,7 +1,12 @@
 #include "localsocketconnection.h"
+#include "debugmessagelist.h"
 #include <QDebug>
 #include <QJsonObject>
 #include <algorithm>
+
+
+extern DebugMessageList debugMessageList;
+
 
 LocalSocketConnection::LocalSocketConnection(QObject *parent) : Connection(parent)
 {
@@ -58,7 +63,8 @@ void LocalSocketConnection::parseDebug(DebugInfoDirection::DebugInfoDirection di
         }
     }
 
-    emit debugChanged(direction, result);
+    debugMessageList.appendItem(result);
+
 }
 
 QJsonObject LocalSocketConnection::serialize(){

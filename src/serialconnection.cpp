@@ -8,6 +8,7 @@
 #include "util.h"
 #include "mobiledata.h"
 #include "mobileconnection.h"
+#include "debugmessagelist.h"
 
 
 #ifdef Q_OS_ANDROID
@@ -16,6 +17,7 @@
 
 
 
+extern DebugMessageList debugMessageList;
 
 
 
@@ -200,23 +202,34 @@ QByteArray SerialConnection::read(){
 void SerialConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
     QString result;
 
-    for(char byte : data){
-        switch(byte){
-            case '\n':
-                result.append("\\n");
-                break;
-            case '\r':
-                result.append("\\r");
-                break;
-            case '\0':
-                result.append("\\0");
-                break;
-            default:
-                result.append(byte);
+//    for(char byte : data){
+//        switch(byte){
+//            case '\n':
+//                result.append("\\n");
+//                break;
+//            case '\r':
+//                result.append("\\r");
+//                break;
+//            case '\0':
+//                result.append("\\0");
+//                break;
+//            default:
+//                result.append(byte);
+//        }
+//    }
+
+
+    for (char byte: data){
+        mDebug.append(byte);
+        if (byte == '\n'){
+           debugMessageList.appendItem(mDebug);
+           mDebug = "";
         }
     }
 
-    emit debugChanged(direction, result);
+
+
+
 }
 
 QJsonObject SerialConnection::serialize(){

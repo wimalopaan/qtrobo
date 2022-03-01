@@ -1,10 +1,13 @@
 import QtQuick 2.9
-import QtQuick.Window 2.2
+import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 import QtRobo.ConnectionType 1.0
+import QtRobo.DebugInfoDirection 1.0
+
+import DebugMessage 1.0
 
 ApplicationWindow {
     id: window
@@ -93,6 +96,7 @@ ApplicationWindow {
     menuBar: MenuBar{
         id: menuBar
         visible: GlobalDefinitions.isEditMode
+
 
         Menu{
             title: qsTr("&File")
@@ -274,6 +278,27 @@ ApplicationWindow {
                 }
             }
         }
+
+        Menu{
+            title: qsTr("&Tabs")
+
+            MenuItem{
+                text: qsTr("&New Tab")
+                onTriggered: {
+                    window.createTab()
+                }
+            }
+
+
+                MenuItem{
+                    text: qsTr("&Delete Tab")
+                    onTriggered: {
+                        window.destroyTab()
+
+                    }
+            }
+        }
+
     }
 
     header: RowLayout{
@@ -285,19 +310,28 @@ ApplicationWindow {
             text: !GlobalDefinitions.isEditMode ? "✏" : "🕹"
             font.pointSize: !GlobalDefinitions.isEditMode ? 18 : 14
             font.bold: true
-            onClicked: GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
+            onClicked: {
+                GlobalDefinitions.isEditMode = !GlobalDefinitions.isEditMode
+                GlobalDefinitions.isShowingDebugWindow = false;
+            }
+
+        }
+
+        Button{
+            Layout.fillHeight: true
+
+            text: GlobalDefinitions.recording ? "⏸" : "🛑"
+            onClicked: {
+                GlobalDefinitions.invertRecording()
+                debugMessageList.invertRecording()
+            }
         }
 
         Button{
             Layout.fillHeight: true
             icon.source: "qrc:/bug_logo.png"
             onClicked: {
-                var component = Qt.createComponent("DebugPopup.qml")
-                if(component){
-                    var debugWindow = component.createObject(window)
-                    if(debugWindow)
-                        debugWindow.show()
-                }
+                GlobalDefinitions.invertDebugWindow()
             }
         }
 
@@ -317,21 +351,7 @@ ApplicationWindow {
             }
         }
 
-        Button{
-            text: "+"
-            font.pointSize: 14
-            font.bold: true
-            enabled: GlobalDefinitions.isEditMode
-            onClicked: window.createTab()
-        }
 
-        Button{
-            text: "-"
-            enabled: tabBar.count > 1 && GlobalDefinitions.isEditMode
-            font.pointSize: 14
-            font.bold: true
-            onClicked: window.destroyTab()
-        }
     }
 
     footer: Rectangle{
@@ -381,7 +401,7 @@ ApplicationWindow {
                     Connections{
                         target: qtRobo.connection
                         function onHeartbeatTriggered() {
-                            if(heartbeatStatus){
+                            if(qtRobo.connection.heartbeatStatus){
                                 heartbeatLEDColorAnimation.start();
                             }else{
                                 heartbeatStatusLED.color = "darkred";
@@ -402,17 +422,77 @@ ApplicationWindow {
     }
 
     StackLayout{
-        id: contentPane
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
+        id: switchdebugview
+        width: parent.width
+        height:parent.height
+        currentIndex: GlobalDefinitions.isShowingDebugWindow ? 0 : 1
 
-        property var currentItem: itemAt(currentIndex)
+        Rectangle{
+            id: root
+            width: parent.width
+            height: parent.height
 
-        Item{
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+
+
+
+            ListView{
+
+
+
+                       id: debugList
+                       anchors.fill: parent
+                       model: DebugMessageModel{
+                            list: debugMessageList
+                       }
+                       onCountChanged: {
+                           Qt.callLater( debugList.positionViewAtEnd )
+                       }
+                       clip: true
+                       cacheBuffer: 0
+                       delegate: Text{
+                           text: model.message
+                           verticalAlignment: Text.AlignBottom
+                           font.pointSize: 10
+                           leftPadding: 20
+                           //rightPadding: 20
+                       }
+
+
+
+
         }
+
+            Button{
+                text: "Clear"
+                x: parent.width -100
+                y: parent.height -100
+                onClicked: {
+                 console.log("btn clear called")
+                 debugMessageList.clear()
+
+                }
+
+            }
+
+        }
+
+        StackLayout{
+            id: contentPane
+            currentIndex: tabBar.currentIndex
+
+            property var currentItem: itemAt(currentIndex)
+
+            Item{
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+        }
+
     }
+
+
+
+
 
     Menu{
         id: contextMenu

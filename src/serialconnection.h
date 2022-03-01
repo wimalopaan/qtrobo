@@ -7,13 +7,16 @@
 #include <QByteArray>
 #include <QVariantList>
 #include <QTimer>
+#include "connection.h"
+#include "messageparser.h"
+
 
 #ifdef Q_OS_ANDROID
     #include <QtAndroidExtras>
+
 #endif
 
-#include "connection.h"
-#include "messageparser.h"
+
 
 class SerialConnection: public Connection
 {

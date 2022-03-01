@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QVariant>
 #include <QVariantMap>
+#include <QStringListModel>
 
 #include "messageparser.h"
 #include "persistance.h"
@@ -47,7 +48,7 @@ class Connection : public QObject, public Persistance::Persistable
     Q_PROPERTY(MessageParser* messageParser READ messageParser NOTIFY messageParserChanged)
     Q_PROPERTY(JavaScriptParser* javascriptParser READ javascriptParser NOTIFY javascriptParserChanged)
     Q_PROPERTY(QVariantMap preferences MEMBER mPreferences NOTIFY preferencesChanged)
-    Q_PROPERTY(QString debug MEMBER mDebug NOTIFY debugChanged)
+
 
 public:
     explicit Connection(QObject *parent = nullptr);
@@ -74,6 +75,8 @@ public:
     Connection& operator=(const Connection &other) = delete;
     Connection& operator=(Connection &&other);
 
+
+    friend void parseDebugFreeFunction(DebugInfoDirection::DebugInfoDirection direction, const QByteArray& data);
     friend void swap(Connection& lhs, Connection& rhs);
 
 signals:
@@ -87,12 +90,13 @@ signals:
     void messageParserChanged(const MessageParser *messageParser);
     void javascriptParserChanged(const JavaScriptParser &jsonScriptParser);
     void preferencesChanged(const QVariantMap &preferences);
-    void debugChanged(DebugInfoDirection::DebugInfoDirection direction, const QString& debug);
 
 public slots:
     void onParsedDataReady(const MessageParser::Event &event);
     void onHeartbeatTriggered();
     void onReadyRead();
+
+
 
 protected:
     MessageParser mParser;
@@ -107,6 +111,9 @@ protected:
     QString mHeartbeatRequest;
     QString mHeartbeatResponse;
     QString mDebug;
+
+
+
 
     virtual void writeImpl(const QString &eventName) = 0;
     virtual void connectImpl() = 0;
@@ -123,3 +130,4 @@ private:
     static const char DEFAULT_EVENT_VALUE_DIVIDER = ':';
     static const char DEFAULT_EVENT_END = '\n';
 };
+
