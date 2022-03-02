@@ -54,6 +54,163 @@ ApplicationWindow {
         onActivated: saveCurrentChanges()
     }
 
+    Dialog{
+           id: layoutStoreDialogMobile
+           x: parent ? ((parent.width - width) / 2) : 0
+           y: parent ? ((parent.height - height) / 2) : 0
+           width: parent.width
+           height:parent.height
+           contentItem: Rectangle{
+               property int default_width: (Screen.primaryOrientation === Qt.PortraitOrientation) ? 360 : 672  //pixel density of my current screen
+               property double widthFactor: Screen.width/default_width
+               property  int default_height:(Screen.primaryOrientation === Qt.PortraitOrientation) ? 672 : 360
+               property double heightFactor: Screen.height/default_height
+               width: 300 * widthFactor
+               height: 200 * heightFactor
+               Column{
+                   width: parent.width
+                   height: parent.height
+
+                   TextField {
+                     id: filenameTextField
+                     width: parent.width
+                     height: parent.height * 0.5
+                     text: "Your filename"
+                     horizontalAlignment: TextInput.AlignHCenter
+                     focus: true
+                     onFocusChanged: console.log("Focus changed " + focus)
+                 }
+
+                 Row{
+                     id:row
+                     width: parent.width
+                     height: parent.height * 0.5
+
+                     Rectangle{
+                         id: r1
+                         width: parent.width * 0.5
+                         height: parent.height
+
+                         Button{
+                             text:"Cancel"
+                             width:parent.width * 0.6
+                             height: parent.height * 0.6
+                             anchors.horizontalCenter: r1.horizontalCenter
+                             anchors.verticalCenter: r1.verticalCenter
+                             onClicked: layoutStoreDialogMobile.close()
+                         }
+
+
+                     }
+
+                     Rectangle{
+                         id: r2
+                         width: parent.width * 0.5
+                         height: parent.height
+
+                         Button{
+                             text: "Save"
+                             width:parent.width * 0.6
+                             height: parent.height * 0.6
+                             anchors.horizontalCenter: r2.horizontalCenter
+                             anchors.verticalCenter: r2.verticalCenter
+                             onClicked: {
+                                 filenameTextField.editingFinished()
+                                 console.log(filenameTextField.displayText)
+                                 if(!filenameTextField.text.endsWith(".json"))
+                                     qtRobo.persistance.filename = filenameTextField.displayText + ".json"
+                                 else
+                                     qtRobo.persistance.filename = filenameTextField.displayText
+                                 qtRobo.persistance.layout = window.layoutToArray()
+                                 qtRobo.persistance.persist()
+                                 GlobalDefinitions.projectPersisted()
+                                 layoutStoreDialogMobile.close()
+
+                             }
+                         }
+
+
+                     }
+
+
+                 }
+
+
+               }
+
+           }
+
+
+       }
+
+       Dialog{
+           id: tellUserAboutQtRoboLocation
+           x: parent ? ((parent.width - width) / 2) : 0
+           y: parent ? ((parent.height - height) / 2) : 0
+           width: parent.width
+           height:parent.height
+           contentItem: Rectangle{
+               property int default_width: (Screen.primaryOrientation === Qt.PortraitOrientation) ? 360 : 672  //pixel density of my current screen
+               property double widthFactor: Screen.width/default_width
+               property  int default_height:(Screen.primaryOrientation === Qt.PortraitOrientation) ? 672 : 360
+               property double heightFactor: Screen.height/default_height
+               width: 300 * widthFactor
+               height: 200 * heightFactor
+               Column{
+                   width: parent.width
+                   height: parent.height
+
+
+
+                   Rectangle{
+                       id: rec1
+                       width: parent.width
+                       height: parent.height * 0.5
+
+                       Label {
+                         id: tellUserAboutQtRoboLocationText
+                         x: (parent.width - width) / 2
+                         y: (parent.height - height) / 2
+                         width: parent.width * 0.8
+                         height: parent.height * 0.6
+                         wrapMode: Label.WordWrap
+                         text: "The Layout Files are stored under DeviceName/QtRobo"
+                         anchors.horizontalCenter: rec1.horizontalCenter
+                         anchors.verticalCenter: rec1.verticalCenter
+
+                       }
+
+
+                   }
+
+
+                   Rectangle{
+                       id: rec2
+                       width: parent.width
+                       height: parent.height * 0.5
+
+                       Button{
+                           text:"Ok"
+                           width:parent.width * 0.6
+                           height: parent.height * 0.6
+                           anchors.horizontalCenter: rec2.horizontalCenter
+                           anchors.verticalCenter: rec2.verticalCenter
+                           onClicked: {
+                               tellUserAboutQtRoboLocation.close()
+                               layoutLoadDialog.open()
+                           }
+                       }
+
+
+                   }
+
+               }
+
+           }
+
+
+       }
+
     MouseArea{
         id: rootMouseArea
         anchors.fill: parent
@@ -94,91 +251,112 @@ ApplicationWindow {
     }
 
     menuBar: MenuBar{
-        id: menuBar
-        visible: GlobalDefinitions.isEditMode
+            id: menuBar
+            visible: GlobalDefinitions.isEditMode
 
+<<<<<<< HEAD
 
         Menu{
             title: qsTr("&File")
+=======
+            Menu{
+                title: qsTr("&File")
+>>>>>>> a9a8a5b (saving file with popup on Android)
 
-            MenuItem{
-                text: qsTr("&New File")
-                onTriggered: {
-                    clearTabBar()
-                    qtRobo.persistance.filename = ""
-                }
-            }
-
-            MenuItem{
-                id: layoutSaveMenu
-                text: qsTr("&Save File")
-                enabled: qtRobo.persistance.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
-                onTriggered: saveCurrentChanges()
-            }
-
-            MenuItem{
-                text: qsTr("&Save As File")
-                onTriggered: layoutStoreDialog.open()
-
-
-                FileDialog{
-                    id: layoutStoreDialog
-                    title: qsTr("Save Layout File")
-                    sidebarVisible: false
-                    selectExisting: false
-                    favoriteFolders: false
-                    defaultSuffix: "json"
-//                    favoriteFolders: false
-                    nameFilters: "Layout files (*.json)"
-                    folder: shortcuts.documents
-
-                    onRejected: {
-                        if(closingWindow)
-                            window.close()
-                    }
-
-                    onAccepted: {
-                        if(!fileUrl.toString().endsWith(".json"))
-                            qtRobo.persistance.filename = fileUrl + ".json"
-                        else
-                            qtRobo.persistance.filename = fileUrl
-                        qtRobo.persistance.layout = window.layoutToArray()
-                        qtRobo.persistance.persist()
-                        GlobalDefinitions.projectPersisted()
-
-                        if(closingWindow)
-                            window.close()
-                    }
-                }
-            }
-
-            MenuItem{
-                text: qsTr("&Open File")
-                onTriggered: layoutLoadDialog.open()
-
-
-                FileDialog{
-                    id: layoutLoadDialog
-                    title: qsTr("Open Layout File")
-                    selectExisting: true
-                    sidebarVisible: false
-                    nameFilters: "Layout files (*.json)"
-                    folder: shortcuts.documents
-                    onAccepted: {
+                MenuItem{
+                    text: qsTr("&New File")
+                    onTriggered: {
                         clearTabBar()
-                        qtRobo.persistance.filename = fileUrl
+                        qtRobo.persistance.filename = ""
+                    }
+                }
 
-                        qtRobo.persistance.restore()
+                MenuItem{
+                    id: layoutSaveMenu
+                    text: qsTr("&Save File")
+                    enabled: qtRobo.persistance.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
+                    onTriggered: saveCurrentChanges()
+                }
 
-                        window.arrayToLayout(qtRobo.persistance.layout)
-                        GlobalDefinitions.projectPersisted()
+                MenuItem{
+                    text: qsTr("&Save As File")
+                    onTriggered: qrRoboUtil.isMobileDevice() ? layoutStoreDialogMobile.open() : layoutStoreDialog.open()
+
+
+
+                    FileDialog{
+                        id: layoutStoreDialog
+                        title: qsTr("Save Layout File")
+                        sidebarVisible: false
+                        selectExisting: false
+                        favoriteFolders: false
+                        defaultSuffix: "json"
+    //                    favoriteFolders: false
+                        nameFilters: "Layout files (*.json)"
+                        folder: shortcuts.documents
+
+                        onRejected: {
+                            if(closingWindow)
+                                window.close()
+                        }
+
+                        onAccepted: {
+                            if(!fileUrl.toString().endsWith(".json"))
+                                qtRobo.persistance.filename = fileUrl + ".json"
+                            else
+                                qtRobo.persistance.filename = fileUrl
+                            qtRobo.persistance.layout = window.layoutToArray()
+                            qtRobo.persistance.persist()
+                            GlobalDefinitions.projectPersisted()
+
+                            if(closingWindow)
+                                window.close()
+                        }
+                    }
+
+                }
+
+
+
+
+                MenuItem{
+                    text: qsTr("&Open File")
+                    onTriggered: {
+                        if (qrRoboUtil.isMobileDevice()){
+                            if (qtRobo.persistance.qtRoboFolderSelectedOnMobile()){
+                                layoutLoadDialog.open();
+                            }else{
+                                tellUserAboutQtRoboLocation.open();
+                            }
+                        }else{
+                            layoutLoadDialog.open();
+                        }
+
+
+                    }
+
+
+
+                    FileDialog{
+                        id: layoutLoadDialog
+                        title: qsTr("Open Layout File")
+                        selectExisting: true
+                        sidebarVisible: false
+                        nameFilters: "*json"
+                        folder: shortcuts.documents
+                        onAccepted: {
+                            clearTabBar()
+                            qtRobo.persistance.filename = fileUrl
+                            qtRobo.persistance.restore()
+                            window.arrayToLayout(qtRobo.persistance.layout)
+                            GlobalDefinitions.projectPersisted()
+                        }
                     }
                 }
             }
-        }
 
-        Menu{
-            title: qsTr("&Devices")
+            Menu{
+                title: qsTr("&Devices")
 
             Menu{
                 id: connections
@@ -779,7 +957,7 @@ ApplicationWindow {
     }
 
     function saveCurrentChanges(){
-        if(qtRobo.persistance.isFilenameValid()){
+        if(qtRobo.persistance.isFilenameValid){
             qtRobo.persistance.layout = window.layoutToArray()
             qtRobo.persistance.persist()
 
