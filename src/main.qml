@@ -253,15 +253,8 @@ ApplicationWindow {
     menuBar: MenuBar{
             id: menuBar
             visible: GlobalDefinitions.isEditMode
-
-<<<<<<< HEAD
-
-        Menu{
-            title: qsTr("&File")
-=======
             Menu{
                 title: qsTr("&File")
->>>>>>> a9a8a5b (saving file with popup on Android)
 
                 MenuItem{
                     text: qsTr("&New File")
