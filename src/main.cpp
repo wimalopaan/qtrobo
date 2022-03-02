@@ -10,6 +10,7 @@
 #include <QSerialPort>
 #include <QLocale>
 #include <QDebug>
+#include <QLoggingCategory>
 
 DebugMessageList debugMessageList{};
 
@@ -22,7 +23,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<DebugMessageModel>("DebugMessage",1,0,"DebugMessageModel");
     qmlRegisterUncreatableType<DebugMessageList>("DebugMessage",1,0,"DebugMessageList",
        QStringLiteral("DebugMessageList should not be created in QML"));
-
 
 
 

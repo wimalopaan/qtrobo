@@ -253,7 +253,6 @@ ApplicationWindow {
     menuBar: MenuBar{
             id: menuBar
             visible: GlobalDefinitions.isEditMode
-<<<<<<< HEAD
             Menu{
                 title: qsTr("&File")
 
@@ -271,30 +270,7 @@ ApplicationWindow {
                     enabled: qtRobo.persistance.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
                     onTriggered: saveCurrentChanges()
                 }
-
                 MenuItem{
-=======
-
-            Menu{
-                title: qsTr("&File")
-
-                MenuItem{
-                    text: qsTr("&New File")
-                    onTriggered: {
-                        clearTabBar()
-                        qtRobo.persistance.filename = ""
-                    }
-                }
-
-                MenuItem{
-                    id: layoutSaveMenu
-                    text: qsTr("&Save File")
-                    enabled: qtRobo.persistance.isFilenameValid && GlobalDefinitions.hasLayoutBeenEdited
-                    onTriggered: saveCurrentChanges()
-                }
-
-                MenuItem{
->>>>>>> a9a8a5bbb109dd1eeb06346ff6f6f4ae8a672a2e
                     text: qsTr("&Save As File")
                     onTriggered: qrRoboUtil.isMobileDevice() ? layoutStoreDialogMobile.open() : layoutStoreDialog.open()
 
@@ -981,3 +957,5 @@ ApplicationWindow {
         }
     }
 }
+
+

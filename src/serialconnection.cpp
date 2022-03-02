@@ -138,11 +138,6 @@ void SerialConnection::connectImpl(){
 
 void SerialConnection::startHeartbeat(){
     if (mHeartbeatEnabled){
-        QFile file("/storage/emulated/0/heartbeat.txt");
-        file.open(QIODevice::WriteOnly | QIODevice::Text);
-        QTextStream out(&file);
-        out << "I am in startHeartbeat";
-        file.close();
         mHeartbeat.start(static_cast<int>(mHeartbeatTimeout));
     }
 }
