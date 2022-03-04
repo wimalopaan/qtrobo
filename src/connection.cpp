@@ -13,10 +13,10 @@
 
 Connection::Connection(QObject *parent)
     : QObject(parent),
+      mHeartbeatEnabled(DEFAULT_HEARTBEAT_ENABLED),
       mHeartbeatTimeout(DEFAULT_HEARTBEAT_TIMEOUT),
       mHeartbeatRequest(DEFAULT_HEARTBEAT_REQUEST),
-      mHeartbeatResponse(DEFAULT_HEARTBEAT_RESPONSE),
-      mHeartbeatEnabled(DEFAULT_HEARTBEAT_ENABLED)
+      mHeartbeatResponse(DEFAULT_HEARTBEAT_RESPONSE)
 {
     QObject::connect(&mParser, &MessageParser::messageParsed, this, &Connection::onParsedDataReady);
     QObject::connect(&mHeartbeat, SIGNAL(timeout()), this, SLOT(onHeartbeatTriggered()));
@@ -44,7 +44,7 @@ void Connection::write(const QString &eventName){
         request += mParser.eventStart();
         request += eventName;
         request += mParser.eventEnd();
-        parseDebug(DebugInfoDirection::DebugInfoDirection::Out, request.toLocal8Bit());
+        parseDebug(/*DebugInfoDirection::DebugInfoDirection::Out,*/ request.toLocal8Bit());
         writeImpl(request);
     }
 }
@@ -99,7 +99,7 @@ void Connection::disconnect(){
 void Connection::onReadyRead(){
     if(isConnected()){
         QByteArray dataBuffer = read();
-        parseDebug(DebugInfoDirection::DebugInfoDirection::In, dataBuffer);
+        parseDebug(/*DebugInfoDirection::DebugInfoDirection::In,*/ dataBuffer);
         mParser.parseData(dataBuffer);
     }
 }

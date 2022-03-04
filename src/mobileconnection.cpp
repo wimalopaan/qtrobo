@@ -6,6 +6,15 @@ MobileConnection::MobileConnection(QAndroidJniObject& mSerialConnectionMobile,Se
 };
 #endif
 
+#ifndef Q_OS_ANDROID
+//only to prevent compiler warning
+MobileConnection::MobileConnection(SerialConnection& connection):mSerialConnection{connection}
+{
+
+}
+#endif
+
+
 void MobileConnection::run(){
 #ifdef Q_OS_ANDROID
     while (true) {

@@ -22,12 +22,13 @@ BluetoothConnection::BluetoothConnection(QObject *parent)
 }
 
 QByteArray BluetoothConnection::read(){
-    parseDebug(DebugInfoDirection::DebugInfoDirection::In, QString{""}.toLocal8Bit());
+    parseDebug(/*DebugInfoDirection::DebugInfoDirection::In,*/ QString{""}.toLocal8Bit());
     return mSocket.readAll();
 }
 
 void BluetoothConnection::writeImpl(const QString &eventName){
-    const char* dataBytes = eventName.toStdString().c_str();
+    std::string s = eventName.toStdString();
+    const char* dataBytes = s.c_str();
 
     if(mParser.eventEnd() == '\0')
         mSocket.write(dataBytes, static_cast<qint64>(strlen(dataBytes)) + 1);
@@ -50,7 +51,7 @@ bool BluetoothConnection::isConnected() const{
     return mSocket.state() == QBluetoothSocket::SocketState::ConnectedState;
 }
 
-void BluetoothConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
+void BluetoothConnection::parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data){
     QString result;
 
 //    for(char byte : data){

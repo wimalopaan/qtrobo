@@ -75,7 +75,9 @@ bool SerialConnection::isConnected() const{
 }
 
 void SerialConnection::writeImpl(const QString &eventName){
-    const char* dataBytes = eventName.toStdString().c_str();
+
+    std::string s = eventName.toStdString();
+    const char* dataBytes = s.c_str();
 
     if(mParser.eventEnd() == '\0'){
         if (Util::isMobileDevice()){
@@ -104,7 +106,14 @@ void SerialConnection::writeDataMobile(const int arrayLength, const char* dataBy
     jbyteArray myJByteArray = env->NewByteArray((jsize) arrayLength);
     env->SetByteArrayRegion(myJByteArray, 0, arrayLength, (jbyte*)dataBytes);
     mSerialConnectionMobile.callMethod<void>("sendData", "([B)V", myJByteArray);
+#else
+    //only to prevent compiler warning
+    if (arrayLength){
+        std::cout << dataBytes+1;
+    }
+    return;
 #endif
+
 }
 
 void SerialConnection::connectImpl(){
@@ -194,7 +203,7 @@ QByteArray SerialConnection::read(){
 
 }
 
-void SerialConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
+void SerialConnection::parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data){
     QString result;
 
 //    for(char byte : data){

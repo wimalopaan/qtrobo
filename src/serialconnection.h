@@ -40,7 +40,7 @@ public:
     void disconnectImpl() override;
     void writeDataMobile(const int arrayLength, const char* dataBytes);
 
-    void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data) override;
+    void parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data) override;
 
     Q_INVOKABLE QStringList serialInterfaces();
 

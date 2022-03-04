@@ -44,7 +44,11 @@ bool Persistance::qtRoboFolderSelectedOnMobile() {
     #ifdef Q_OS_ANDROID
     QSettings settings;
     return settings.value("openedFile").toInt() == 1;
+    #else
+      //only to prevent compiler warning
+      return true;
     #endif
+
 }
 
 void Persistance::restore(){

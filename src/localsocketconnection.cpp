@@ -44,26 +44,33 @@ bool LocalSocketConnection::isConnected() const{
     return mLocalSocket.isOpen();
 }
 
-void LocalSocketConnection::parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data){
+void LocalSocketConnection::parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data){
     QString result;
 
-    for(char byte : data){
-        switch(byte){
-            case '\n':
-                result.append("\\n");
-                break;
-            case '\r':
-                result.append("\\r");
-                break;
-            case '\0':
-                result.append("\\0");
-                break;
-            default:
-                result.append(byte);
+//    for(char byte : data){
+//        switch(byte){
+//            case '\n':
+//                result.append("\\n");
+//                break;
+//            case '\r':
+//                result.append("\\r");
+//                break;
+//            case '\0':
+//                result.append("\\0");
+//                break;
+//            default:
+//                result.append(byte);
+//        }
+//    }
+
+
+    for (char byte: data){
+        mDebug.append(byte);
+        if (byte == '\n'){
+           debugMessageList.appendItem(mDebug);
+           mDebug = "";
         }
     }
-
-    debugMessageList.appendItem(result);
 
 }
 

@@ -15,6 +15,13 @@ public:
     MobileConnection(QAndroidJniObject& mSerialConnectionMobile,SerialConnection &mSerialConnection);
     QAndroidJniObject& mSerialConnectionMobile;
 #endif
+
+#ifndef Q_OS_ANDROID
+    // only to prevent compiler warning
+
+   MobileConnection(SerialConnection& connection);
+#endif
+
     SerialConnection& mSerialConnection;
     void run();
 };

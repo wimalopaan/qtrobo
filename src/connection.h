@@ -75,8 +75,6 @@ public:
     Connection& operator=(const Connection &other) = delete;
     Connection& operator=(Connection &&other);
 
-
-    friend void parseDebugFreeFunction(DebugInfoDirection::DebugInfoDirection direction, const QByteArray& data);
     friend void swap(Connection& lhs, Connection& rhs);
 
 signals:
@@ -118,7 +116,7 @@ protected:
     virtual void writeImpl(const QString &eventName) = 0;
     virtual void connectImpl() = 0;
     virtual void disconnectImpl() = 0;
-    virtual void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray& data) = 0;
+    virtual void parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray& data) = 0;
 
 private:
     static const bool DEFAULT_HEARTBEAT_ENABLED = false;

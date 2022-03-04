@@ -20,6 +20,7 @@ int DebugMessageModel::rowCount(const QModelIndex &parent) const
 
 QVariant DebugMessageModel::data(const QModelIndex &index, int role) const
 {
+
     if (!index.isValid()|| !mList)
         return QVariant();
 

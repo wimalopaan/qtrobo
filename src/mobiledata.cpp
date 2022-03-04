@@ -3,8 +3,16 @@
 #include "messageparser.h"
 
 #ifdef Q_OS_ANDROID
-MobileData::MobileData(MessageParser& mParser,QAndroidJniObject& mSerialConnectionMobile):mParser{mParser},mSerialConnectionMobile{mSerialConnectionMobile}
+MobileData::MobileData(MessageParser& parser,QAndroidJniObject& mSerialConnectionMobile):mSerialConnectionMobile{mSerialConnectionMobile},mParser{parser}
 {
+}
+#endif
+
+#ifndef Q_OS_ANDROID
+// only to prevent compiler warning
+MobileData::MobileData(MessageParser& parser):mParser{parser}
+{
+
 }
 #endif
 

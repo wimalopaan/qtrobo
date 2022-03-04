@@ -24,7 +24,7 @@ public:
 
     bool isConnected() const override;
 
-    void parseDebug(DebugInfoDirection::DebugInfoDirection direction, const QByteArray &data) override;
+    void parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data) override;
 
     QJsonObject serialize() override;
     void deserialize(const QJsonObject &data) override;
