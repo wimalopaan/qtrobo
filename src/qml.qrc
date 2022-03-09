@@ -53,5 +53,7 @@
         <file>DraggableCircularSpeedbar.qml</file>
         <file>ArcItem.qml</file>
         <file>RectangleItem.qml</file>
+        <file>DraggableSpeedGauge.qml</file>
+        <file>TriangleItem.qml</file>
     </qresource>
 </RCC>

@@ -42,7 +42,8 @@ QtObject{
         ButtonGroup,
         CircularSpeedbar,
         Speedbar,
-        Windrose
+        Windrose,
+        SpeedGauge
 
 
     }
@@ -64,7 +65,8 @@ QtObject{
         "DraggableButtonGroup",
         "DraggableCircularSpeedbar",
         "DraggableSpeedbar",
-        "DraggableWindrose"
+        "DraggableWindrose",
+        "DraggableSpeedGauge"
 
     ]
 
@@ -86,6 +88,7 @@ QtObject{
         qsTr("Circular Speedbar"),
         qsTr("Speedbar"),
         qsTr("Windrose"),
+        qsTr("Speed Gauge")
 
     ]
 
