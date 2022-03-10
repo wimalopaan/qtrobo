@@ -70,6 +70,7 @@ DISTFILES += \
     DraggableButtonMenu.qml \
     DraggableCircularSpeedbar.qml \
     DraggableSpeedGauge.qml \
+    DraggableSpeedGaugeMenu.qml \
     DraggableSpeedbar.qml \
     DraggableSpeedbar.qml \
     DraggableSpeedbarMenu.qml \

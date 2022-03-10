@@ -55,5 +55,6 @@
         <file>RectangleItem.qml</file>
         <file>DraggableSpeedGauge.qml</file>
         <file>TriangleItem.qml</file>
+        <file>DraggableSpeedGaugeMenu.qml</file>
     </qresource>
 </RCC>
