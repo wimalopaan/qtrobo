@@ -69,9 +69,8 @@ void Persistance::restore(){
             qDebug() << settings.value("openedFile").toInt();
 
             return QFile{androidFilePath};
-            #endif
-            //only to prevent compiler warning
-            #ifndef Q_OS_ANROID
+            #else
+                //only to prevent compiler warning
                 return QFile{""};
             #endif
         }else{
@@ -125,10 +124,9 @@ void Persistance::persist(){
 
             const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo", mFilename.fileName().split(":").last());
             return QFile{androidFilePath};
-            #endif
+            #else
             //only to prevent compiler warning
-            #ifndef Q_OS_ANROID
-                return QFile{""};
+            return QFile{""};
             #endif
         }else{
             return QFile{mFilename.toLocalFile()};

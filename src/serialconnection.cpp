@@ -68,11 +68,9 @@ bool SerialConnection::isConnected() const{
 
         jboolean j = mSerialConnectionMobile.callMethod<jboolean>("isConnected");
         return j == JNI_TRUE;
-#endif
-
+#else
 //only to prevent compiler warning
-#ifndef Q_OS_ANDROID
-    return true;
+return true;
 #endif
     }else{
       return mSerialPort.isOpen();
@@ -200,10 +198,8 @@ QByteArray SerialConnection::read(){
         resultArray.resize(len);
         env->GetByteArrayRegion(a, 0, len, reinterpret_cast<jbyte*>(resultArray.data()));
         return resultArray;
-#endif
-
+#else
 //only to prevent compiler warning
-#ifndef Q_OS_ANDROID
     QByteArray a;
     return a;
 #endif
