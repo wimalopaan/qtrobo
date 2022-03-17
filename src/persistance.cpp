@@ -54,9 +54,10 @@ bool Persistance::qtRoboFolderSelectedOnMobile() {
 void Persistance::restore(){
     qDebug() << "R: " << mFilename << mFilename.fileName();
 
-    auto layoutFile = [&]()->QFile{
-        if(Util::isMobileDevice()){
-            #ifdef Q_OS_ANDROID
+    QFile layoutFile;
+
+    if(Util::isMobileDevice()){
+#ifdef Q_OS_ANDROID
             Util::checkAndRequestPermission();
             const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo/", mFilename.fileName());
             QFileInfo info = QFileInfo(androidFilePath);
@@ -68,15 +69,36 @@ void Persistance::restore(){
             }
             qDebug() << settings.value("openedFile").toInt();
 
-            return QFile{androidFilePath};
-            #else
-                //only to prevent compiler warning
-                return QFile{""};
-            #endif
-        }else{
-            return QFile{mFilename.toLocalFile()};
-        }
-    }();
+            layoutFile.setFileName(androidFilePath);
+#endif
+    }else{
+        layoutFile.setFileName(mFilename.toLocalFile());
+    }
+
+
+//    auto layoutFile = [&]()->QFile{
+//        if(Util::isMobileDevice()){
+//            #ifdef Q_OS_ANDROID
+//            Util::checkAndRequestPermission();
+//            const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo/", mFilename.fileName());
+//            QFileInfo info = QFileInfo(androidFilePath);
+
+
+//            QSettings settings;
+//            if (info.exists()){
+//                settings.setValue("openedFile",1);
+//            }
+//            qDebug() << settings.value("openedFile").toInt();
+
+//            return QFile{androidFilePath};
+//            #else
+//                //only to prevent compiler warning
+//                return QFile{""};
+//            #endif
+//        }else{
+//            return QFile{mFilename.toLocalFile()};
+//        }
+//    }();
 
     layoutFile.open(QIODevice::ReadOnly);
 
@@ -112,26 +134,39 @@ void Persistance::persist(){
     documentObject.insert(Persistance::PERSISTANCE_SECTION_LAYOUT, mLayout);
     documentObject.insert(Persistance::PERSISTANCE_SECTION_SETTINGS, connections);
 
+    QFile layoutFile;
+    if(Util::isMobileDevice()){
+    #ifdef Q_OS_ANDROID
+        Util::checkAndRequestPermission();
+        QDir dir("/storage/emulated/0/QtRobo");
+        if (!dir.exists())
+            dir.mkpath(".");
+        const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo", mFilename.fileName().split(":").last());
+        layoutFile.setFileName(androidFilePath);
+#endif
+    }else{
+        layoutFile.setFileName(mFilename.toLocalFile());
+    }
 
-    auto layoutFile = [&]()->QFile{
-        if(Util::isMobileDevice()){
-            #ifdef Q_OS_ANDROID
-            Util::checkAndRequestPermission();
+//    auto layoutFile = [&]()->QFile{
+//        if(Util::isMobileDevice()){
+//            #ifdef Q_OS_ANDROID
+//            Util::checkAndRequestPermission();
 
-            QDir dir("/storage/emulated/0/QtRobo");
-            if (!dir.exists())
-                dir.mkpath(".");
+//            QDir dir("/storage/emulated/0/QtRobo");
+//            if (!dir.exists())
+//                dir.mkpath(".");
 
-            const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo", mFilename.fileName().split(":").last());
-            return QFile{androidFilePath};
-            #else
-            //only to prevent compiler warning
-            return QFile{""};
-            #endif
-        }else{
-            return QFile{mFilename.toLocalFile()};
-        }
-    }();
+//            const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo", mFilename.fileName().split(":").last());
+//            return QFile{androidFilePath};
+//            #else
+//            //only to prevent compiler warning
+//            return QFile{""};
+//            #endif
+//        }else{
+//            return QFile{mFilename.toLocalFile()};
+//        }
+//    }();
 
     layoutFile.open(QIODevice::ReadWrite | QIODevice::Truncate);
 
