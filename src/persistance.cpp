@@ -75,31 +75,6 @@ void Persistance::restore(){
         layoutFile.setFileName(mFilename.toLocalFile());
     }
 
-
-//    auto layoutFile = [&]()->QFile{
-//        if(Util::isMobileDevice()){
-//            #ifdef Q_OS_ANDROID
-//            Util::checkAndRequestPermission();
-//            const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo/", mFilename.fileName());
-//            QFileInfo info = QFileInfo(androidFilePath);
-
-
-//            QSettings settings;
-//            if (info.exists()){
-//                settings.setValue("openedFile",1);
-//            }
-//            qDebug() << settings.value("openedFile").toInt();
-
-//            return QFile{androidFilePath};
-//            #else
-//                //only to prevent compiler warning
-//                return QFile{""};
-//            #endif
-//        }else{
-//            return QFile{mFilename.toLocalFile()};
-//        }
-//    }();
-
     layoutFile.open(QIODevice::ReadOnly);
 
 
@@ -147,26 +122,6 @@ void Persistance::persist(){
     }else{
         layoutFile.setFileName(mFilename.toLocalFile());
     }
-
-//    auto layoutFile = [&]()->QFile{
-//        if(Util::isMobileDevice()){
-//            #ifdef Q_OS_ANDROID
-//            Util::checkAndRequestPermission();
-
-//            QDir dir("/storage/emulated/0/QtRobo");
-//            if (!dir.exists())
-//                dir.mkpath(".");
-
-//            const QString androidFilePath = QString("%1/%2").arg("/storage/emulated/0/QtRobo", mFilename.fileName().split(":").last());
-//            return QFile{androidFilePath};
-//            #else
-//            //only to prevent compiler warning
-//            return QFile{""};
-//            #endif
-//        }else{
-//            return QFile{mFilename.toLocalFile()};
-//        }
-//    }();
 
     layoutFile.open(QIODevice::ReadWrite | QIODevice::Truncate);
 
