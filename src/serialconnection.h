@@ -38,8 +38,9 @@ public:
 
     void connectImpl() override;
     void disconnectImpl() override;
+#ifdef Q_OS_ANDROID
     void writeDataMobile(const int arrayLength, const char* dataBytes);
-
+#endif
     void parseDebug(/*DebugInfoDirection::DebugInfoDirection direction,*/ const QByteArray &data) override;
 
     Q_INVOKABLE QStringList serialInterfaces();

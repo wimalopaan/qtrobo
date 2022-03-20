@@ -8,28 +8,22 @@ MobileData::MobileData(MessageParser& parser,QAndroidJniObject& mSerialConnectio
 }
 #endif
 
-#ifndef Q_OS_ANDROID
-// only to prevent compiler warning
-MobileData::MobileData(MessageParser& parser):mParser{parser}
-{
-
-}
-#endif
 
 void MobileData ::run(){
+#ifdef Q_OS_ANDROID
     while(true){
         readyRead();
     }
+#endif
 }
 
-
-void MobileData::readyRead(){
 #ifdef Q_OS_ANDROID
+void MobileData::readyRead(){
         qDebug() << "called";
         mSerialConnectionMobile.callMethod<jboolean>("readyRead");
         emit dataToRead();
-#endif
 }
+#endif
 
 
 

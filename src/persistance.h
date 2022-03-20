@@ -27,7 +27,10 @@ public:
 
     Q_INVOKABLE void persist();
     Q_INVOKABLE void restore();
+
+
     Q_INVOKABLE bool qtRoboFolderSelectedOnMobile();
+
 
     QUrl filename() const;
     void filename(const QUrl& filename);
