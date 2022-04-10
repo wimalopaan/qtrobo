@@ -3,7 +3,7 @@ import QtQuick 2.0
 Text{
     property var root
     text: "🗑"
-    font.pointSize: 12
+    font.pointSize: 24
     color: "#3F51B5"
     anchors.bottom: root.top
     anchors.left: root.right

@@ -13,8 +13,11 @@ Rectangle{
     property bool highlightOnly: true
     property var componentType: GlobalDefinitions.ComponentType.ButtonGroup
     property alias buttonGroup: buttonGroup
+    property string  label: qsTr("New Button Group")
     property string outputScript
-    onEdibleChanged: buttonGroup.enabled = !edible
+    onEdibleChanged: enabled = !edible
+    property alias enabled: buttonGroup.enabled
+
 
     width: buttonGroup.width + 10
     height: buttonGroup.height
@@ -29,12 +32,24 @@ Rectangle{
         }
     }
 
+    function setConfig(origin)
+    {
+        root.eventName = origin.eventName
+        root.fontColor = origin.fontColor
+        root.label = origin.label
+    }
+
+
+
     RowLayout{
 
-        onChildrenChanged: GlobalDefinitions.projectEdited()
+        onChildrenChanged:  GlobalDefinitions.projectEdited()
+
+
+
 
         id: buttonGroup
-        enabled: !edible
+        enabled: false
         anchors.right: parent.right
         anchors.rightMargin: 5
 
@@ -43,7 +58,7 @@ Rectangle{
             height: 30
             width: 50
             highlighted: true
-            text: "Btn"
+            text: label
             onClicked: {
                 selectButton(buttonGroup, this)
                 send(eventValue)
